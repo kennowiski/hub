@@ -460,8 +460,26 @@
             box.addEventListener('mouseleave', () => { tooltip.classList.remove('active'); });
         });
 
-        // NOVA LINHA ADICIONADA AQUI: Remove o tooltip ativo assim que a página é rolada
-        window.addEventListener('scroll', () => { tooltip.classList.remove('active'); });
+        // ==========================================
+        // CORREÇÕES DE MOBILE: POP-UP E CARROSSEL
+        // ==========================================
+        let scrollTimeout;
+        window.addEventListener('scroll', () => { 
+            // 1. Muda a transição para 0.1s ao rolar a tela (esmaecimento rápido)
+            tooltip.style.transition = 'opacity 0.1s ease, transform 0.1s ease, visibility 0.1s';
+            tooltip.classList.remove('active'); 
+
+            // 2. Tira temporariamente a capacidade de toque do carrossel para forçar a animação a voltar
+            const track = document.querySelector('.carousel-track');
+            if(track) track.style.pointerEvents = 'none';
+
+            // 3. Devolve tudo ao normal 150ms depois que a pessoa parar de rolar a tela
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                tooltip.style.transition = '';
+                if(track) track.style.pointerEvents = '';
+            }, 150);
+        });
 
         const discordId = "387025115898183702"; 
 
@@ -549,7 +567,7 @@
             catGif.style.top = evento.clientY + 'px';
         });
         window.addEventListener('click', function() { catGif.style.display = 'none'; });
-        window.addEventListener('scroll', function() { catGif.style.display = 'none'; });
+        // O evento de scroll do gato foi mesclado com o do tooltip lá em cima!
     </script>
 </body>
 </html>
