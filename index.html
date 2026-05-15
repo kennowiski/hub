@@ -424,7 +424,7 @@
         setTimeout(typeWriter, 1000);
 
         // ==========================================
-        // TOOLTIP DO CARROSSEL (COM TRAVA DE TELA)
+        // TOOLTIP DO CARROSSEL
         // ==========================================
         const tooltip = document.getElementById('tech-tooltip');
         const techBoxes = document.querySelectorAll('.tech-box');
@@ -442,15 +442,13 @@
                 const topPosition = rect.bottom;
 
                 // --- TRAVA DE SEGURANÇA PARA A TELA DO CELULAR ---
-                const tooltipWidth = 250; // Largura do seu tooltip definida no CSS
+                const tooltipWidth = 250; 
                 const halfTooltip = tooltipWidth / 2;
-                const margin = 15; // Margem de respiro das bordas
+                const margin = 15; 
 
                 if (leftPosition - halfTooltip < margin) {
-                    // Se bater na esquerda, empurra pro centro
                     leftPosition = halfTooltip + margin;
                 } else if (leftPosition + halfTooltip > window.innerWidth - margin) {
-                    // Se bater na direita, empurra pro centro
                     leftPosition = window.innerWidth - halfTooltip - margin;
                 }
 
@@ -458,8 +456,12 @@
                 tooltip.style.top = `${topPosition}px`;
                 tooltip.classList.add('active');
             });
+            
             box.addEventListener('mouseleave', () => { tooltip.classList.remove('active'); });
         });
+
+        // NOVA LINHA ADICIONADA AQUI: Remove o tooltip ativo assim que a página é rolada
+        window.addEventListener('scroll', () => { tooltip.classList.remove('active'); });
 
         const discordId = "387025115898183702"; 
 
