@@ -464,21 +464,22 @@
         // CORREÇÕES DE MOBILE: POP-UP E CARROSSEL
         // ==========================================
         let scrollTimeout;
+        const containerDoCarrossel = document.querySelector('.carousel-container');
+
         window.addEventListener('scroll', () => { 
             // 1. Muda a transição para 0.1s ao rolar a tela (esmaecimento rápido)
             tooltip.style.transition = 'opacity 0.1s ease, transform 0.1s ease, visibility 0.1s';
             tooltip.classList.remove('active'); 
 
-            // 2. Tira temporariamente a capacidade de toque do carrossel para forçar a animação a voltar
-            const track = document.querySelector('.carousel-track');
-            if(track) track.style.pointerEvents = 'none';
-
-            // 3. Devolve tudo ao normal 150ms depois que a pessoa parar de rolar a tela
+            // 2. Tira temporariamente a capacidade de toque do carrossel INTEIRO para forçar a perda do "hover" fantasma
+            if(containerDoCarrossel) containerDoCarrossel.style.pointerEvents = 'none';
+            
+            // 3. Devolve tudo ao normal 250ms depois que a rolagem terminar
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
                 tooltip.style.transition = '';
-                if(track) track.style.pointerEvents = '';
-            }, 150);
+                if(containerDoCarrossel) containerDoCarrossel.style.pointerEvents = '';
+            }, 250);
         });
 
         const discordId = "387025115898183702"; 
@@ -567,7 +568,6 @@
             catGif.style.top = evento.clientY + 'px';
         });
         window.addEventListener('click', function() { catGif.style.display = 'none'; });
-        // O evento de scroll do gato foi mesclado com o do tooltip lá em cima!
     </script>
 </body>
 </html>
