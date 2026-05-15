@@ -90,7 +90,7 @@
             
             .card { width: 100%; }
 
-            /* 1. Foto Redonda e Centralizada */
+            /* Foto Redonda e Centralizada */
             .photo-card { 
                 order: 1; 
                 width: 140px !important; 
@@ -107,7 +107,7 @@
             }
             .photo-card img { border-radius: 50%; }
 
-            /* 2. Apresentação solta sem fundo */
+            /* Apresentação solta sem fundo */
             .intro-card { 
                 order: 2; 
                 background: transparent !important; 
@@ -128,6 +128,25 @@
             .discord-card { order: 6; }
             .links-card { order: 7; }
             .contact-card { order: 8; }
+
+            /* --- MUDANÇAS NOVAS PARA O MOBILE --- */
+            .tech-tooltip { display: none !important; } /* Desativa o tooltip no mobile */
+            .tech-box { pointer-events: none !important; } /* Impede clicar individualmente nos icones */
+            
+            .projects-card { position: relative; padding-bottom: 44px !important; cursor: pointer; }
+            .projects-card::after { 
+                content: 'Toque para ver mais detalhes \f0b2'; /* Icone de expandir */
+                font-family: 'Inter', 'Font Awesome 6 Free';
+                font-weight: 600;
+                position: absolute; 
+                bottom: 16px; 
+                left: 0; 
+                width: 100%; 
+                text-align: center; 
+                font-size: 0.75rem; 
+                color: var(--accent); 
+                opacity: 0.9; 
+            }
         }
 
         /* CARTÕES BASE */
@@ -185,7 +204,7 @@
         .tech-box { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background-color: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); border-radius: 14px; font-size: 1.8rem; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;}
         .tech-box:hover { transform: scale(1.1); background-color: rgba(255, 255, 255, 0.1); border-color: var(--accent); box-shadow: 0 10px 20px var(--accent-glow); }
 
-        /* TOOLTIP */
+        /* TOOLTIP (APENAS DESKTOP) */
         .tech-tooltip { position: fixed; top: 0; left: 0; width: 250px; background-color: rgba(15, 17, 23, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; z-index: 99999; opacity: 0; visibility: hidden; transform: translate(-50%, -10px) scale(0.95); transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; pointer-events: none; box-shadow: 0 20px 40px rgba(0,0,0,0.6); display: flex; flex-direction: column; gap: 12px; }
         .tech-tooltip.active { opacity: 1; visibility: visible; transform: translate(-50%, 15px) scale(1); }
         .tooltip-header { display: flex; justify-content: space-between; align-items: center; }
@@ -196,6 +215,40 @@
         .tt-badge { font-family: 'Fira Code', monospace; font-size: 0.60rem; font-weight: 600; padding: 4px 8px; border-radius: 6px; background-color: rgba(255,255,255,0.05); color: var(--text-muted); }
         .tt-badge-active { color: var(--accent); background-color: var(--accent-glow); }
         .tt-footer { margin-top: 4px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.75rem; color: var(--text-muted); font-weight: 500;}
+
+        /* MODAL DE TECNOLOGIAS (NOVO PARA MOBILE) */
+        .tech-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            z-index: 9999999; display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+            padding: 20px;
+        }
+        .tech-modal-overlay.active { opacity: 1; visibility: visible; }
+        
+        .tech-modal-container {
+            background-color: var(--bg-color); border: 1px solid var(--card-border);
+            border-radius: 24px; width: 100%; max-height: 85vh; overflow-y: auto;
+            padding: 24px; display: flex; flex-direction: column; gap: 20px;
+            transform: translateY(20px); transition: all 0.3s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .tech-modal-overlay.active .tech-modal-container { transform: translateY(0); }
+
+        .tech-modal-header { display: flex; justify-content: space-between; align-items: center; }
+        .tech-modal-header h3 { font-family: 'Fira Code', monospace; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; }
+        .close-modal-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+        .close-modal-btn:hover { background: var(--accent); color: var(--bg-color); border-color: var(--accent); }
+        
+        .tech-modal-grid { display: flex; flex-direction: column; gap: 12px; }
+        .tech-modal-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .tm-top { display: flex; align-items: center; gap: 16px; }
+        .tm-top i { font-size: 2rem; width: 40px; text-align: center; }
+        .tm-info { display: flex; flex-direction: column; gap: 2px; }
+        .tm-info h4 { font-size: 1.1rem; color: var(--text-main); }
+        .tm-info span { font-size: 0.7rem; color: var(--accent); font-family: 'Fira Code', monospace; background: rgba(129, 140, 248, 0.1); padding: 2px 8px; border-radius: 4px; width: max-content; }
+        .tech-modal-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+        .tm-footer { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
 
         /* DISCORD */
         .discord-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
@@ -277,11 +330,6 @@
         }
         
         #wyd-cat { display: none; position: fixed; width: 180px; border-radius: 16px; z-index: 999999; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8); pointer-events: none; }
-
-        /* NOVA CLASSE: Para matar o "hover fantasma" no celular durante o scroll */
-        body.is-scrolling * {
-            pointer-events: none !important;
-        }
     </style>
 </head>
 <body>
@@ -303,6 +351,89 @@
         </div>
         <div class="tt-footer">
             <p id="tt-footer-text">Footer</p>
+        </div>
+    </div>
+
+    <div id="mobile-tech-modal" class="tech-modal-overlay">
+        <div class="tech-modal-container">
+            <div class="tech-modal-header">
+                <h3>Diret&oacute;rio de Tecnologias</h3>
+                <button id="close-tech-modal" class="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="tech-modal-grid">
+                <div class="tech-modal-card">
+                    <div class="tm-top">
+                        <i class="fa-brands fa-html5" style="color: #e34f26;"></i>
+                        <div class="tm-info">
+                            <h4>HTML5</h4>
+                            <span>Frontend</span>
+                        </div>
+                    </div>
+                    <p>A linguagem de marca&ccedil;&atilde;o padr&atilde;o para criar estruturas web.</p>
+                    <div class="tm-footer">Estrutura&ccedil;&atilde;o base de conte&uacute;do.</div>
+                </div>
+
+                <div class="tech-modal-card">
+                    <div class="tm-top">
+                        <i class="fa-brands fa-css3-alt" style="color: #264de4;"></i>
+                        <div class="tm-info">
+                            <h4>CSS3</h4>
+                            <span>Frontend</span>
+                        </div>
+                    </div>
+                    <p>Linguagem de folhas de estilo usada para descrever a apresenta&ccedil;&atilde;o.</p>
+                    <div class="tm-footer">Estiliza&ccedil;&atilde;o e design responsivo.</div>
+                </div>
+
+                <div class="tech-modal-card">
+                    <div class="tm-top">
+                        <i class="fa-brands fa-js" style="color: #f7df1e;"></i>
+                        <div class="tm-info">
+                            <h4>JavaScript</h4>
+                            <span>Frontend</span>
+                        </div>
+                    </div>
+                    <p>Linguagem de programa&ccedil;&atilde;o que permite implementar itens din&acirc;micos.</p>
+                    <div class="tm-footer">Interatividade e l&oacute;gica no cliente.</div>
+                </div>
+
+                <div class="tech-modal-card">
+                    <div class="tm-top">
+                        <i class="fa-brands fa-react" style="color: #61dafb;"></i>
+                        <div class="tm-info">
+                            <h4>React</h4>
+                            <span>Frontend</span>
+                        </div>
+                    </div>
+                    <p>Biblioteca JavaScript para construir interfaces de usu&aacute;rio.</p>
+                    <div class="tm-footer">Constru&ccedil;&atilde;o de SPAs din&acirc;micas.</div>
+                </div>
+
+                <div class="tech-modal-card">
+                    <div class="tm-top">
+                        <i class="fa-brands fa-node-js" style="color: #339933;"></i>
+                        <div class="tm-info">
+                            <h4>Node.js</h4>
+                            <span>Backend</span>
+                        </div>
+                    </div>
+                    <p>Ambiente de execu&ccedil;&atilde;o JavaScript focado em escalabilidade.</p>
+                    <div class="tm-footer">APIs e servidores robustos.</div>
+                </div>
+
+                <div class="tech-modal-card">
+                    <div class="tm-top">
+                        <i class="fa-brands fa-git-alt" style="color: #f34f29;"></i>
+                        <div class="tm-info">
+                            <h4>Git</h4>
+                            <span>Ferramenta</span>
+                        </div>
+                    </div>
+                    <p>Sistema de controle de vers&otilde;es distribu&iacute;do de c&oacute;digo aberto.</p>
+                    <div class="tm-footer">Versionamento seguro de c&oacute;digo.</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -363,7 +494,7 @@
             <img src="https://i.pinimg.com/736x/a2/19/05/a219056712e870f76d8eb16e8948297f.jpg" alt="Kenny">
         </div>
 
-        <div class="card projects-card">
+        <div class="card projects-card" id="projects-card-mobile">
             <h2>Tecnologias</h2>
             <div class="carousel-container">
                 <div class="carousel-track">
@@ -413,7 +544,7 @@
 
     <script>
         // ==========================================
-        // TYPEWRITER EFFECT
+        // TYPEWRITER EFFECT (Com Unicode)
         // ==========================================
         const textToType = "Entusiasta de programa\u00E7\u00E3o explorando conhecimento. Gamer, cin\u00E9filo e amante da m\u00FAsica.";
         const typingElement = document.getElementById('typing-text');
@@ -429,13 +560,16 @@
         setTimeout(typeWriter, 1000);
 
         // ==========================================
-        // TOOLTIP DO CARROSSEL E TRAVA DE TELA
+        // TOOLTIP DO CARROSSEL (APENAS DESKTOP)
         // ==========================================
         const tooltip = document.getElementById('tech-tooltip');
         const techBoxes = document.querySelectorAll('.tech-box');
 
         techBoxes.forEach(box => {
             box.addEventListener('mouseenter', (e) => {
+                // Trava: Se for tela de celular, não abre o tooltip
+                if (window.innerWidth < 900) return;
+
                 document.getElementById('tt-name').textContent = box.dataset.name;
                 document.getElementById('tt-desc').innerHTML = box.dataset.desc;
                 document.getElementById('tt-tag').textContent = box.dataset.tag;
@@ -446,16 +580,6 @@
                 let leftPosition = rect.left + (rect.width / 2);
                 const topPosition = rect.bottom;
 
-                const tooltipWidth = 250; 
-                const halfTooltip = tooltipWidth / 2;
-                const margin = 15; 
-
-                if (leftPosition - halfTooltip < margin) {
-                    leftPosition = halfTooltip + margin;
-                } else if (leftPosition + halfTooltip > window.innerWidth - margin) {
-                    leftPosition = window.innerWidth - halfTooltip - margin;
-                }
-
                 tooltip.style.left = `${leftPosition}px`;
                 tooltip.style.top = `${topPosition}px`;
                 tooltip.classList.add('active');
@@ -465,37 +589,34 @@
         });
 
         // ==========================================
-        // SOLUÇÃO PARA O GHOST HOVER E POP-UP LENTO NO CELULAR
+        // MODAL DE TECNOLOGIAS (APENAS MOBILE)
         // ==========================================
-        let scrollTimeout;
-        window.addEventListener('scroll', () => { 
-            // 1. Força o pop-up a esmaecer super rápido (0.1s)
-            tooltip.style.transition = 'all 0.1s ease';
-            tooltip.classList.remove('active'); 
+        const mobileProjectsCard = document.getElementById('projects-card-mobile');
+        const techModal = document.getElementById('mobile-tech-modal');
+        const closeTechModal = document.getElementById('close-tech-modal');
 
-            // 2. Adiciona classe à raiz para matar QUALQUER hover na tela
-            document.body.classList.add('is-scrolling');
-            
-            // 3. Devolve ao normal e solta a animação após parar de rolar
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                tooltip.style.transition = '';
-                document.body.classList.remove('is-scrolling');
-            }, 200);
-        });
-
-        // Se o usuário tocar em qualquer espaço em branco na tela, o pop-up fecha
-        document.addEventListener('touchstart', (e) => {
-            if (!e.target.closest('.tech-box')) {
-                tooltip.style.transition = 'all 0.1s ease';
-                tooltip.classList.remove('active');
-                setTimeout(() => { tooltip.style.transition = ''; }, 100);
+        // Abre o modal quando clicar no cartão no celular
+        mobileProjectsCard.addEventListener('click', () => {
+            if (window.innerWidth < 900) {
+                techModal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Evita rolar a página de fundo
             }
         });
 
-        // ==========================================
-        // DISCORD
-        // ==========================================
+        // Fecha pelo botão X
+        closeTechModal.addEventListener('click', () => {
+            techModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Fecha se clicar no fundo escuro
+        techModal.addEventListener('click', (e) => {
+            if (e.target === techModal) {
+                techModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
         const discordId = "387025115898183702"; 
 
         async function fetchDiscordPresence() {
@@ -549,9 +670,6 @@
         fetchDiscordPresence();
         setInterval(fetchDiscordPresence, 15000);
 
-        // ==========================================
-        // LETTERBOXD
-        // ==========================================
         async function fetchLetterboxd() {
             try {
                 const rssUrl = encodeURIComponent('https://letterboxd.com/kennowiski/rss/');
