@@ -424,7 +424,7 @@
         setTimeout(typeWriter, 1000);
 
         // ==========================================
-        // TOOLTIP DO CARROSSEL
+        // TOOLTIP DO CARROSSEL (COM TRAVA DE TELA)
         // ==========================================
         const tooltip = document.getElementById('tech-tooltip');
         const techBoxes = document.querySelectorAll('.tech-box');
@@ -438,8 +438,24 @@
                 document.getElementById('tt-icon').innerHTML = box.innerHTML; 
 
                 const rect = box.getBoundingClientRect();
-                tooltip.style.left = `${rect.left + (rect.width / 2)}px`;
-                tooltip.style.top = `${rect.bottom}px`;
+                let leftPosition = rect.left + (rect.width / 2);
+                const topPosition = rect.bottom;
+
+                // --- TRAVA DE SEGURANÇA PARA A TELA DO CELULAR ---
+                const tooltipWidth = 250; // Largura do seu tooltip definida no CSS
+                const halfTooltip = tooltipWidth / 2;
+                const margin = 15; // Margem de respiro das bordas
+
+                if (leftPosition - halfTooltip < margin) {
+                    // Se bater na esquerda, empurra pro centro
+                    leftPosition = halfTooltip + margin;
+                } else if (leftPosition + halfTooltip > window.innerWidth - margin) {
+                    // Se bater na direita, empurra pro centro
+                    leftPosition = window.innerWidth - halfTooltip - margin;
+                }
+
+                tooltip.style.left = `${leftPosition}px`;
+                tooltip.style.top = `${topPosition}px`;
                 tooltip.classList.add('active');
             });
             box.addEventListener('mouseleave', () => { tooltip.classList.remove('active'); });
