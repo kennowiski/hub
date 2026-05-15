@@ -277,6 +277,11 @@
         }
         
         #wyd-cat { display: none; position: fixed; width: 180px; border-radius: 16px; z-index: 999999; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8); pointer-events: none; }
+
+        /* NOVA CLASSE: Para matar o "hover fantasma" no celular durante o scroll */
+        body.is-scrolling * {
+            pointer-events: none !important;
+        }
     </style>
 </head>
 <body>
@@ -408,7 +413,7 @@
 
     <script>
         // ==========================================
-        // TYPEWRITER EFFECT (Com Unicode)
+        // TYPEWRITER EFFECT
         // ==========================================
         const textToType = "Entusiasta de programa\u00E7\u00E3o explorando conhecimento. Gamer, cin\u00E9filo e amante da m\u00FAsica.";
         const typingElement = document.getElementById('typing-text');
@@ -424,7 +429,7 @@
         setTimeout(typeWriter, 1000);
 
         // ==========================================
-        // TOOLTIP DO CARROSSEL
+        // TOOLTIP DO CARROSSEL E TRAVA DE TELA
         // ==========================================
         const tooltip = document.getElementById('tech-tooltip');
         const techBoxes = document.querySelectorAll('.tech-box');
@@ -441,7 +446,6 @@
                 let leftPosition = rect.left + (rect.width / 2);
                 const topPosition = rect.bottom;
 
-                // --- TRAVA DE SEGURANÇA PARA A TELA DO CELULAR ---
                 const tooltipWidth = 250; 
                 const halfTooltip = tooltipWidth / 2;
                 const margin = 15; 
@@ -461,27 +465,37 @@
         });
 
         // ==========================================
-        // CORREÇÕES DE MOBILE: POP-UP E CARROSSEL
+        // SOLUÇÃO PARA O GHOST HOVER E POP-UP LENTO NO CELULAR
         // ==========================================
         let scrollTimeout;
-        const containerDoCarrossel = document.querySelector('.carousel-container');
-
         window.addEventListener('scroll', () => { 
-            // 1. Muda a transição para 0.1s ao rolar a tela (esmaecimento rápido)
-            tooltip.style.transition = 'opacity 0.1s ease, transform 0.1s ease, visibility 0.1s';
+            // 1. Força o pop-up a esmaecer super rápido (0.1s)
+            tooltip.style.transition = 'all 0.1s ease';
             tooltip.classList.remove('active'); 
 
-            // 2. Tira temporariamente a capacidade de toque do carrossel INTEIRO para forçar a perda do "hover" fantasma
-            if(containerDoCarrossel) containerDoCarrossel.style.pointerEvents = 'none';
+            // 2. Adiciona classe à raiz para matar QUALQUER hover na tela
+            document.body.classList.add('is-scrolling');
             
-            // 3. Devolve tudo ao normal 250ms depois que a rolagem terminar
+            // 3. Devolve ao normal e solta a animação após parar de rolar
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
                 tooltip.style.transition = '';
-                if(containerDoCarrossel) containerDoCarrossel.style.pointerEvents = '';
-            }, 250);
+                document.body.classList.remove('is-scrolling');
+            }, 200);
         });
 
+        // Se o usuário tocar em qualquer espaço em branco na tela, o pop-up fecha
+        document.addEventListener('touchstart', (e) => {
+            if (!e.target.closest('.tech-box')) {
+                tooltip.style.transition = 'all 0.1s ease';
+                tooltip.classList.remove('active');
+                setTimeout(() => { tooltip.style.transition = ''; }, 100);
+            }
+        });
+
+        // ==========================================
+        // DISCORD
+        // ==========================================
         const discordId = "387025115898183702"; 
 
         async function fetchDiscordPresence() {
@@ -535,6 +549,9 @@
         fetchDiscordPresence();
         setInterval(fetchDiscordPresence, 15000);
 
+        // ==========================================
+        // LETTERBOXD
+        // ==========================================
         async function fetchLetterboxd() {
             try {
                 const rssUrl = encodeURIComponent('https://letterboxd.com/kennowiski/rss/');
