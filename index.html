@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kenny | Sobre mim</title>
     
+    <link rel="icon" type="image/png" href="favicon.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -90,24 +92,55 @@
             
             .card { width: 100%; }
 
-            /* Foto Redonda e Centralizada */
+            /* 1. Foto Redonda e Centralizada */
             .photo-card { 
                 order: 1; 
                 width: 140px !important; 
                 height: 140px; 
                 min-height: 140px !important; 
                 border-radius: 50% !important; 
-                margin: 0 auto; 
+                
+                /* Margem inferior ajustada para 60px para empurrar o texto para baixo */
+                margin: 0 auto 60px auto; 
+                
                 background: transparent !important; 
                 border: none !important; 
                 box-shadow: none !important; 
                 backdrop-filter: none !important; 
                 -webkit-backdrop-filter: none !important;
                 padding: 0 !important;
+                position: relative;
+                overflow: visible !important; /* Permite a borda vazar do quadrado */
             }
-            .photo-card img { border-radius: 50%; }
+            
+            .photo-card img { 
+                border-radius: 50%; 
+                position: relative;
+                z-index: 1;
+            }
 
-            /* Apresentação solta sem fundo */
+            /* --- BORDA DO LEAGUE OF LEGENDS --- */
+            .photo-card::after {
+                content: '';
+                position: absolute;
+                
+                /* Ajustado de 50% para 42% para subir a borda */
+                top: 42%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                
+                width: 350px; 
+                height: 350px;
+                
+                background-image: url('borda.png'); 
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                z-index: 2; 
+                pointer-events: none; 
+            }
+
+            /* 2. Apresentação solta sem fundo */
             .intro-card { 
                 order: 2; 
                 background: transparent !important; 
@@ -129,13 +162,13 @@
             .links-card { order: 7; }
             .contact-card { order: 8; }
 
-            /* --- MUDANÇAS NOVAS PARA O MOBILE --- */
-            .tech-tooltip { display: none !important; } /* Desativa o tooltip no mobile */
-            .tech-box { pointer-events: none !important; } /* Impede clicar individualmente nos icones */
+            /* MUDANÇAS PARA O MODAL NO MOBILE */
+            .tech-tooltip { display: none !important; }
+            .tech-box { pointer-events: none !important; }
             
             .projects-card { position: relative; padding-bottom: 44px !important; cursor: pointer; }
             .projects-card::after { 
-                content: 'Toque para ver mais detalhes \f0b2'; /* Icone de expandir */
+                content: 'Toque para ver mais detalhes \f0b2';
                 font-family: 'Inter', 'Font Awesome 6 Free';
                 font-weight: 600;
                 position: absolute; 
