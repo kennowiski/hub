@@ -99,46 +99,15 @@
                 height: 140px; 
                 min-height: 140px !important; 
                 border-radius: 50% !important; 
-                
-                /* Margem inferior definida para 50px */
-                margin: 0 auto 50px auto; 
-                
+                margin: 0 auto; 
                 background: transparent !important; 
                 border: none !important; 
                 box-shadow: none !important; 
                 backdrop-filter: none !important; 
                 -webkit-backdrop-filter: none !important;
                 padding: 0 !important;
-                position: relative;
-                overflow: visible !important; /* Permite a borda vazar do quadrado */
             }
-            
-            .photo-card img { 
-                border-radius: 50%; 
-                position: relative;
-                z-index: 1;
-            }
-
-            /* --- BORDA DO LEAGUE OF LEGENDS --- */
-            .photo-card::after {
-                content: '';
-                position: absolute;
-                
-                /* Ajustado de 50% para 42% para subir a borda */
-                top: 42%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                
-                width: 350px; 
-                height: 350px;
-                
-                background-image: url('borda.png'); 
-                background-size: contain;
-                background-position: center;
-                background-repeat: no-repeat;
-                z-index: 2; 
-                pointer-events: none; 
-            }
+            .photo-card img { border-radius: 50%; }
 
             /* 2. Apresentação solta sem fundo */
             .intro-card { 
@@ -149,9 +118,7 @@
                 backdrop-filter: none !important; 
                 -webkit-backdrop-filter: none !important;
                 text-align: center; 
-                
-                /* Padding inferior ajustado para 10px */
-                padding: 10px 0 10px 0 !important; 
+                padding: 10px 0 20px 0 !important; 
             }
             .intro-card h1 { font-size: 1.8rem !important; justify-content: center; }
             .intro-card p { margin: 0 auto; font-size: 0.95rem; }
