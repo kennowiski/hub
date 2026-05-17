@@ -522,7 +522,7 @@
                 <i class="fa-brands fa-spotify spotify-icon-offline"></i>
                 <div class="spotify-info">
                     <span class="spotify-label" style="color: var(--text-muted);"><i class="fa-solid fa-music"></i> Spotify</span>
-                    <strong class="spotify-track">Pausado no momento...</strong>
+                    <strong class="spotify-track">Carregando...</strong>
                 </div>
             </div>
         </div>
@@ -546,7 +546,7 @@
 
     <script>
         // ==========================================
-        // TYPEWRITER EFFECT (Com Unicode)
+        // TYPEWRITER EFFECT
         // ==========================================
         const textToType = "Entusiasta de programa\u00E7\u00E3o explorando conhecimento. Gamer, cin\u00E9filo e amante da m\u00FAsica.";
         const typingElement = document.getElementById('typing-text');
@@ -562,16 +562,14 @@
         setTimeout(typeWriter, 1000);
 
         // ==========================================
-        // TOOLTIP DO CARROSSEL (APENAS DESKTOP)
+        // TOOLTIP E MODAL DE TECNOLOGIAS
         // ==========================================
         const tooltip = document.getElementById('tech-tooltip');
         const techBoxes = document.querySelectorAll('.tech-box');
 
         techBoxes.forEach(box => {
             box.addEventListener('mouseenter', (e) => {
-                // Trava: Se for tela de celular, não abre o tooltip
                 if (window.innerWidth < 900) return;
-
                 document.getElementById('tt-name').textContent = box.dataset.name;
                 document.getElementById('tt-desc').innerHTML = box.dataset.desc;
                 document.getElementById('tt-tag').textContent = box.dataset.tag;
@@ -586,32 +584,23 @@
                 tooltip.style.top = `${topPosition}px`;
                 tooltip.classList.add('active');
             });
-            
             box.addEventListener('mouseleave', () => { tooltip.classList.remove('active'); });
         });
 
-        // ==========================================
-        // MODAL DE TECNOLOGIAS (APENAS MOBILE)
-        // ==========================================
         const mobileProjectsCard = document.getElementById('projects-card-mobile');
         const techModal = document.getElementById('mobile-tech-modal');
         const closeTechModal = document.getElementById('close-tech-modal');
 
-        // Abre o modal quando clicar no cartão no celular
         mobileProjectsCard.addEventListener('click', () => {
             if (window.innerWidth < 900) {
                 techModal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Evita rolar a página de fundo
+                document.body.style.overflow = 'hidden'; 
             }
         });
-
-        // Fecha pelo botão X
         closeTechModal.addEventListener('click', () => {
             techModal.classList.remove('active');
             document.body.style.overflow = '';
         });
-
-        // Fecha se clicar no fundo escuro
         techModal.addEventListener('click', (e) => {
             if (e.target === techModal) {
                 techModal.classList.remove('active');
@@ -619,6 +608,9 @@
             }
         });
 
+        // ==========================================
+        // DISCORD (Status e Jogos)
+        // ==========================================
         const discordId = "387025115898183702"; 
 
         async function fetchDiscordPresence() {
@@ -656,22 +648,79 @@
                         activityContainer.innerHTML = `<p class="not-doing-anything">Fazendo nada...</p>`;
                     }
                 }
-
-                const spotifyContainer = document.getElementById('spotify-card-container');
-                if (spotifyContainer) {
-                    if (data.spotify) {
-                        spotifyContainer.innerHTML = `<div class="spotify-playing"><img src="${data.spotify.album_art_url}" class="spotify-art" alt="Album Art"><div class="spotify-info"><span class="spotify-label"><i class="fa-brands fa-spotify"></i> Ouvindo agora</span><strong class="spotify-track">${data.spotify.song}</strong><span class="spotify-artist">${data.spotify.artist}</span></div><div class="equalizer"><div class="equalizer-bar"></div><div class="equalizer-bar"></div><div class="equalizer-bar"></div><div class="equalizer-bar"></div></div></div>`;
-                    } else {
-                        spotifyContainer.innerHTML = `<div class="spotify-offline"><i class="fa-brands fa-spotify spotify-icon-offline"></i><div class="spotify-info"><span class="spotify-label" style="color: var(--text-muted);"><i class="fa-solid fa-music"></i> Spotify</span><strong class="spotify-track">Pausado no momento...</strong></div></div>`;
-                    }
-                }
-
-            } catch (error) { console.error(error); }
+            } catch (error) { console.error("Erro no Discord:", error); }
         }
 
         fetchDiscordPresence();
         setInterval(fetchDiscordPresence, 15000);
 
+        // ==========================================
+        // SPOTIFY VIA STATS.FM (TEMPO REAL)
+        // ==========================================
+        async function fetchStatsFM() {
+            const spotifyContainer = document.getElementById('spotify-card-container');
+            
+            try {
+                const response = await fetch('https://api.stats.fm/api/v1/users/kennowiski/streams/current');
+                
+                if (!response.ok || response.status === 204) {
+                    throw new Error('Não está ouvindo nada no momento');
+                }
+                
+                const data = await response.json();
+                const stream = data.item || data; 
+
+                if (!stream || !stream.track) {
+                    throw new Error('Não está ouvindo nada no momento');
+                }
+
+                const trackName = stream.track.name;
+                
+                const artistName = Array.isArray(stream.track.artists) 
+                    ? stream.track.artists.map(a => a.name).join(', ') 
+                    : stream.track.artists || 'Artista desconhecido';
+                
+                const albumArt = (stream.track.albums && stream.track.albums.length > 0 && stream.track.albums[0].image) 
+                    || stream.track.image 
+                    || stream.track.cover 
+                    || 'https://developer.spotify.com/images/guidelines/design/icon3@2x.png'; 
+
+                spotifyContainer.innerHTML = `
+                    <div class="spotify-playing">
+                        <img src="${albumArt}" class="spotify-art" alt="Capa do Álbum">
+                        <div class="spotify-info">
+                            <span class="spotify-label"><i class="fa-brands fa-spotify"></i> Ouvindo agora</span>
+                            <strong class="spotify-track">${trackName}</strong>
+                            <span class="spotify-artist">${artistName}</span>
+                        </div>
+                        <div class="equalizer">
+                            <div class="equalizer-bar"></div>
+                            <div class="equalizer-bar"></div>
+                            <div class="equalizer-bar"></div>
+                            <div class="equalizer-bar"></div>
+                        </div>
+                    </div>
+                `;
+                    
+            } catch (error) {
+                spotifyContainer.innerHTML = `
+                    <div class="spotify-offline">
+                        <i class="fa-brands fa-spotify spotify-icon-offline"></i>
+                        <div class="spotify-info">
+                            <span class="spotify-label" style="color: var(--text-muted);"><i class="fa-solid fa-music"></i> Spotify</span>
+                            <strong class="spotify-track">Pausado no momento...</strong>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        fetchStatsFM();
+        setInterval(fetchStatsFM, 15000);
+
+        // ==========================================
+        // LETTERBOXD
+        // ==========================================
         async function fetchLetterboxd() {
             try {
                 const rssUrl = encodeURIComponent('https://letterboxd.com/kennowiski/rss/');
