@@ -273,6 +273,7 @@
         .spotify-playing { display: flex; align-items: center; gap: 20px; width: 100%; }
         .spotify-art { width: 72px; height: 72px; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: pulse-art 2s infinite alternate; flex-shrink: 0;}
         @keyframes pulse-art { 0% { box-shadow: 0 4px 15px rgba(29, 185, 84, 0.1); transform: scale(1); } 100% { box-shadow: 0 4px 20px rgba(29, 185, 84, 0.4); transform: scale(1.02); } }
+        @keyframes pulse-art-lf { 0% { box-shadow: 0 4px 15px rgba(186, 0, 0, 0.1); transform: scale(1); } 100% { box-shadow: 0 4px 20px rgba(186, 0, 0, 0.4); transform: scale(1.02); } }
         .spotify-info { display: flex; flex-direction: column; gap: 4px; flex: 1; overflow: hidden; }
         .spotify-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #1DB954; font-weight: 700; display: flex; align-items: center; gap: 6px; }
         .spotify-track { font-size: 1.1rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -535,7 +536,7 @@
             <div class="spotify-offline">
                 <i class="fa-brands fa-spotify spotify-icon-offline"></i>
                 <div class="spotify-info">
-                    <span class="spotify-label" style="color: var(--text-muted);"><i class="fa-solid fa-music"></i> Spotify</span>
+                    <span class="spotify-label" style="color: var(--text-muted);"><i class="fa-solid fa-music"></i> Status Musical</span>
                     <strong class="spotify-track">Carregando...</strong>
                 </div>
             </div>
@@ -669,7 +670,7 @@
         setInterval(fetchDiscordPresence, 15000);
 
         // ==========================================
-        // OFICIAL: SPOTIFY VIA MEU BACK-END VERCEL
+        // SISTEMA MUSICAL ATUALIZADO (SPOTIFY + LAST.FM)
         // ==========================================
         async function fetchSpotify() {
             const spotifyContainer = document.getElementById('spotify-card-container');
@@ -679,13 +680,13 @@
                 const response = await fetch(vercelUrl);
                 const data = await response.json();
 
-                // Se não estiver tocando nada
+                // Se nada estiver tocando em nenhum dos dois providers
                 if (!data.isPlaying) {
                     spotifyContainer.innerHTML = `
                         <div class="spotify-offline">
                             <i class="fa-brands fa-spotify spotify-icon-offline"></i>
                             <div class="spotify-info">
-                                <span class="spotify-label" style="color: var(--text-muted);"><i class="fa-solid fa-music"></i> Spotify</span>
+                                <span class="spotify-label" style="color: var(--text-muted);"><i class="fa-solid fa-music"></i> Status Musical</span>
                                 <strong class="spotify-track">Pausado no momento...</strong>
                             </div>
                         </div>
@@ -693,20 +694,27 @@
                     return;
                 }
 
-                // Se estiver tocando, monta o cartão dinâmico do meu Back-end
+                // Define as customizações de estilo dependendo de onde o som vem
+                const isLastFm = data.provider === 'lastfm';
+                const labelText = isLastFm ? 'Ouvindo agora (Last.fm)' : 'Ouvindo agora';
+                const labelColor = isLastFm ? '#ba0000' : '#1DB954';
+                const labelIcon = isLastFm ? 'fa-brands fa-lastfm' : 'fa-brands fa-spotify';
+                const pulseAnimation = isLastFm ? 'pulse-art-lf 2s infinite alternate' : 'pulse-art 2s infinite alternate';
+
+                // Renderiza o card dinamicamente com o tema certo
                 spotifyContainer.innerHTML = `
                     <div class="spotify-playing">
-                        <img src="${data.albumImageUrl}" class="spotify-art" alt="Capa do Álbum">
+                        <img src="${data.albumImageUrl}" class="spotify-art" alt="Capa do Álbum" style="animation: ${pulseAnimation};">
                         <div class="spotify-info">
-                            <span class="spotify-label"><i class="fa-brands fa-spotify"></i> Ouvindo agora</span>
+                            <span class="spotify-label" style="color: ${labelColor};"><i class="${labelIcon}"></i> ${labelText}</span>
                             <strong class="spotify-track">${data.title}</strong>
                             <span class="spotify-artist">${data.artist}</span>
                         </div>
                         <div class="equalizer">
-                            <div class="equalizer-bar"></div>
-                            <div class="equalizer-bar"></div>
-                            <div class="equalizer-bar"></div>
-                            <div class="equalizer-bar"></div>
+                            <div class="equalizer-bar" style="background-color: ${labelColor};"></div>
+                            <div class="equalizer-bar" style="background-color: ${labelColor};"></div>
+                            <div class="equalizer-bar" style="background-color: ${labelColor};"></div>
+                            <div class="equalizer-bar" style="background-color: ${labelColor};"></div>
                         </div>
                     </div>
                 `;
@@ -717,7 +725,7 @@
                     <div class="spotify-offline">
                         <i class="fa-brands fa-spotify spotify-icon-offline"></i>
                         <div class="spotify-info">
-                            <span class="spotify-label" style="color: var(--text-muted);"><i class="fa-solid fa-music"></i> Spotify</span>
+                            <span class="spotify-label" style="color: var(--text-muted);"><i class="fa-solid fa-music"></i> Status Musical</span>
                             <strong class="spotify-track">Pausado no momento...</strong>
                         </div>
                     </div>
