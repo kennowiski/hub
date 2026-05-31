@@ -680,7 +680,29 @@
                 const response = await fetch(vercelUrl);
                 const data = await response.json();
 
-                // Se nada estiver tocando em nenhum dos dois providers
+                const hasTrackInfo = data.title && data.artist;
+                const hasAlbumImage = data.albumImageUrl;
+
+                // Se nada estiver tocando, mas existir histórico, mostra a última música ouvida
+                if (!data.isPlaying && hasTrackInfo) {
+                    const historyLabelColor = '#8aa0b8';
+                    const historyIcon = data.provider === 'lastfm' ? 'fa-brands fa-lastfm' : 'fa-solid fa-clock-rotate-left';
+                    const fallbackCover = 'https://placehold.co/160x160/14161e/94a3b8?text=%E2%99%AA';
+
+                    spotifyContainer.innerHTML = `
+                        <div class="spotify-playing">
+                            <img src="${hasAlbumImage ? data.albumImageUrl : fallbackCover}" class="spotify-art" alt="Capa do Álbum" style="animation: none;">
+                            <div class="spotify-info">
+                                <span class="spotify-label" style="color: ${historyLabelColor};"><i class="${historyIcon}"></i> ÚLTIMA MÚSICA OUVIDA</span>
+                                <strong class="spotify-track">${data.title}</strong>
+                                <span class="spotify-artist">${data.artist}</span>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Se nada estiver tocando e não houver histórico disponível
                 if (!data.isPlaying) {
                     spotifyContainer.innerHTML = `
                         <div class="spotify-offline">
