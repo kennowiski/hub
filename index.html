@@ -762,27 +762,34 @@
         // LETTERBOXD
         // ==========================================
         async function fetchLetterboxd() {
-            try {
-                const rssUrl = encodeURIComponent('https://letterboxd.com/kennowiski/rss/');
-                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
-                const data = await response.json();
-                if(data.items && data.items.length > 0) {
-                    const lastMovie = data.items[0];
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = lastMovie.description;
-                    const img = tempDiv.querySelector('img');
-                    
-                    const posterImg = document.getElementById('lb-poster');
-                    if (posterImg) posterImg.src = img ? img.src : 'https://s.ltrbxd.com/static/img/empty-poster-250.8491d904.png';
-                    
-                    const titleSpan = document.getElementById('lb-title');
-                    if (titleSpan) titleSpan.textContent = lastMovie.title.replace(', watched by kennowiski', ''); 
-                    
-                    const linkA = document.getElementById('lb-link');
-                    if (linkA) linkA.href = lastMovie.link;
-                }
-            } catch(error) { console.error(error); }
+    try {
+        const response = await fetch(
+            'https://spotify-api-xi-gold.vercel.app/api/letterboxd'
+        );
+
+        const data = await response.json();
+
+        if (!data.title) return;
+
+        const posterImg = document.getElementById('lb-poster');
+        if (posterImg) {
+            posterImg.src = data.poster;
         }
+
+        const titleSpan = document.getElementById('lb-title');
+        if (titleSpan) {
+            titleSpan.textContent = data.title;
+        }
+
+        const linkA = document.getElementById('lb-link');
+        if (linkA) {
+            linkA.href = data.link;
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
         
         fetchLetterboxd();
 
