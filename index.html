@@ -371,6 +371,7 @@
         .trakt-info { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; min-width: 0; }
         .trakt-title { font-size: 0.9rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .trakt-episode { font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .trakt-rating { font-size: 0.72rem; color: #facc15; letter-spacing: 1px; line-height: 1; min-height: 0.8rem; }
 
         /* FOTO E LINKS */
         .photo-card { padding: 0; min-height: 200px; border-radius: 24px; position: relative;}
@@ -614,6 +615,7 @@
                 <div class="trakt-info">
                     <span id="trakt-title" class="trakt-title">Carregando...</span>
                     <span id="trakt-episode" class="trakt-episode">Procurando episódio...</span>
+                    <span id="trakt-rating" class="trakt-rating"></span>
                 </div>
             </div>
         </div>
@@ -864,8 +866,22 @@
         fetchLetterboxd();
 
         // ==========================================
-        // TRAKT (BUSCA COMPLETA E AUTOMÁTICA DO TMDB)
+        // TRAKT (BUSCA COMPLETA E AUTOMÁTICA DO TMDB + AVALIAÇÃO)
         // ==========================================
+        function renderTraktStars(rating) {
+            const numericRating = Number(rating);
+
+            if (!Number.isFinite(numericRating) || numericRating <= 0) {
+                return '';
+            }
+
+            const starsOutOfFive = numericRating / 2;
+            const fullStars = Math.floor(starsOutOfFive);
+            const hasHalfStar = starsOutOfFive % 1 >= 0.5;
+
+            return '★'.repeat(fullStars) + (hasHalfStar ? '½' : '');
+        }
+
         async function fetchTrakt() {
             try {
                 const response = await fetch('https://spotify-api-xi-gold.vercel.app/api/trakt');
@@ -876,6 +892,7 @@
                 const posterImg = document.getElementById('trakt-poster');
                 const titleSpan = document.getElementById('trakt-title');
                 const episodeSpan = document.getElementById('trakt-episode');
+                const ratingSpan = document.getElementById('trakt-rating');
 
                 if (titleSpan) {
                     titleSpan.textContent = data.show || 'Série não encontrada';
@@ -887,10 +904,14 @@
                     episodeSpan.textContent = `S${season}E${episode} — ${data.episode || 'Episódio'}`;
                 }
 
+                if (ratingSpan) {
+                    ratingSpan.textContent = renderTraktStars(data.rating);
+                }
+
                 if (posterImg) {
                     // Fallback escuro caso a série realmente não possua nenhuma imagem cadastrada
                     const safeFallback = 'https://placehold.co/48x72/14161e/94a3b8?text=TV';
-                    
+
                     posterImg.onerror = function() {
                         this.src = safeFallback;
                     };
