@@ -701,12 +701,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 34px;
+            gap: 22px;
             animation: loaderFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .loader-avatar {
-            width: 160px;
-            height: 160px;
+            width: 203px;
+            height: 203px;
             border-radius: 50%;
             object-fit: cover;
             box-shadow: 0 18px 45px rgba(0,0,0,0.45);
@@ -747,8 +747,8 @@
                 text-align: center;
             }
             .loader-avatar {
-                width: 144px;
-                height: 144px;
+                width: 162px;
+                height: 162px;
             }
             .loader-title {
                 font-size: 1.95rem;
@@ -759,7 +759,7 @@
 <body class="loading">
 <div aria-hidden="true" class="page-loader" id="page-loader">
 <div class="loader-content">
-<img alt="" class="loader-avatar" height="160" src="perfil.webp" width="160"/>
+<img alt="" class="loader-avatar" height="203" src="perfil.webp" width="203"/>
 <h2 class="loader-title">Olá, eu sou o Kenny <span class="waving-hand">👋</span></h2>
 </div>
 </div>
@@ -1063,9 +1063,9 @@
         }
 
         window.addEventListener('load', () => {
-            setTimeout(hidePageLoader, 1500);
+            setTimeout(hidePageLoader, 1000);
         });
-        setTimeout(hidePageLoader, 2500);
+        setTimeout(hidePageLoader, 1800);
 
         // ==========================================
         // TYPEWRITER EFFECT
@@ -1073,8 +1073,10 @@
         const textToType = "Entusiasta de programa\u00E7\u00E3o explorando conhecimento. Gamer, cin\u00E9filo e amante da m\u00FAsica.";
         const typingElement = document.getElementById('typing-text');
         let typeIndex = 0;
+        if (typingElement) typingElement.textContent = '';
 
         function typeWriter() {
+            if (!typingElement) return;
             if (typeIndex < textToType.length) {
                 typingElement.textContent += textToType.charAt(typeIndex);
                 typeIndex++;
