@@ -182,10 +182,10 @@
             }
         }
 
-        /* CARTÕES BASE */
+        /* CARTÕES BASE (Animação corrigida para evitar engasgos) */
         @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(10px); }
-            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .card {
@@ -197,7 +197,7 @@
             padding: 24px;
             display: flex;
             flex-direction: column;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease, background-color 0.4s ease;
             opacity: 0; 
             animation: fadeInSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -352,7 +352,7 @@
             right: 18px;
             bottom: 14px;
             font-size: 0.68rem;
-            color: #FF8000;
+            color: #FF8000; /* Cor Laranja Oficial */
             font-weight: 700;
             opacity: 0;
             transition: opacity 0.25s ease, transform 0.25s ease;
@@ -390,7 +390,7 @@
             right: 18px;
             bottom: 14px;
             font-size: 0.68rem;
-            color: var(--accent);
+            color: #ef4444; /* Cor Vermelha Oficial */
             font-weight: 700;
             opacity: 0;
             transition: opacity 0.25s ease, transform 0.25s ease;
@@ -442,8 +442,8 @@
             padding: 22px;
             display: flex;
             flex-direction: column;
-            justify-content: center;  /* Centralizado */
-            align-items: center;      /* Centralizado */
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
             text-align: center;
         }
@@ -461,7 +461,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(18, 18, 20, 0.75); /* Fundo escuro uniforme */
+            background: rgba(18, 18, 20, 0.75); 
             z-index: 1;
         }
         .trakt-modal-close {
@@ -531,13 +531,9 @@
             font-size: 1.05rem;
             min-height: 1.3rem;
         }
-        .trakt-share-date {
-            color: #cbd5e1;
-            font-size: 0.78rem;
-        }
         .trakt-share-actions {
             display: flex;
-            justify-content: center; /* Centraliza o botão único */
+            justify-content: center; 
             width: 100%;
             margin-top: 18px;
             position: relative;
@@ -559,7 +555,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             width: 100%;
-            max-width: 250px; /* Impede do botão esticar infinitamente */
+            max-width: 250px; 
         }
         .trakt-share-btn:hover {
             background: rgba(255,255,255,0.12);
@@ -736,7 +732,6 @@
                         <p id="trakt-modal-episode" class="trakt-share-episode">Procurando episódio...</p>
                     </div>
                     <div id="trakt-modal-rating" class="trakt-share-rating"></div>
-                    <div id="trakt-modal-date" class="trakt-share-date"></div>
                 </div>
                 <div class="trakt-share-actions">
                     <a id="trakt-open-link" class="trakt-share-btn primary" href="https://trakt.tv/users/kennowiski/history" target="_blank" rel="noopener noreferrer">
@@ -1093,15 +1088,8 @@
             return '★'.repeat(fullStars) + (hasHalfStar ? '½' : '');
         }
 
-        function formatTraktDate(dateString) {
-            if (!dateString) return '';
-            const date = new Date(dateString);
-            if (Number.isNaN(date.getTime())) return '';
-            return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        }
-
         // ==========================================
-        // LETTERBOXD (COM MODAL E BOTÃO ÚNICO)
+        // LETTERBOXD 
         // ==========================================
         function updateLbModal(data) {
             const safeFallback = 'https://placehold.co/300x450/14161e/94a3b8?text=Filme';
@@ -1145,7 +1133,6 @@
         
         fetchLetterboxd();
 
-        // Controles do Modal Letterboxd
         const lbCard = document.getElementById('lb-card');
         const lbModal = document.getElementById('lb-modal');
         const closeLbModalBtn = document.getElementById('close-lb-modal');
@@ -1170,7 +1157,7 @@
         if (lbModal) lbModal.addEventListener('click', (e) => { if (e.target === lbModal) closeLbModalFn(); });
 
         // ==========================================
-        // TRAKT (CENTRALIZADO E COM BOTÃO ÚNICO)
+        // TRAKT 
         // ==========================================
         function updateTraktModal(data) {
             const safeFallback = 'https://placehold.co/300x450/14161e/94a3b8?text=TV';
@@ -1178,7 +1165,6 @@
             const season = String(data.season || 0).padStart(2, '0');
             const episodeNumber = String(data.episodeNumber || 0).padStart(2, '0');
             const episodeText = `S${season}E${episodeNumber} — ${data.episode || 'Episódio'}`;
-            const watchedDate = formatTraktDate(data.watchedAt);
             const ratingText = renderTraktStars(data.rating);
 
             const modalPoster = document.getElementById('trakt-modal-poster');
@@ -1186,7 +1172,6 @@
             const modalTitle = document.getElementById('trakt-modal-title');
             const modalEpisode = document.getElementById('trakt-modal-episode');
             const modalRating = document.getElementById('trakt-modal-rating');
-            const modalDate = document.getElementById('trakt-modal-date');
             const openLink = document.getElementById('trakt-open-link');
 
             if (modalPoster) {
@@ -1197,7 +1182,6 @@
             if (modalTitle) modalTitle.textContent = data.show || 'Série não encontrada';
             if (modalEpisode) modalEpisode.textContent = episodeText;
             if (modalRating) modalRating.textContent = ratingText || '';
-            if (modalDate) modalDate.textContent = watchedDate ? `Assistido em ${watchedDate}` : '';
             if (openLink) openLink.href = data.traktUrl || 'https://trakt.tv/users/kennowiski/history';
         }
 
@@ -1233,7 +1217,6 @@
 
         fetchTrakt();
 
-        // Controles do Modal Trakt
         const traktCard = document.getElementById('trakt-card');
         const traktModal = document.getElementById('trakt-modal');
         const closeTraktModalBtn = document.getElementById('close-trakt-modal');
