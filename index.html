@@ -252,8 +252,6 @@
             /* Redução do blur para otimizar performance em GPUs mais fracas */
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
-            /* Força renderização acelerada por hardware */
-            will-change: transform, box-shadow;
             border: 1px solid var(--card-border);
             border-radius: 24px;
             padding: 24px;
@@ -266,13 +264,9 @@
             overflow: hidden; 
         }
 
-        body.loading .card {
-            animation: none;
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-        }
 
         .card:hover { 
+            will-change: transform;
             border-color: var(--accent); 
             background-color: rgba(255, 255, 255, 0.04); 
             box-shadow: 0 0 24px var(--accent-glow);
@@ -682,7 +676,7 @@
 
     </style>
 </head>
-<body class="loading">
+<body>
 <div class="bg-orb orb-1"></div>
 <div class="bg-orb orb-2"></div>
 <img alt="WYD Cat" id="wyd-cat" src="gato.gif"/>
@@ -959,26 +953,9 @@
             }
         }
 
-        let typeWriterStarted = false;
-        let introReleased = false;
-
-        function startTypeWriter() {
-            if (typeWriterStarted) return;
-            typeWriterStarted = true;
-            typeWriter();
-        }
-
-        function releasePageIntro() {
-            if (introReleased) return;
-            introReleased = true;
-            document.body.classList.remove('loading');
-            startTypeWriter();
-        }
-
         window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(releasePageIntro, 350);
+            setTimeout(typeWriter, 350);
         });
-        setTimeout(releasePageIntro, 900);
 
         // ==========================================
         // TYPEWRITER EFFECT
