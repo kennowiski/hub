@@ -399,6 +399,266 @@
         @keyframes equalize { 0%, 100% { height: 6px; } 50% { height: 24px; } }
         .spotify-offline { display: flex; align-items: center; gap: 16px; opacity: 0.5; }
         .spotify-icon-offline { font-size: 2.5rem; color: var(--text-muted); flex-shrink: 0;}
+        .spotify-card { cursor: pointer; position: relative; }
+        .spotify-card:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
+        }
+
+        #spotify-history-modal {
+            padding: 16px;
+            align-items: center;
+        }
+        #spotify-history-modal .trakt-modal-container {
+            width: min(820px, calc(100vw - 32px));
+            max-width: 820px;
+            max-height: calc(100dvh - 32px);
+            overflow: hidden;
+        }
+        .spotify-history-card {
+            min-height: auto;
+            max-height: calc(100dvh - 32px);
+            padding: clamp(18px, 3vw, 30px);
+            justify-content: flex-start;
+            align-items: stretch;
+            text-align: left;
+            overflow: hidden;
+        }
+        .spotify-history-header {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 18px;
+            padding: 0 46px;
+            text-align: center;
+        }
+        .spotify-history-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ba0000;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .spotify-history-label .icon,
+        .spotify-history-label svg {
+            width: 1.5em !important;
+            height: 1.5em !important;
+            color: #ba0000;
+            fill: currentColor;
+        }
+        .spotify-history-title {
+            width: 100%;
+            text-align: center;
+            font-size: clamp(1.18rem, 2.2vw, 1.55rem);
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.15;
+        }
+        .spotify-history-list {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-height: calc(100dvh - 178px);
+            overflow-y: auto;
+            padding: 2px 8px 2px 2px;
+        }
+        .spotify-history-list::-webkit-scrollbar { width: 6px; }
+        .spotify-history-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.16); border-radius: 999px; }
+        .spotify-history-item {
+            display: grid;
+            grid-template-columns: clamp(62px, 7vw, 76px) minmax(0, 1fr) minmax(92px, 120px);
+            align-items: center;
+            place-items: center;
+            align-content: center;
+            gap: clamp(14px, 2vw, 20px);
+            width: 100%;
+            min-height: 112px;
+            padding: clamp(16px, 2vw, 20px);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            min-width: 0;
+            overflow: hidden;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+        .spotify-history-item.is-now.spotify-history-source-spotify {
+            border-color: rgba(29, 185, 84, 0.62);
+            border-radius: 18px;
+            box-shadow: 0 0 0 1px rgba(29, 185, 84, 0.22), 0 0 24px rgba(29, 185, 84, 0.32), inset 0 0 18px rgba(29, 185, 84, 0.06);
+            background: rgba(29, 185, 84, 0.065);
+        }
+        .spotify-history-item.is-now.spotify-history-source-lastfm {
+            border-color: rgba(186, 0, 0, 0.68);
+            border-radius: 18px;
+            box-shadow: 0 0 0 1px rgba(186, 0, 0, 0.24), 0 0 24px rgba(186, 0, 0, 0.34), inset 0 0 18px rgba(186, 0, 0, 0.07);
+            background: rgba(186, 0, 0, 0.065);
+        }
+        .spotify-history-cover {
+            width: clamp(62px, 7vw, 76px);
+            height: clamp(62px, 7vw, 76px);
+            border-radius: 13px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .spotify-history-item.is-now.spotify-history-source-spotify .spotify-history-cover {
+            box-shadow: 0 0 18px rgba(29, 185, 84, 0.35);
+        }
+        .spotify-history-item.is-now.spotify-history-source-lastfm .spotify-history-cover {
+            box-shadow: 0 0 18px rgba(186, 0, 0, 0.38);
+        }
+        .spotify-history-info {
+            min-width: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            align-self: center;
+            gap: 5px;
+            text-align: center;
+        }
+        .spotify-history-track {
+            width: 100%;
+            font-size: clamp(0.98rem, 1.8vw, 1.14rem);
+            font-weight: 800;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+        .spotify-history-artist,
+        .spotify-history-meta {
+            width: 100%;
+            font-size: clamp(0.78rem, 1.4vw, 0.90rem);
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+        .spotify-history-now {
+            justify-self: end;
+            align-self: center;
+            text-align: right;
+            font-size: clamp(0.58rem, 1.1vw, 0.70rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            white-space: nowrap;
+        }
+        .spotify-history-now.spotify-history-now-spotify { color: #1DB954; }
+        .spotify-history-now.spotify-history-now-lastfm { color: #ba0000; }
+        .spotify-history-empty {
+            position: relative;
+            z-index: 2;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        @media (max-width: 899px) {
+            #spotify-history-modal {
+                padding: 8px;
+                align-items: center;
+            }
+            #spotify-history-modal .trakt-modal-container {
+                width: calc(100dvw - 16px);
+                max-width: calc(100dvw - 16px);
+                max-height: calc(100dvh - 16px);
+                border-radius: 20px;
+            }
+            .spotify-history-card {
+                padding: 16px 10px 10px;
+                max-height: calc(100dvh - 16px);
+            }
+            .spotify-history-header {
+                margin-bottom: 12px;
+                padding: 0 38px;
+                gap: 5px;
+            }
+            .spotify-history-label { font-size: 0.64rem; gap: 7px; }
+            .spotify-history-title { font-size: 1.12rem; }
+            .spotify-history-list {
+                max-height: calc(100dvh - 126px);
+                gap: 9px;
+                padding-right: 3px;
+            }
+            .spotify-history-item {
+                grid-template-columns: 58px minmax(0, 1fr) minmax(68px, 82px);
+                min-height: 98px;
+                padding: 14px 10px;
+                gap: 10px;
+                border-radius: 15px;
+            }
+            .spotify-history-cover {
+                width: 58px;
+                height: 58px;
+                border-radius: 11px;
+            }
+            .spotify-history-track { font-size: 0.92rem; }
+            .spotify-history-artist,
+            .spotify-history-meta { font-size: 0.74rem; }
+            .spotify-history-now {
+                font-size: 0.58rem;
+                letter-spacing: 0.35px;
+            }
+            #close-spotify-history-modal {
+                top: 12px;
+                right: 12px;
+                width: 34px;
+                height: 34px;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .spotify-history-card { padding: 14px 8px 8px; }
+            .spotify-history-header { margin-bottom: 10px; padding: 0 36px; }
+            .spotify-history-title { font-size: 1.02rem; }
+            .spotify-history-list { max-height: calc(100dvh - 116px); gap: 8px; }
+            .spotify-history-item { grid-template-columns: 52px minmax(0, 1fr) minmax(58px, 70px); min-height: 90px; padding: 12px 8px; gap: 8px; }
+            .spotify-history-cover { width: 52px; height: 52px; }
+            .spotify-history-track { font-size: 0.84rem; }
+            .spotify-history-artist,
+            .spotify-history-meta { font-size: 0.68rem; }
+            .spotify-history-now {
+                font-size: 0.52rem;
+                max-width: 76px;
+                text-align: right;
+                white-space: normal;
+                line-height: 1.05;
+            }
+        }
+
+        @media (max-height: 680px) {
+            .spotify-history-card { padding-top: 12px; padding-bottom: 8px; }
+            .spotify-history-header { margin-bottom: 8px; }
+            .spotify-history-list { max-height: calc(100dvh - 104px); gap: 7px; }
+            .spotify-history-item { min-height: 74px; padding: 9px; }
+            .spotify-history-cover { width: 50px; height: 50px; }
+            .spotify-history-track { font-size: 0.82rem; }
+            .spotify-history-artist,
+            .spotify-history-meta { font-size: 0.66rem; }
+            .spotify-history-now { font-size: 0.50rem; }
+        }
 
         /* LETTERBOXD */
         .letterboxd-card { justify-content: center; cursor: pointer; position: relative; }
@@ -817,6 +1077,21 @@
 </div>
 </div>
 </div>
+
+<div aria-hidden="true" class="trakt-modal-overlay" id="spotify-history-modal">
+<div aria-labelledby="spotify-history-title" aria-modal="true" class="trakt-modal-container" role="dialog">
+<button aria-label="Fechar histórico de reproduções" class="trakt-modal-close" id="close-spotify-history-modal"><svg aria-hidden="true" class="icon" viewbox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"></path></svg></button>
+<div class="trakt-share-card spotify-history-card">
+<div class="spotify-history-header">
+<div class="spotify-history-label"><svg aria-hidden="true" class="icon" viewbox="0 0 512 512"><path d="M225.8 367.1l-18.8-51s-30.5 34-76.2 34c-40.5 0-69.2-35.2-69.2-91.5 0-72.1 36.4-97.9 72.1-97.9 66.5 0 74.8 53.3 100.9 134.9 18.8 56.9 54 102.6 155.4 102.6 72.7 0 122-22.3 122-80.9 0-72.9-62.7-80.6-115-92.1-25.8-5.9-33.4-16.4-33.4-34 0-19.9 15.8-31.7 41.6-31.7 28.2 0 43.4 10.6 45.7 35.8l58.6-7c-4.7-52.8-41.1-74.5-100.9-74.5-52.8 0-104.4 19.9-104.4 83.9 0 39.9 19.4 65.1 68 76.8 44.9 10.6 79.8 13.8 79.8 45.7 0 21.7-21.1 30.5-61 30.5-59.2 0-83.9-31.1-97.9-73.9-32-96.8-43.6-163-161.3-163C45.7 113.8 0 168.3 0 261c0 89.1 45.7 137.2 127.9 137.2 66.2 0 97.9-31.1 97.9-31.1z"></path></svg> Last.fm</div>
+<h3 class="spotify-history-title" id="spotify-history-title">Histórico de reproduções</h3>
+</div>
+<div class="spotify-history-list" id="spotify-history-list">
+<div class="spotify-history-empty">Carregando histórico...</div>
+</div>
+</div>
+</div>
+</div>
 <main class="bento-grid">
 <div class="card intro-card">
 <h1>Olá, eu sou o Kenny <span class="waving-hand">👋</span></h1>
@@ -894,7 +1169,7 @@
 </div>
 </div>
 </div>
-<div class="card spotify-card" id="spotify-card-container">
+<div class="card spotify-card" id="spotify-card-container" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="spotify-history-modal">
 <div class="spotify-offline">
 <svg aria-hidden="true" class="icon spotify-icon-offline" viewbox="0 0 496 512"><path d="M248 8C111.1 8 0 119.1 0 256s111.1 248 248 248 248-111.1 248-248S384.9 8 248 8zm100.7 364.9c-4.2 0-6.8-1.3-10.7-3.6-62.4-37.6-135-39.2-206.7-24.5-3.9 1-9 2.6-11.9 2.6-9.7 0-15.8-7.7-15.8-15.8 0-10.3 6.1-15.2 13.6-16.8 81.9-18.1 165.6-16.5 237 26.2 6.1 3.9 9.7 7.4 9.7 16.5s-7.1 15.4-15.2 15.4zm26.9-65.6c-5.2 0-8.7-2.3-12.3-4.2-62.5-37-155.7-51.9-238.6-29.4-4.8 1.3-7.4 2.6-11.9 2.6-10.7 0-19.4-8.7-19.4-19.4s5.2-17.8 15.5-20.7c27.8-7.8 56.2-13.6 97.8-13.6 64.9 0 127.6 16.1 177 45.5 8.1 4.8 11.3 11 11.3 19.7-.1 10.8-8.5 19.5-19.4 19.5zm31-76.2c-5.2 0-8.4-1.3-12.9-3.9-71.2-42.5-198.5-52.7-280.9-29.7-3.6 1-8.1 2.6-12.9 2.6-13.2 0-23.3-10.3-23.3-23.6 0-13.6 8.4-21.3 17.4-23.9 35.2-10.3 74.6-15.2 117.5-15.2 73 0 149.5 15.2 205.4 47.8 7.8 4.5 12.9 10.7 12.9 22.6 0 13.6-11 23.3-23.2 23.3z"></path></svg>
 <div class="spotify-info">
@@ -1085,6 +1360,11 @@
             const styleAttr = extraStyle ? ` style="${extraStyle}"` : '';
             return `<svg class="${classAttr}"${styleAttr} viewBox="${icon.viewBox}" aria-hidden="true">${icon.body}</svg>`;
         }
+        let lastSpotifyData = null;
+        let spotifyHistoryLoaded = false;
+        let spotifyHistoryCache = null;
+        let spotifyHistoryPreloadPromise = null;
+
         async function fetchSpotify() {
             if (!isPageVisible()) return;
             const spotifyContainer = document.getElementById('spotify-card-container');
@@ -1093,6 +1373,8 @@
                 const vercelUrl = 'https://spotify-api-xi-gold.vercel.app/api/spotify';
                 const response = await fetch(vercelUrl);
                 const data = await response.json();
+                lastSpotifyData = data;
+                syncCurrentTrackWithCachedHistory();
 
                 const hasTrackInfo = data.title && data.artist;
                 const hasAlbumImage = data.albumImageUrl;
@@ -1156,8 +1438,301 @@
             }
         }
         
+        const MUSIC_REFRESH_INTERVAL = 20000;
         fetchSpotify();
-        setInterval(fetchSpotify, 30000);
+
+        // ==========================================
+        // HISTÓRICO MUSICAL (LAST.FM)
+        // ==========================================
+        const spotifyHistoryModal = document.getElementById('spotify-history-modal');
+        const closeSpotifyHistoryModalBtn = document.getElementById('close-spotify-history-modal');
+        const spotifyHistoryList = document.getElementById('spotify-history-list');
+        const fallbackMusicCover = 'https://placehold.co/160x160/14161e/94a3b8?text=%E2%99%AA';
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getLargestLastFmImage(images) {
+            if (!Array.isArray(images)) return '';
+            const found = [...images].reverse().find(img => img && (img['#text'] || img.url));
+            return found ? (found['#text'] || found.url || '') : '';
+        }
+
+        function formatLastFmDate(value) {
+            if (!value) return '';
+
+            if (typeof value === 'number') {
+                const date = new Date(value);
+                if (!Number.isNaN(date.getTime())) {
+                    return date.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+                }
+            }
+
+            if (typeof value === 'string') {
+                if (/^\d+$/.test(value)) {
+                    const numericDate = new Date(Number(value));
+                    if (!Number.isNaN(numericDate.getTime())) {
+                        return numericDate.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+                    }
+                }
+                return value;
+            }
+
+            return '';
+        }
+
+        function normalizeLastFmTracks(data) {
+            const rawTracks = data?.recentTracks || data?.tracks || data?.history || data?.items || data?.recenttracks?.track || data?.recentTracks?.track || data?.track;
+            const list = Array.isArray(rawTracks) ? rawTracks : (rawTracks ? [rawTracks] : []);
+            const responseProvider = String(data?.provider || 'lastfm').toLowerCase();
+
+            return list.map(track => {
+                const artist = typeof track.artist === 'string'
+                    ? track.artist
+                    : (track.artist?.name || track.artist?.['#text'] || track.artistName || 'Artista desconhecido');
+                const album = typeof track.album === 'string'
+                    ? track.album
+                    : (track.album?.['#text'] || track.album?.name || track.albumName || '');
+                const image = track.albumImageUrl || track.imageUrl || track.cover || track.poster || getLargestLastFmImage(track.image) || fallbackMusicCover;
+                const title = track.title || track.name || track.track || 'Música desconhecida';
+                const provider = String(track.provider || track.source || track.service || responseProvider || 'lastfm').toLowerCase();
+
+                return { title, artist, album, image, isNowPlaying: false, provider, isSyntheticCurrent: false };
+            }).filter(track => track.title || track.artist).slice(0, 10);
+        }
+
+        function normalizeTextForCompare(value) {
+            return String(value || '')
+                .normalize('NFD')
+                .replace(/[̀-ͯ]/g, '')
+                .replace(/\([^)]*\)|\[[^\]]*\]/g, '')
+                .replace(/(feat|ft|with|com)\.?/gi, '')
+                .replace(/[^a-z0-9]+/gi, ' ')
+                .trim()
+                .toLowerCase();
+        }
+
+        function splitComparableArtists(value) {
+            return normalizeTextForCompare(value)
+                .split(/\s+(?:and|e)\s+|\s*,\s*|\s*&\s*|\s+x\s*|\s*\/\s*/)
+                .map(part => part.trim())
+                .filter(Boolean);
+        }
+
+        function tracksAreSameSong(a, b) {
+            const titleA = normalizeTextForCompare(a?.title);
+            const titleB = normalizeTextForCompare(b?.title);
+            if (!titleA || !titleB || titleA !== titleB) return false;
+
+            const artistsA = splitComparableArtists(a?.artist);
+            const artistsB = splitComparableArtists(b?.artist);
+
+            if (!artistsA.length || !artistsB.length) return true;
+
+            return artistsA.some(artistA => artistsB.some(artistB =>
+                artistA === artistB || artistA.includes(artistB) || artistB.includes(artistA)
+            ));
+        }
+
+        function makeCurrentSpotifyHistoryTrack() {
+            if (!lastSpotifyData?.title || !lastSpotifyData?.artist) return null;
+
+            const provider = String(lastSpotifyData.provider || 'spotify').toLowerCase();
+            const isSpotifySource = provider.includes('spotify');
+
+            return {
+                title: lastSpotifyData.title,
+                artist: lastSpotifyData.artist,
+                album: lastSpotifyData.album || lastSpotifyData.albumName || '',
+                image: lastSpotifyData.albumImageUrl || lastSpotifyData.imageUrl || fallbackMusicCover,
+                isNowPlaying: !!lastSpotifyData.isPlaying,
+                provider: isSpotifySource ? 'spotify' : provider,
+                isSyntheticCurrent: true
+            };
+        }
+
+        function removeDuplicateTracks(tracks) {
+            const uniqueTracks = [];
+
+            for (const track of tracks) {
+                const titleKey = normalizeTextForCompare(track.title);
+                if (!titleKey) {
+                    uniqueTracks.push(track);
+                    continue;
+                }
+
+                const alreadyExists = uniqueTracks.some(existing => tracksAreSameSong(existing, track));
+                if (!alreadyExists) uniqueTracks.push(track);
+            }
+
+            return uniqueTracks;
+        }
+
+        function mergeCurrentTrackWithHistory(historyTracks) {
+            const currentTrack = makeCurrentSpotifyHistoryTrack();
+            const baseTracks = (Array.isArray(historyTracks) ? [...historyTracks] : [])
+                .filter(track => !track.isSyntheticCurrent)
+                .map(track => ({ ...track, isNowPlaying: false }));
+
+            if (!currentTrack || !currentTrack.isNowPlaying) {
+                return removeDuplicateTracks(baseTracks).slice(0, 10);
+            }
+
+            const withoutDuplicate = baseTracks.filter(track => !tracksAreSameSong(currentTrack, track));
+
+            return removeDuplicateTracks([currentTrack, ...withoutDuplicate]).slice(0, 10);
+        }
+
+        function renderSpotifyHistory(tracks, message = '') {
+            if (!spotifyHistoryList) return;
+
+            if (!tracks.length) {
+                spotifyHistoryList.innerHTML = `<div class="spotify-history-empty">${escapeHtml(message || 'Não foi possível carregar o histórico de reproduções agora.')}</div>`;
+                return;
+            }
+
+            const items = tracks.map((track, index) => {
+                const isFirstTrack = index === 0;
+                const shouldShowNow = isFirstTrack && track.isNowPlaying;
+                const providerText = String(track.provider || '').toLowerCase();
+                const isSpotifySource = providerText.includes('spotify');
+                const sourceClass = isSpotifySource ? 'spotify-history-source-spotify' : 'spotify-history-source-lastfm';
+                const nowClass = isSpotifySource ? 'spotify-history-now-spotify' : 'spotify-history-now-lastfm';
+                const itemClass = shouldShowNow ? `spotify-history-item is-now ${sourceClass}` : 'spotify-history-item';
+
+                return `
+                    <div class="${itemClass}">
+                        <img class="spotify-history-cover" src="${escapeHtml(track.image || fallbackMusicCover)}" alt="Capa do álbum" loading="lazy" onerror="this.src='${fallbackMusicCover}'">
+                        <div class="spotify-history-info">
+                            <div class="spotify-history-track">${escapeHtml(track.title)}</div>
+                            <div class="spotify-history-artist">${escapeHtml(track.artist)}</div>
+                            ${track.album ? `<div class="spotify-history-meta">${escapeHtml(track.album)}</div>` : ''}
+                        </div>
+                        ${shouldShowNow ? `<div class="spotify-history-now ${nowClass}">Ouvindo agora</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            spotifyHistoryList.innerHTML = items + (message ? `<div class="spotify-history-empty">${escapeHtml(message)}</div>` : '');
+        }
+
+        async function fetchSpotifyHistory() {
+            const baseUrl = 'https://spotify-api-xi-gold.vercel.app';
+            const endpoints = [
+                `${baseUrl}/api/lastfm?limit=10`,
+                `${baseUrl}/api/lastfm/recent?limit=10`,
+                `${baseUrl}/api/spotify?history=1&limit=10`,
+                `${baseUrl}/api/spotify?recent=1&limit=10`
+            ];
+
+            for (const endpoint of endpoints) {
+                try {
+                    const response = await fetch(endpoint, { cache: 'no-store' });
+                    if (!response.ok) continue;
+                    const data = await response.json();
+                    const tracks = mergeCurrentTrackWithHistory(normalizeLastFmTracks(data));
+                    if (tracks.length > 1) return { tracks, message: '' };
+                } catch (error) {
+                    console.warn('Histórico Last.fm indisponível neste endpoint:', endpoint, error);
+                }
+            }
+
+            if (lastSpotifyData?.title && lastSpotifyData?.artist) {
+                return {
+                    tracks: mergeCurrentTrackWithHistory(normalizeLastFmTracks({ tracks: [lastSpotifyData] })),
+                    message: 'A API atual só retornou a última música. Para listar 10 reproduções, o backend precisa expor o histórico do Last.fm.'
+                };
+            }
+
+            return { tracks: [], message: 'Não foi possível carregar o histórico do Last.fm agora.' };
+        }
+
+        async function preloadSpotifyHistory(force = false) {
+            if (!force && spotifyHistoryPreloadPromise) return spotifyHistoryPreloadPromise;
+
+            spotifyHistoryPreloadPromise = (async () => {
+                if (!lastSpotifyData) await fetchSpotify();
+                const result = await fetchSpotifyHistory();
+                spotifyHistoryCache = result;
+                spotifyHistoryLoaded = true;
+                return result;
+            })();
+
+            return spotifyHistoryPreloadPromise;
+        }
+
+        function syncCurrentTrackWithCachedHistory() {
+            if (!spotifyHistoryCache?.tracks?.length) return;
+            spotifyHistoryCache = {
+                ...spotifyHistoryCache,
+                tracks: mergeCurrentTrackWithHistory(spotifyHistoryCache.tracks)
+            };
+
+            if (spotifyHistoryModal?.classList.contains('active')) {
+                renderSpotifyHistory(spotifyHistoryCache.tracks, spotifyHistoryCache.message || '');
+            }
+        }
+
+        async function refreshMusicAndHistory() {
+            await fetchSpotify();
+            if (!isPageVisible()) return;
+            const result = await preloadSpotifyHistory(true);
+            if (spotifyHistoryModal?.classList.contains('active')) {
+                renderSpotifyHistory(result.tracks, result.message || '');
+            }
+        }
+
+        async function openSpotifyHistoryModal() {
+            if (!spotifyHistoryModal) return;
+            spotifyHistoryModal.classList.add('active');
+            spotifyHistoryModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            syncCurrentTrackWithCachedHistory();
+
+            if (spotifyHistoryCache?.tracks?.length) {
+                renderSpotifyHistory(spotifyHistoryCache.tracks, spotifyHistoryCache.message || '');
+            } else {
+                renderSpotifyHistory([], 'Carregando histórico...');
+            }
+
+            const result = await preloadSpotifyHistory(!spotifyHistoryLoaded);
+            renderSpotifyHistory(result.tracks, result.message);
+        }
+
+        function closeSpotifyHistoryModalFn() {
+            if (!spotifyHistoryModal) return;
+            spotifyHistoryModal.classList.remove('active');
+            spotifyHistoryModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        const spotifyCard = document.getElementById('spotify-card-container');
+        if (spotifyCard && spotifyHistoryModal) {
+            spotifyCard.addEventListener('click', openSpotifyHistoryModal);
+            spotifyCard.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openSpotifyHistoryModal();
+                }
+            });
+        }
+        if (closeSpotifyHistoryModalBtn) closeSpotifyHistoryModalBtn.addEventListener('click', closeSpotifyHistoryModalFn);
+        if (spotifyHistoryModal) spotifyHistoryModal.addEventListener('click', (e) => { if (e.target === spotifyHistoryModal) closeSpotifyHistoryModalFn(); });
+
+        window.addEventListener('load', () => {
+            setTimeout(() => preloadSpotifyHistory().catch(() => {}), 900);
+        });
+
+        setInterval(() => {
+            refreshMusicAndHistory().catch(error => console.warn('Erro ao sincronizar música e histórico:', error));
+        }, MUSIC_REFRESH_INTERVAL);
 
         // ==========================================
         // FUNÇÕES GERAIS DE COMPARTILHAMENTO
@@ -1331,6 +1906,7 @@
             if (event.key === 'Escape') {
                 if (traktModal && traktModal.classList.contains('active')) closeTraktModalFn();
                 if (lbModal && lbModal.classList.contains('active')) closeLbModalFn();
+                if (spotifyHistoryModal && spotifyHistoryModal.classList.contains('active')) closeSpotifyHistoryModalFn();
             }
         });
         
