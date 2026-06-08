@@ -379,9 +379,11 @@
             gap: 6px;
         }
         .trakt-content { display: flex; align-items: center; gap: 14px; text-decoration: none; width: 100%; overflow: hidden; }
-        .trakt-poster { width: 48px; height: 72px; border-radius: 6px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+        .trakt-poster { width: 48px; height: 72px; border-radius: 6px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.3s; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+        .trakt-card:hover .trakt-poster { transform: scale(1.08) rotate(-2deg); }
         .trakt-info { display: flex; flex-direction: column; gap: 2px; overflow: hidden; flex: 1; min-width: 0; }
-        .trakt-title { font-size: 0.9rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .trakt-title { font-size: 0.9rem; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.3s; }
+        .trakt-card:hover .trakt-title { color: #ef4444; }
         .trakt-episode { font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .trakt-rating { font-size: 0.72rem; color: #facc15; letter-spacing: 1px; line-height: 1; min-height: 0.8rem; }
         .trakt-card::after {
