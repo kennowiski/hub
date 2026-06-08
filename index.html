@@ -264,6 +264,12 @@
             overflow: hidden; 
         }
 
+        body.loading .card {
+            animation: none;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+
         .card:hover { 
             border-color: var(--accent); 
             background-color: rgba(255, 255, 255, 0.04); 
@@ -750,7 +756,7 @@
         }
     </style>
 </head>
-<body>
+<body class="loading">
 <div aria-hidden="true" class="page-loader" id="page-loader">
 <div class="loader-content">
 <img alt="" class="loader-avatar" height="160" src="perfil.webp" width="160"/>
@@ -986,7 +992,7 @@
 <div aria-label="Abrir card do último filme visto no Letterboxd" class="card letterboxd-card" id="lb-card" role="button" tabindex="0">
 <div class="lb-header"><svg aria-hidden="true" class="icon" viewbox="0 0 512 512"><path d="M0 96C0 60.7 28.7 32 64 32l384 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM48 368l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 240l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 112l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16L64 96c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM160 128l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32L192 96c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-128 0z"></path></svg> Último Filme Visto</div>
 <div class="lb-content">
-<img alt="Capa" class="lb-poster" height="72" id="lb-poster" src="https://s.ltrbxd.com/static/img/empty-poster-250.8491d904.png" width="48"/>
+<img alt="Capa" class="lb-poster" height="72" id="lb-poster" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='72' viewBox='0 0 48 72'%3E%3Crect width='48' height='72' rx='6' fill='%2314161e'/%3E%3Ctext x='24' y='38' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='8'%3EFilme%3C/text%3E%3C/svg%3E" width="48"/>
 <div class="trakt-info">
 <span class="lb-title" id="lb-title">Procurando filmes...</span>
 <span class="trakt-rating" id="lb-rating-card"></span>
@@ -1041,13 +1047,18 @@
             typeWriter();
         }
 
+        function releasePageIntro() {
+            document.body.classList.remove('loading');
+            startTypeWriter();
+        }
+
         function hidePageLoader() {
             const pageLoader = document.getElementById('page-loader');
             if (pageLoader && !pageLoader.classList.contains('hidden')) {
                 pageLoader.classList.add('hidden');
-                setTimeout(startTypeWriter, 450);
+                setTimeout(releasePageIntro, 450);
             } else {
-                startTypeWriter();
+                releasePageIntro();
             }
         }
 
@@ -1301,7 +1312,7 @@
                 const posterImg = document.getElementById('lb-poster');
                 const titleSpan = document.getElementById('lb-title');
                 const ratingSpan = document.getElementById('lb-rating-card');
-                const safeFallback = 'https://placehold.co/48x72/14161e/94a3b8?text=Filme';
+                const safeFallback = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='72' viewBox='0 0 48 72'%3E%3Crect width='48' height='72' rx='6' fill='%2314161e'/%3E%3Ctext x='24' y='38' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='8'%3EFilme%3C/text%3E%3C/svg%3E";
 
                 if (posterImg) {
                     posterImg.onerror = function() { this.src = safeFallback; };
