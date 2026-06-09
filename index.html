@@ -967,6 +967,36 @@
         #wyd-cat { display: none; position: fixed; width: 180px; border-radius: 16px; z-index: 999999; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8); pointer-events: none; }
 
 
+
+        /* Ajuste fino apenas para o navegador interno do Instagram.
+           Mantém layout e pop-ups iguais; só reduz instabilidade de blur/opacity no WebView. */
+        html.instagram-webview .trakt-modal-overlay,
+        html.instagram-webview .tech-modal-overlay {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.84);
+            transition: opacity 0.22s ease, visibility 0.22s ease;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            will-change: opacity;
+        }
+
+        html.instagram-webview .trakt-modal-container,
+        html.instagram-webview .tech-modal-container {
+            transform: translateY(14px) scale(0.99) translateZ(0);
+            -webkit-transform: translateY(14px) scale(0.99) translateZ(0);
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            will-change: transform;
+        }
+
+        html.instagram-webview .trakt-modal-overlay.active .trakt-modal-container,
+        html.instagram-webview .tech-modal-overlay.active .tech-modal-container {
+            transform: translateY(0) scale(1) translateZ(0);
+            -webkit-transform: translateY(0) scale(1) translateZ(0);
+        }
+
     </style>
 </head>
 <body>
@@ -1240,6 +1270,13 @@
 </div>
 </main>
 <script>
+
+        // Ajuste específico para reduzir o piscar dos modais no navegador interno do Instagram.
+        // Não altera o layout; apenas troca para transições de blur/opacity mais estáveis no WebView.
+        if (/Instagram/i.test(navigator.userAgent)) {
+            document.documentElement.classList.add('instagram-webview');
+        }
+
 
         // ==========================================
         // OTIMIZAÇÕES DE CARREGAMENTO
