@@ -700,6 +700,36 @@
         .lb-poster { width: 48px; height: 72px; border-radius: 6px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.3s; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;}
         .lb-content:hover .lb-poster { transform: scale(1.08) rotate(-2deg); }
         .lb-title { font-size: 0.9rem; font-weight: 600; color: var(--text-main); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.3s; flex: 1;}
+
+        .lb-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            overflow: hidden;
+            flex: 1;
+            min-width: 0;
+        }
+        .lb-rating,
+        #lb-modal-rating {
+            color: #00e054;
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+        .lb-rating {
+            display: block;
+            font-size: 0.78rem;
+            min-height: 0.9rem;
+        }
+        #lb-modal-rating {
+            font-size: 1.08rem;
+            min-height: 1.3rem;
+            margin-top: -2px;
+        }
+        .lb-info .lb-title {
+            flex: initial;
+            width: 100%;
+        }
         .lb-content:hover .lb-title { color: #FF8000; }
         .letterboxd-card::after {
             content: 'Abrir card ←';
@@ -997,6 +1027,39 @@
             -webkit-transform: translateY(0) scale(1) translateZ(0);
         }
 
+    
+
+        /* Ajuste Letterboxd: título separado da avaliação, estrelas verdes abaixo */
+        .lb-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            overflow: hidden;
+            flex: 1;
+            min-width: 0;
+        }
+        .lb-info .lb-title {
+            flex: initial;
+            width: 100%;
+        }
+        .lb-rating,
+        #lb-modal-rating {
+            display: block;
+            color: #00e054 !important;
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+        .lb-rating {
+            font-size: 0.78rem;
+            min-height: 0.9rem;
+        }
+        #lb-modal-rating {
+            font-size: 1.08rem;
+            min-height: 1.3rem;
+            margin-top: -2px;
+        }
+
     </style>
 </head>
 <body>
@@ -1245,9 +1308,9 @@
 <div class="lb-header"><svg aria-hidden="true" class="icon" viewbox="0 0 512 512"><path d="M0 96C0 60.7 28.7 32 64 32l384 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM48 368l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 240l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 112l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16L64 96c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM160 128l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32L192 96c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-128 0z"></path></svg> Último Filme Visto</div>
 <div class="lb-content">
 <img alt="Capa" class="lb-poster" height="72" id="lb-poster" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='72' viewBox='0 0 48 72'%3E%3Crect width='48' height='72' rx='6' fill='%2314161e'/%3E%3Ctext x='24' y='38' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='8'%3EFilme%3C/text%3E%3C/svg%3E" width="48"/>
-<div class="trakt-info">
+<div class="lb-info">
 <span class="lb-title" id="lb-title">Procurando filmes...</span>
-<span class="trakt-rating" id="lb-rating-card"></span>
+<span class="lb-rating" id="lb-rating-card"></span>
 </div>
 </div>
 </div>
@@ -1842,6 +1905,65 @@
             return '★'.repeat(fullStars) + (hasHalfStar ? '½' : '');
         }
 
+
+        function renderLetterboxdStars(rating) {
+            if (rating === null || rating === undefined || rating === '') return '';
+
+            const ratingText = String(rating).trim();
+            if (!ratingText) return '';
+
+            if (/[★☆½]/.test(ratingText)) {
+                return ratingText.replace(/☆/g, '').replace(/[^★½]/g, '').trim();
+            }
+
+            const numericMatch = ratingText.match(/\d+(?:[\.,]\d+)?/);
+            if (!numericMatch) return '';
+
+            let numericRating = Number(numericMatch[0].replace(',', '.'));
+            if (!Number.isFinite(numericRating) || numericRating <= 0) return '';
+
+            if (numericRating > 5) {
+                numericRating = numericRating / 2;
+            }
+
+            const fullStars = Math.floor(numericRating);
+            const hasHalfStar = numericRating - fullStars >= 0.25;
+            return '★'.repeat(fullStars) + (hasHalfStar ? '½' : '');
+        }
+
+        function splitLetterboxdTitleAndRating(rawTitle) {
+            const titleText = String(rawTitle || '').trim();
+            if (!titleText) {
+                return { title: '', rating: '' };
+            }
+
+            const titleRatingMatch = titleText.match(/^(.*?)(?:\s*[-–—:|•·]\s*)?([★☆½\s]+)\s*$/);
+            const hasStarsAtEnd = titleRatingMatch && /[★½☆]/.test(titleRatingMatch[2]);
+
+            if (!hasStarsAtEnd) {
+                return { title: titleText, rating: '' };
+            }
+
+            return {
+                title: titleRatingMatch[1].trim() || titleText.replace(/[★☆½\s]+$/, '').trim(),
+                rating: renderLetterboxdStars(titleRatingMatch[2])
+            };
+        }
+
+        function normalizeLetterboxdData(data) {
+            const splitTitle = splitLetterboxdTitleAndRating(data?.title);
+            const rating = renderLetterboxdStars(data?.rating) ||
+                renderLetterboxdStars(data?.stars) ||
+                renderLetterboxdStars(data?.score) ||
+                splitTitle.rating;
+
+            return {
+                ...data,
+                title: splitTitle.title || 'Filme não encontrado',
+                rating
+            };
+        }
+
         // ==========================================
         // LETTERBOXD 
         // ==========================================
@@ -1860,8 +1982,9 @@
                 setImageSrcIfChanged(modalPoster, poster);
             }
             if (modalBg) modalBg.style.backgroundImage = `url('${poster}')`;
-            if (modalTitle) modalTitle.textContent = data.title || 'Filme não encontrado';
-            if (modalRating) modalRating.textContent = renderTraktStars(data.rating); 
+            const normalizedData = normalizeLetterboxdData(data);
+            if (modalTitle) modalTitle.textContent = normalizedData.title || 'Filme não encontrado';
+            if (modalRating) modalRating.textContent = normalizedData.rating; 
             if (openLink) openLink.href = data.link || 'https://letterboxd.com/kennowiski/';
         }
 
@@ -1881,10 +2004,12 @@
                     posterImg.onerror = function() { this.src = safeFallback; };
                     setImageSrcIfChanged(posterImg, data.poster || safeFallback);
                 }
-                if (titleSpan) titleSpan.textContent = data.title;
-                if (ratingSpan) ratingSpan.textContent = renderTraktStars(data.rating);
+                const normalizedData = normalizeLetterboxdData(data);
 
-                updateLbModal(data);
+                if (titleSpan) titleSpan.textContent = normalizedData.title;
+                if (ratingSpan) ratingSpan.textContent = normalizedData.rating;
+
+                updateLbModal(normalizedData);
 
             } catch (error) { console.error(error); }
         }
