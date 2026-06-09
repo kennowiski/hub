@@ -629,7 +629,7 @@
                 padding-right: 3px;
             }
             .spotify-history-item {
-                grid-template-columns: 58px minmax(0, 1fr) minmax(68px, 82px);
+                grid-template-columns: 58px minmax(0, 1fr) auto;
                 min-height: 98px;
                 padding: 14px 10px;
                 gap: 10px;
@@ -640,7 +640,14 @@
                 height: 58px;
                 border-radius: 11px;
             }
-            .spotify-history-track { font-size: 0.92rem; }
+            .spotify-history-track {
+                font-size: 0.92rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+                line-height: 1.16;
+            }
             .spotify-history-artist,
             .spotify-history-meta { font-size: 0.74rem; }
             .spotify-history-now {
@@ -660,9 +667,9 @@
             .spotify-history-header { margin-bottom: 10px; padding: 0 36px; }
             .spotify-history-title { font-size: 1.02rem; }
             .spotify-history-list { max-height: calc(100dvh - 116px); gap: 8px; }
-            .spotify-history-item { grid-template-columns: 52px minmax(0, 1fr) minmax(58px, 70px); min-height: 90px; padding: 12px 8px; gap: 8px; }
+            .spotify-history-item { grid-template-columns: 52px minmax(0, 1fr) auto; min-height: 90px; padding: 12px 8px; gap: 8px; }
             .spotify-history-cover { width: 52px; height: 52px; }
-            .spotify-history-track { font-size: 0.84rem; }
+            .spotify-history-track { font-size: 0.84rem; line-height: 1.16; }
             .spotify-history-artist,
             .spotify-history-meta { font-size: 0.68rem; }
             .spotify-history-now {
