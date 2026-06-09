@@ -400,9 +400,35 @@
         .spotify-offline { display: flex; align-items: center; gap: 16px; opacity: 0.5; }
         .spotify-icon-offline { font-size: 2.5rem; color: var(--text-muted); flex-shrink: 0;}
         .spotify-card { cursor: pointer; position: relative; }
+        .spotify-card::after {
+            content: '▶';
+            position: absolute;
+            right: 18px;
+            bottom: 14px;
+            font-size: 0.72rem;
+            color: #1DB954;
+            font-weight: 800;
+            opacity: 0;
+            transform: translateX(-3px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            pointer-events: none;
+            text-shadow: 0 0 12px rgba(29, 185, 84, 0.45);
+        }
+        .spotify-card:hover::after,
+        .spotify-card:focus-visible::after {
+            opacity: 0.9;
+            transform: translateX(0);
+        }
         .spotify-card:focus-visible {
             outline: 2px solid var(--accent);
             outline-offset: 4px;
+        }
+        @media (max-width: 899px) {
+            .spotify-card::after {
+                opacity: 0.55;
+                right: 16px;
+                bottom: 12px;
+            }
         }
 
         #spotify-history-modal {
