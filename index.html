@@ -494,10 +494,14 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            width: 100%;
+            width: auto; /* Mudado de 100% para auto para suportar a margem negativa */
             max-height: calc(100dvh - 178px);
             overflow-y: auto;
-            padding: 2px 8px 2px 2px;
+            margin-right: calc(-1 * clamp(18px, 3vw, 30px)); /* Empurra a barra pra borda direita */
+            padding-right: clamp(18px, 3vw, 30px); /* Restaura o espaçamento para as músicas */
+            padding-left: 2px;
+            padding-top: 2px;
+            padding-bottom: 2px;
         }
         .spotify-history-list::-webkit-scrollbar { width: 6px; }
         .spotify-history-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.16); border-radius: 999px; }
@@ -626,7 +630,8 @@
             .spotify-history-list {
                 max-height: calc(100dvh - 126px);
                 gap: 9px;
-                padding-right: 3px;
+                margin-right: -10px; /* Compensa o padding de 10px do card pai */
+                padding-right: 10px; /* Afasta os cards da barra de rolagem */
             }
             .spotify-history-item {
                 grid-template-columns: 58px minmax(0, 1fr) auto;
@@ -666,7 +671,12 @@
             .spotify-history-card { padding: 14px 8px 8px; }
             .spotify-history-header { margin-bottom: 10px; padding: 0 36px; }
             .spotify-history-title { font-size: 1.02rem; }
-            .spotify-history-list { max-height: calc(100dvh - 116px); gap: 8px; }
+            .spotify-history-list { 
+                max-height: calc(100dvh - 116px); 
+                gap: 8px; 
+                margin-right: -8px; 
+                padding-right: 8px; 
+            }
             .spotify-history-item { grid-template-columns: 52px minmax(0, 1fr) auto; min-height: 90px; padding: 12px 8px; gap: 8px; }
             .spotify-history-cover { width: 52px; height: 52px; }
             .spotify-history-track { font-size: 0.84rem; line-height: 1.16; }
@@ -2134,11 +2144,37 @@
         const catGif = document.getElementById('wyd-cat');
         window.addEventListener('contextmenu', function(evento) {
             evento.preventDefault(); 
+            
+            // Deixa o elemento visível primeiro para o navegador conseguir ler o tamanho dele
             catGif.style.display = 'block'; 
-            catGif.style.left = evento.clientX + 'px';
-            catGif.style.top = evento.clientY + 'px';
+            
+            // Pega a largura do gif (você definiu 180px no CSS) e a altura gerada
+            const catWidth = catGif.offsetWidth;
+            const catHeight = catGif.offsetHeight;
+            
+            // Coordenadas iniciais baseadas no clique do mouse
+            let posX = evento.clientX;
+            let posY = evento.clientY;
+            
+            // Margem de respiro para não encostar absurdamente na borda
+            const margem = 10; 
+
+            // Se a posição X + a largura do gato passar do tamanho da tela, recua a posição
+            if (posX + catWidth + margem > window.innerWidth) {
+                posX = window.innerWidth - catWidth - margem;
+            }
+            
+            // Se a posição Y + a altura do gato passar da altura da tela, sobe a posição
+            if (posY + catHeight + margem > window.innerHeight) {
+                posY = window.innerHeight - catHeight - margem;
+            }
+            
+            // Aplica as coordenadas corrigidas
+            catGif.style.left = posX + 'px';
+            catGif.style.top = posY + 'px';
         });
-        window.addEventListener('click', function() { catGif.style.display = 'none'; });
+        
+        window.addEventListener('click', function() { catGif.style.display = 'none'; });;
     </script>
 </body>
 </html>
