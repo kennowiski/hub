@@ -1393,66 +1393,19 @@
         });
 
         // ==========================================
-        // TYPEWRITER EFFECT (RESPONSIVO + TEXTO ÚNICO + LOOP INFINITO)
+        // TYPEWRITER EFFECT
         // ==========================================
-        const textoFixo = "Entusiasta de programação explorando conhecimento.";
-        
-        const frases = [
-            "Gamer, cinéfilo e amante da música.",
-            "Meu jogo favorito é o Overwatch.",
-            "Meu gênero de filme favorito é o terror.",
-            "Meu grupo de K-pop favorito é o Le Sserafim."
-        ];
-
+        const textToType = "Entusiasta de programa\u00E7\u00E3o explorando conhecimento. Gamer, cin\u00E9filo e amante da m\u00FAsica.";
         const typingElement = document.getElementById('typing-text');
-        let indexFraseAtual = 0;
-        let indexCaractere = 0;
-        let estaApagando = false;
-        
+        let typeIndex = 0;
         if (typingElement) typingElement.textContent = '';
 
         function typeWriter() {
             if (!typingElement) return;
-
-            if (indexCaractere < textoFixo.length) {
-                typingElement.textContent += textoFixo.charAt(indexCaractere);
-                indexCaractere++;
-                setTimeout(typeWriter, 25);
-            } else {
-                indexCaractere = 0;
-                setTimeout(loopDeFrases, 25);
-            }
-        }
-
-        function loopDeFrases() {
-            if (!typingElement) return;
-            const fraseAtual = frases[indexFraseAtual];
-
-            // A MÁGICA ACONTECE AQUI:
-            // Checa a largura da tela. Se for <= 768px (Celular), usa espaço " ". Se for PC, usa "<br>".
-            const separador = window.innerWidth <= 768 ? " " : "<br>";
-
-            if (!estaApagando) {
-                // MODO: DIGITANDO A FRASE
-                if (indexCaractere <= fraseAtual.length) {
-                    typingElement.innerHTML = textoFixo + separador + fraseAtual.substring(0, indexCaractere);
-                    indexCaractere++;
-                    setTimeout(loopDeFrases, 25);
-                } else {
-                    estaApagando = true;
-                    setTimeout(loopDeFrases, 1750); 
-                }
-            } else {
-                // MODO: APAGANDO A FRASE
-                if (indexCaractere > 0) {
-                    indexCaractere--;
-                    typingElement.innerHTML = textoFixo + separador + fraseAtual.substring(0, indexCaractere);
-                    setTimeout(loopDeFrases, 25);
-                } else {
-                    estaApagando = false;
-                    indexFraseAtual = (indexFraseAtual + 1) % frases.length;
-                    setTimeout(loopDeFrases, 500);
-                }
+            if (typeIndex < textToType.length) {
+                typingElement.textContent += textToType.charAt(typeIndex);
+                typeIndex++;
+                setTimeout(typeWriter, 25); 
             }
         }
 
