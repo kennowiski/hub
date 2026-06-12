@@ -8,9 +8,9 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link as="font" crossorigin="" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtmvCp50KnMw2pL3.woff2" rel="preload" type="font/woff2"/>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
 <link rel="preload" as="image" href="perfil.webp" fetchpriority="high">
-<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=0AMU5b5qUAYSxkv0BfJYMhNlJatU0f5GWBeR6pap15iN86BPbMiBBL5NPxUr6w6xcuFSqc7Qcss55L2KV1aKEbKGYpv7xM_VETsYR8yZY08xsHzFxVhleH-bGAKWZ9FqBHGkQ80P4UPbcQ0CQYBEBZyyvo6w4Bggqqv0tL7KFTQLJL8nm1XEmy2ZyLVDbNbA-fBKWCTh1hdx3qoNmAG8N6bvYaSe2XPxWYmHUm6VgTwvLxMYzdHsDEZD8h4fbfyfsREBKYhJ7AdvyId_dZFJKYHcN3eoCr5D2-FhySec4En8LHQARau2ChuzrP1N-Zlu" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jb250cmlidXRpb24udXNlcmNvbnRlbnQuZ29vZ2xlLmNvbS9kb3dubG9hZD9jPUNneGlZWEprWDNOMGIzSmhaMlVTVHhJTWNtVnhkV1Z6ZEY5a1lYUmhHajhLTURneU1URTJPRFF5TlRRME56STBOVE13TURBMk5UUXhOV0ZtWTJZeE5qTXdNREk1TldKalpUQmhPRE14TURjNVpCSUxFZ2NRNTVuaGlaVWNHQUUmZmlsZW5hbWU9aW5kZXguaHRtbCZvcGk9MTAzMTM1MDUw"/><style>
+<style>
         :root {
             --bg-color: #0f1117;
             --card-bg: rgba(20, 22, 30, 0.4); 
@@ -1249,7 +1249,10 @@
 <main class="bento-grid">
 <div class="card intro-card">
 <h1>Olá, eu sou o Kenny <span class="waving-hand">👋</span></h1>
-<p><span id="typing-text"></span><span class="cursor-blink"></span></p>
+<p>
+    <span>Entusiasta de programação explorando conhecimento.</span><br>
+    <span id="typing-text"></span><span class="cursor-blink"></span>
+</p>
 </div>
 <div class="card discord-card">
 <div class="discord-header">
@@ -1394,11 +1397,12 @@
         });
 
         // ==========================================
-        // TYPEWRITER EFFECT
+        // TYPEWRITER EFFECT (OTIMIZADO PARA LCP/FCP)
         // ==========================================
-        const textToType = "Entusiasta de programa\u00E7\u00E3o explorando conhecimento. Gamer, cin\u00E9filo e amante da m\u00FAsica.";
+        const textToType = "Gamer, cinéfilo e amante da música.";
         const typingElement = document.getElementById('typing-text');
         let typeIndex = 0;
+        
         if (typingElement) typingElement.textContent = '';
 
         function typeWriter() {
