@@ -1088,12 +1088,19 @@
             text-align: left;
         }
 
+        /* Otimização sem alterar visual: evita renderizar modais escondidos antes da hora */
+.tech-modal-overlay:not(.active),
+.trakt-modal-overlay:not(.active) {
+    content-visibility: hidden;
+    contain: layout style paint;
+}
+
     </style>
 </head>
 <body style="background-color: #0f1117;">
 <div class="bg-orb orb-1"></div>
 <div class="bg-orb orb-2"></div>
-<img alt="WYD Cat" id="wyd-cat" src="gato.gif" loading="lazy" decoding="async"/>
+<img alt="WYD Cat" id="wyd-cat" data-src="gato.gif" loading="lazy" decoding="async"/>
 <div class="tech-tooltip" id="tech-tooltip">
 <div class="tooltip-header">
 <span class="tt-name" id="tt-name">Nome</span>
@@ -1300,7 +1307,7 @@
 </div>
 </div>
 <div class="card photo-card">
-<img alt="Foto de perfil" class="profile-img" src="perfil.webp" fetchpriority="high" width="100" height="100" decoding="sync"/>
+<img alt="Foto de perfil" class="profile-img" src="perfil.webp" fetchpriority="high" loading="eager" width="140" height="140" decoding="async"/>
 </div>
 <div class="card projects-card" id="projects-card-mobile">
 <h2>Tecnologias</h2>
@@ -2160,39 +2167,53 @@
         });
         
         const catGif = document.getElementById('wyd-cat');
-        window.addEventListener('contextmenu', function(evento) {
-            evento.preventDefault(); 
-            
-            // Deixa o elemento visível primeiro para o navegador conseguir ler o tamanho dele
-            catGif.style.display = 'block'; 
-            
-            // Pega a largura do gif (você definiu 180px no CSS) e a altura gerada
-            const catWidth = catGif.offsetWidth;
-            const catHeight = catGif.offsetHeight;
-            
-            // Coordenadas iniciais baseadas no clique do mouse
-            let posX = evento.clientX;
-            let posY = evento.clientY;
-            
-            // Margem de respiro para não encostar absurdamente na borda
-            const margem = 10; 
 
-            // Se a posição X + a largura do gato passar do tamanho da tela, recua a posição
-            if (posX + catWidth + margem > window.innerWidth) {
-                posX = window.innerWidth - catWidth - margem;
-            }
-            
-            // Se a posição Y + a altura do gato passar da altura da tela, sobe a posição
-            if (posY + catHeight + margem > window.innerHeight) {
-                posY = window.innerHeight - catHeight - margem;
-            }
-            
-            // Aplica as coordenadas corrigidas
-            catGif.style.left = posX + 'px';
-            catGif.style.top = posY + 'px';
-        });
-        
-        window.addEventListener('click', function() { catGif.style.display = 'none'; });;
+function showCatAt(clickX, clickY) {
+    catGif.style.display = 'block';
+
+    const catWidth = catGif.offsetWidth || 180;
+    const catHeight = catGif.offsetHeight || 180;
+
+    let posX = clickX;
+    let posY = clickY;
+
+    const margem = 10;
+
+    if (posX + catWidth + margem > window.innerWidth) {
+        posX = window.innerWidth - catWidth - margem;
+    }
+
+    if (posY + catHeight + margem > window.innerHeight) {
+        posY = window.innerHeight - catHeight - margem;
+    }
+
+    catGif.style.left = posX + 'px';
+    catGif.style.top = posY + 'px';
+}
+
+window.addEventListener('contextmenu', function(evento) {
+    evento.preventDefault();
+
+    const clickX = evento.clientX;
+    const clickY = evento.clientY;
+
+    if (!catGif.getAttribute('src')) {
+        catGif.src = catGif.dataset.src;
+
+        if (!catGif.complete) {
+            catGif.addEventListener('load', () => {
+                showCatAt(clickX, clickY);
+            }, { once: true });
+            return;
+        }
+    }
+
+    showCatAt(clickX, clickY);
+});
+
+window.addEventListener('click', function() {
+    catGif.style.display = 'none';
+});
     </script>
 </body>
 </html>
