@@ -9,6 +9,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link as="font" crossorigin="" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtmvCp50KnMw2pL3.woff2" rel="preload" type="font/woff2"/>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link rel="preload" as="image" href="perfil.webp" fetchpriority="high">
 <style>
         :root {
             --bg-color: #0f1117;
@@ -1089,10 +1090,10 @@
 
     </style>
 </head>
-<body>
+<body style="background-color: #0f1117;">
 <div class="bg-orb orb-1"></div>
 <div class="bg-orb orb-2"></div>
-<img alt="WYD Cat" id="wyd-cat" src="gato.gif"/>
+<img alt="WYD Cat" id="wyd-cat" src="gato.gif" loading="lazy" decoding="async"/>
 <div class="tech-tooltip" id="tech-tooltip">
 <div class="tooltip-header">
 <span class="tt-name" id="tt-name">Nome</span>
@@ -1299,7 +1300,7 @@
 </div>
 </div>
 <div class="card photo-card">
-<img alt="Kenny" src="perfil.webp"/>
+<img alt="Foto de perfil" class="profile-img" src="perfil.webp" fetchpriority="high" width="100" height="100" decoding="sync"/>
 </div>
 <div class="card projects-card" id="projects-card-mobile">
 <h2>Tecnologias</h2>
