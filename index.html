@@ -8,8 +8,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link as="font" crossorigin="" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtmvCp50KnMw2pL3.woff2" rel="preload" type="font/woff2"/>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link rel="preload" as="image" href="perfil.webp" fetchpriority="high">
 <style>
         :root {
@@ -95,7 +94,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-family: 'Inter', sans-serif;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -109,11 +108,6 @@
         .bg-orb { position: fixed; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.4; animation: floatOrb 12s infinite alternate ease-in-out; }
         .orb-1 { width: 400px; height: 400px; background: #4f46e5; top: -100px; left: -100px; }
         .orb-2 { width: 350px; height: 350px; background: #c026d3; bottom: -50px; right: -50px; animation-delay: -5s; }
-        @media (max-width: 899px) {
-    .bg-orb {
-        display: none;
-    }
-}
 
         @keyframes floatOrb {
             0% { transform: translate(0, 0) scale(1); }
@@ -249,19 +243,27 @@
         }
 
         /* CARTÕES BASE (Otimização de Performance Aplicada) */
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         .card {
-    background-color: var(--card-bg);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 1px solid var(--card-border);
-    border-radius: 24px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease, background-color 0.4s ease;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-}
+            background-color: var(--card-bg);
+            /* Redução do blur para otimizar performance em GPUs mais fracas */
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease, background-color 0.4s ease;
+            opacity: 0; 
+            animation: fadeInSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            overflow: hidden; 
+        }
 
 
         .card:hover { 
@@ -271,6 +273,16 @@
             box-shadow: 0 0 24px var(--accent-glow);
             transform: translateY(-4px);
         }
+
+        .photo-card { animation-delay: 0.1s; }
+        .intro-card { animation-delay: 0.2s; }
+        .spotify-card { animation-delay: 0.3s; }
+        .letterboxd-card { animation-delay: 0.4s; }
+        .trakt-card { animation-delay: 0.45s; }
+        .projects-card { animation-delay: 0.5s; }
+        .discord-card { animation-delay: 0.6s; } 
+        .links-card { animation-delay: 0.7s; } 
+        .contact-card { animation-delay: 0.8s; }
 
         @keyframes wave { 0% { transform: rotate(0deg); } 10% { transform: rotate(14deg); } 20% { transform: rotate(-8deg); } 30% { transform: rotate(14deg); } 40% { transform: rotate(-4deg); } 50% { transform: rotate(10deg); } 60%, 100% { transform: rotate(0deg); } }
         .waving-hand { display: inline-block; transform-origin: bottom right; animation: wave 2.5s infinite; }
@@ -1237,7 +1249,7 @@
 <main class="bento-grid">
 <div class="card intro-card">
 <h1>Olá, eu sou o Kenny <span class="waving-hand">👋</span></h1>
-<p><span id="typing-text">Entusiasta de programação explorando conhecimento. Gamer, cinéfilo e amante da música.</span><span class="cursor-blink"></span></p>
+<p><span id="typing-text"></span><span class="cursor-blink"></span></p>
 </div>
 <div class="card discord-card">
 <div class="discord-header">
@@ -1288,7 +1300,7 @@
 </div>
 </div>
 <div class="card photo-card">
-<img alt="Foto de perfil" class="profile-img" src="perfil.webp" fetchpriority="high" loading="eager" width="140" height="140" decoding="async"/>
+<img alt="Foto de perfil" class="profile-img" src="perfil.webp" fetchpriority="high" width="100" height="100" decoding="sync"/>
 </div>
 <div class="card projects-card" id="projects-card-mobile">
 <h2>Tecnologias</h2>
@@ -1364,14 +1376,6 @@
             return document.visibilityState === 'visible';
         }
 
-function runAfterFirstPaint(callback) {
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(callback, { timeout: 2000 });
-    } else {
-        setTimeout(callback, 1000);
-    }
-}
-
         function setImageSrcIfChanged(img, newSrc) {
             if (!img || !newSrc) return;
             if (img.getAttribute('src') !== newSrc) img.src = newSrc;
@@ -1382,6 +1386,27 @@ function runAfterFirstPaint(callback) {
             if (container.dataset.currentHtml !== html) {
                 container.innerHTML = html;
                 container.dataset.currentHtml = html;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(typeWriter, 350);
+        });
+
+        // ==========================================
+        // TYPEWRITER EFFECT
+        // ==========================================
+        const textToType = "Entusiasta de programa\u00E7\u00E3o explorando conhecimento. Gamer, cin\u00E9filo e amante da m\u00FAsica.";
+        const typingElement = document.getElementById('typing-text');
+        let typeIndex = 0;
+        if (typingElement) typingElement.textContent = '';
+
+        function typeWriter() {
+            if (!typingElement) return;
+            if (typeIndex < textToType.length) {
+                typingElement.textContent += textToType.charAt(typeIndex);
+                typeIndex++;
+                setTimeout(typeWriter, 25); 
             }
         }
 
@@ -1475,6 +1500,9 @@ function runAfterFirstPaint(callback) {
                 }
             } catch (error) { console.error("Erro no Discord:", error); }
         }
+
+        fetchDiscordPresence();
+        setInterval(fetchDiscordPresence, 30000);
 
         // ==========================================
         // SISTEMA MUSICAL (SPOTIFY + LAST.FM)
@@ -1572,6 +1600,7 @@ function runAfterFirstPaint(callback) {
         }
         
         const MUSIC_REFRESH_INTERVAL = 20000;
+        fetchSpotify();
 
         // ==========================================
         // HISTÓRICO MUSICAL (LAST.FM)
@@ -1885,21 +1914,12 @@ function runAfterFirstPaint(callback) {
         if (spotifyHistoryModal) spotifyHistoryModal.addEventListener('click', (e) => { if (e.target === spotifyHistoryModal) closeSpotifyHistoryModalFn(); });
 
         window.addEventListener('load', () => {
-    runAfterFirstPaint(() => {
-        fetchDiscordPresence();
-        fetchSpotify();
-        fetchLetterboxd();
-        fetchTrakt();
-
-        preloadSpotifyHistory().catch(() => {});
-
-        setInterval(fetchDiscordPresence, 30000);
+            setTimeout(() => preloadSpotifyHistory().catch(() => {}), 900);
+        });
 
         setInterval(() => {
             refreshMusicAndHistory().catch(error => console.warn('Erro ao sincronizar música e histórico:', error));
         }, MUSIC_REFRESH_INTERVAL);
-    });
-});
 
         // ==========================================
         // FUNÇÕES GERAIS DE COMPARTILHAMENTO
@@ -2022,6 +2042,7 @@ function runAfterFirstPaint(callback) {
             } catch (error) { console.error(error); }
         }
         
+        fetchLetterboxd();
 
         const lbCard = document.getElementById('lb-card');
         const lbModal = document.getElementById('lb-modal');
@@ -2105,6 +2126,7 @@ function runAfterFirstPaint(callback) {
             } catch (error) { console.error('Erro no Trakt:', error); }
         }
 
+        fetchTrakt();
 
         const traktCard = document.getElementById('trakt-card');
         const traktModal = document.getElementById('trakt-modal');
