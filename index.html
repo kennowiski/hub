@@ -1088,19 +1088,12 @@
             text-align: left;
         }
 
-        /* Otimização sem alterar visual: evita renderizar modais escondidos antes da hora */
-.tech-modal-overlay:not(.active),
-.trakt-modal-overlay:not(.active) {
-    content-visibility: hidden;
-    contain: layout style paint;
-}
-
     </style>
 </head>
 <body style="background-color: #0f1117;">
 <div class="bg-orb orb-1"></div>
 <div class="bg-orb orb-2"></div>
-<img alt="WYD Cat" id="wyd-cat" data-src="gato.gif" loading="lazy" decoding="async"/>
+<img alt="WYD Cat" id="wyd-cat" src="gato.gif" loading="lazy" decoding="async"/>
 <div class="tech-tooltip" id="tech-tooltip">
 <div class="tooltip-header">
 <span class="tt-name" id="tt-name">Nome</span>
@@ -1202,7 +1195,7 @@
 <div class="trakt-share-bg" id="trakt-share-bg"></div>
 <div class="trakt-share-content">
 <div class="trakt-share-label label-trakt"><svg aria-hidden="true" class="icon" viewbox="0 0 640 512"><path d="M64 64l0 288 512 0 0-288L64 64zM0 64C0 28.7 28.7 0 64 0L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 416c-35.3 0-64-28.7-64-64L0 64zM128 448l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-384 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"></path></svg> Último episódio de série visto</div>
-<img alt="Capa" class="trakt-share-poster" height="255" id="trakt-modal-poster" loading="lazy" decoding="async" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='255' viewBox='0 0 170 255'%3E%3Crect width='170' height='255' rx='14' fill='%2314161e'/%3E%3Ctext x='85' y='132' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='18'%3ETV%3C/text%3E%3C/svg%3E" width="170"/>
+<img alt="Capa" class="trakt-share-poster" height="255" id="trakt-modal-poster" loading="lazy" src="https://s.ltrbxd.com/static/img/empty-poster-250.8491d904.png" width="170"/>
 <div>
 <h3 class="trakt-share-title" id="trakt-modal-title">Carregando...</h3>
 <p class="trakt-share-episode" id="trakt-modal-episode">Procurando episódio...</p>
@@ -1224,7 +1217,7 @@
 <div class="trakt-share-bg" id="lb-share-bg"></div>
 <div class="trakt-share-content">
 <div class="trakt-share-label label-lb"><svg aria-hidden="true" class="icon" viewbox="0 0 512 512"><path d="M0 96C0 60.7 28.7 32 64 32l384 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM48 368l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 240l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 112l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16L64 96c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM160 128l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32L192 96c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-128 0z"></path></svg> Último filme visto</div>
-<img alt="Capa" class="trakt-share-poster" height="255" id="lb-modal-poster" loading="lazy" decoding="async" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='255' viewBox='0 0 170 255'%3E%3Crect width='170' height='255' rx='14' fill='%2314161e'/%3E%3Ctext x='85' y='132' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='18'%3EFilme%3C/text%3E%3C/svg%3E" width="170"/>
+<img alt="Capa" class="trakt-share-poster" height="255" id="lb-modal-poster" loading="lazy" src="https://s.ltrbxd.com/static/img/empty-poster-250.8491d904.png" width="170"/>
 <div>
 <h3 class="trakt-share-title" id="lb-modal-title">Carregando...</h3>
 </div>
@@ -1307,7 +1300,7 @@
 </div>
 </div>
 <div class="card photo-card">
-<img alt="Foto de perfil" class="profile-img" src="perfil.webp" fetchpriority="high" loading="eager" width="140" height="140" decoding="async"/>
+<img alt="Foto de perfil" class="profile-img" src="perfil.webp" fetchpriority="high" width="100" height="100" decoding="sync"/>
 </div>
 <div class="card projects-card" id="projects-card-mobile">
 <h2>Tecnologias</h2>
@@ -1352,7 +1345,7 @@
 <div aria-label="Abrir card do último episódio visto no Trakt" class="card trakt-card" id="trakt-card" role="button" tabindex="0">
 <div class="trakt-header"><svg aria-hidden="true" class="icon" viewbox="0 0 640 512"><path d="M64 64l0 288 512 0 0-288L64 64zM0 64C0 28.7 28.7 0 64 0L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 416c-35.3 0-64-28.7-64-64L0 64zM128 448l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-384 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"></path></svg> Último episódio de série visto</div>
 <div class="trakt-content">
-<img alt="Capa" class="trakt-poster" height="72" id="trakt-poster" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='72' viewBox='0 0 48 72'%3E%3Crect width='48' height='72' rx='6' fill='%2314161e'/%3E%3Ctext x='24' y='38' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='8'%3ETV%3C/text%3E%3C/svg%3E" width="48"/>
+<img alt="Capa" class="trakt-poster" height="72" id="trakt-poster" src="https://s.ltrbxd.com/static/img/empty-poster-250.8491d904.png" width="48"/>
 <div class="trakt-info">
 <span class="trakt-title" id="trakt-title">Carregando...</span>
 <span class="trakt-episode" id="trakt-episode">Procurando episódio...</span>
@@ -1508,10 +1501,8 @@
             } catch (error) { console.error("Erro no Discord:", error); }
         }
 
-        window.addEventListener('load', () => {
-    setTimeout(fetchDiscordPresence, 1200);
-    setInterval(fetchDiscordPresence, 30000);
-});
+        fetchDiscordPresence();
+        setInterval(fetchDiscordPresence, 30000);
 
         // ==========================================
         // SISTEMA MUSICAL (SPOTIFY + LAST.FM)
@@ -1556,7 +1547,7 @@
 
                     setContainerHtmlIfChanged(spotifyContainer, `
                         <div class="spotify-playing">
-                            <img src="${hasAlbumImage ? data.albumImageUrl : fallbackCover}" class="spotify-art" alt="Capa do Álbum" width="72" height="72" decoding="async" style="animation: none;">
+                            <img src="${hasAlbumImage ? data.albumImageUrl : fallbackCover}" class="spotify-art" alt="Capa do Álbum" style="animation: none;">
                             <div class="spotify-info">
                                 <span class="spotify-label" style="color: ${historyLabelColor};">${historyIcon} ÚLTIMA MÚSICA OUVIDA</span>
                                 <strong class="spotify-track">${data.title}</strong>
@@ -1588,7 +1579,7 @@
 
                 setContainerHtmlIfChanged(spotifyContainer, `
                     <div class="spotify-playing">
-                        <img src="${data.albumImageUrl}" class="spotify-art" alt="Capa do Álbum" width="72" height="72" decoding="async" style="animation: ${pulseAnimation};">
+                        <img src="${data.albumImageUrl}" class="spotify-art" alt="Capa do Álbum" style="animation: ${pulseAnimation};">
                         <div class="spotify-info">
                             <span class="spotify-label" style="color: ${labelColor};">${labelIcon} ${labelText}</span>
                             <strong class="spotify-track">${data.title}</strong>
@@ -2169,53 +2160,39 @@
         });
         
         const catGif = document.getElementById('wyd-cat');
+        window.addEventListener('contextmenu', function(evento) {
+            evento.preventDefault(); 
+            
+            // Deixa o elemento visível primeiro para o navegador conseguir ler o tamanho dele
+            catGif.style.display = 'block'; 
+            
+            // Pega a largura do gif (você definiu 180px no CSS) e a altura gerada
+            const catWidth = catGif.offsetWidth;
+            const catHeight = catGif.offsetHeight;
+            
+            // Coordenadas iniciais baseadas no clique do mouse
+            let posX = evento.clientX;
+            let posY = evento.clientY;
+            
+            // Margem de respiro para não encostar absurdamente na borda
+            const margem = 10; 
 
-function showCatAt(clickX, clickY) {
-    catGif.style.display = 'block';
-
-    const catWidth = catGif.offsetWidth || 180;
-    const catHeight = catGif.offsetHeight || 180;
-
-    let posX = clickX;
-    let posY = clickY;
-
-    const margem = 10;
-
-    if (posX + catWidth + margem > window.innerWidth) {
-        posX = window.innerWidth - catWidth - margem;
-    }
-
-    if (posY + catHeight + margem > window.innerHeight) {
-        posY = window.innerHeight - catHeight - margem;
-    }
-
-    catGif.style.left = posX + 'px';
-    catGif.style.top = posY + 'px';
-}
-
-window.addEventListener('contextmenu', function(evento) {
-    evento.preventDefault();
-
-    const clickX = evento.clientX;
-    const clickY = evento.clientY;
-
-    if (!catGif.getAttribute('src')) {
-        catGif.src = catGif.dataset.src;
-
-        if (!catGif.complete) {
-            catGif.addEventListener('load', () => {
-                showCatAt(clickX, clickY);
-            }, { once: true });
-            return;
-        }
-    }
-
-    showCatAt(clickX, clickY);
-});
-
-window.addEventListener('click', function() {
-    catGif.style.display = 'none';
-});
+            // Se a posição X + a largura do gato passar do tamanho da tela, recua a posição
+            if (posX + catWidth + margem > window.innerWidth) {
+                posX = window.innerWidth - catWidth - margem;
+            }
+            
+            // Se a posição Y + a altura do gato passar da altura da tela, sobe a posição
+            if (posY + catHeight + margem > window.innerHeight) {
+                posY = window.innerHeight - catHeight - margem;
+            }
+            
+            // Aplica as coordenadas corrigidas
+            catGif.style.left = posX + 'px';
+            catGif.style.top = posY + 'px';
+        });
+        
+        window.addEventListener('click', function() { catGif.style.display = 'none'; });;
     </script>
 </body>
 </html>
