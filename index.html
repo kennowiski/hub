@@ -5,17 +5,27 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Portfólio do Kenny</title>
-    <link href="favicon.webp" rel="icon" type="image/webp" />
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link as="font" crossorigin=""
-        href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtmvCp50KnMw2pL3.woff2" rel="preload"
-        type="font/woff2" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap"
-        rel="stylesheet" />
-    <link rel="preload" as="image" href="perfil.webp" fetchpriority="high">
+    <link href="assets/images/favicon.webp" rel="icon" type="image/webp" />
+    <link rel="preload" as="font" href="fonts/Inter-VariableFont_opsz,wght.ttf" type="font/ttf" crossorigin>
+    <link rel="preload" as="font" href="fonts/FiraCode-VariableFont_wght.ttf" type="font/ttf" crossorigin>
+    <link rel="preload" as="image" href="assets/images/perfil.webp" fetchpriority="high">
     <style>
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Fira Code';
+            src: url('fonts/FiraCode-VariableFont_wght.ttf') format('truetype');
+            font-weight: 300 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
         :root {
             --bg-color: #0f1117;
             --card-bg: rgba(20, 22, 30, 0.4);
@@ -2167,7 +2177,7 @@
 <body style="background-color: #0f1117;">
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
-    <img alt="WYD Cat" id="wyd-cat" data-src="gato.gif" loading="lazy" decoding="async" />
+    <img alt="WYD Cat" id="wyd-cat" data-src="assets/images/gato.gif" loading="lazy" decoding="async" />
     <div class="tech-tooltip" id="tech-tooltip">
         <div class="tooltip-header">
             <span class="tt-name" id="tt-name">Nome</span>
@@ -2413,7 +2423,7 @@
         <div class="card discord-card">
             <div class="discord-header">
                 <div class="avatar-wrapper">
-                    <img alt="Avatar" id="discord-avatar" src="avatar-fallback.webp" />
+                    <img alt="Avatar" id="discord-avatar" src="assets/images/avatar-fallback.webp" />
                     <div class="status-indicator" id="discord-status-dot"></div>
                 </div>
                 <div class="discord-info">
@@ -2516,8 +2526,8 @@
             </div>
         </div>
         <div class="card photo-card">
-            <img alt="Foto de perfil" class="profile-img" src="perfil.webp" fetchpriority="high" loading="eager"
-                width="140" height="140" decoding="async" />
+            <img alt="Foto de perfil" class="profile-img" src="assets/images/perfil.webp" fetchpriority="high"
+                loading="eager" width="140" height="140" decoding="async" />
         </div>
         <div class="card projects-card" id="projects-card-mobile">
             <h2>Tecnologias</h2>
