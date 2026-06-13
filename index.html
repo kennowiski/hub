@@ -1067,10 +1067,8 @@
 
         .equalizer-bar {
             width: 4px;
-            height: 24px;
             background-color: #1DB954;
             border-radius: 2px;
-            transform-origin: bottom;
             animation: equalize 1s infinite ease-in-out;
         }
 
@@ -1094,11 +1092,11 @@
 
             0%,
             100% {
-                transform: scaleY(0.25);
+                height: 6px;
             }
 
             50% {
-                transform: scaleY(1);
+                height: 24px;
             }
         }
 
