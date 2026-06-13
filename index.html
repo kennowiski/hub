@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Portfólio do Kenny</title>
     <link href="assets/images/favicon.webp" rel="icon" type="image/webp" />
+    <link rel="preload" as="font" href="fonts/Inter.woff2" type="font/woff2" crossorigin>
     <link rel="preload" as="image" href="assets/images/perfil-mobile.webp" media="(max-width: 899px)"
         fetchpriority="high">
     <link rel="preload" as="image" href="assets/images/perfil.webp" media="(min-width: 900px)" fetchpriority="high">
@@ -2170,18 +2171,6 @@
         .trakt-modal-overlay:not(.active) {
             content-visibility: hidden;
             contain: layout style paint;
-        }
-
-        @media (max-width: 899px) {
-            .card {
-                opacity: 1 !important;
-                animation: none !important;
-                transform: none !important;
-            }
-
-            .photo-card img {
-                transition: none !important;
-            }
         }
     </style>
 </head>
