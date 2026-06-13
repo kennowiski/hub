@@ -7,8 +7,9 @@
     <title>Portfólio do Kenny</title>
     <link href="assets/images/favicon.webp" rel="icon" type="image/webp" />
     <link rel="preload" as="font" href="fonts/Inter.woff2" type="font/woff2" crossorigin>
-    <link rel="preload" as="font" href="fonts/FiraCode.woff2" type="font/woff2" crossorigin>
-    <link rel="preload" as="image" href="assets/images/perfil.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/images/perfil-mobile.webp" media="(max-width: 899px)"
+        fetchpriority="high">
+    <link rel="preload" as="image" href="assets/images/perfil.webp" media="(min-width: 900px)" fetchpriority="high">
     <style>
         @font-face {
             font-family: 'Inter';
@@ -2526,8 +2527,11 @@
             </div>
         </div>
         <div class="card photo-card">
-            <img alt="Foto de perfil" class="profile-img" src="assets/images/perfil.webp" fetchpriority="high"
-                loading="eager" width="140" height="140" decoding="async" />
+            <picture>
+                <source media="(max-width: 899px)" srcset="assets/images/perfil-mobile.webp">
+                <img alt="Foto de perfil" class="profile-img" src="assets/images/perfil.webp" fetchpriority="high"
+                    loading="eager" width="140" height="140" decoding="async" />
+            </picture>
         </div>
         <div class="card projects-card" id="projects-card-mobile">
             <h2>Tecnologias</h2>
