@@ -6,7 +6,8 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Portfólio do Kenny</title>
     <link href="assets/images/favicon.webp" rel="icon" type="image/webp" />
-    <link rel="preload" as="font" href="fonts/Inter.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="fonts/inter-v20-latin-regular.woff2" type="font/woff2" crossorigin>
+    <link rel="preload" as="font" href="fonts/inter-v20-latin-800.woff2" type="font/woff2" crossorigin>
     <link rel="preload" as="font" href="fonts/FiraCode.woff2" type="font/woff2" crossorigin>
     <link rel="preload" as="image" href="assets/images/perfil-mobile.webp" media="(max-width: 899px)"
         fetchpriority="high">
@@ -14,8 +15,40 @@
     <style>
         @font-face {
             font-family: 'Inter';
-            src: url('fonts/Inter.woff2') format('woff2');
-            font-weight: 400 800;
+            src: url('fonts/inter-v20-latin-regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/inter-v20-latin-500.woff2') format('woff2');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/inter-v20-latin-600.woff2') format('woff2');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/inter-v20-latin-700.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/inter-v20-latin-800.woff2') format('woff2');
+            font-weight: 800;
             font-style: normal;
             font-display: swap;
         }
@@ -1300,7 +1333,7 @@
             align-self: center;
             text-align: right;
             font-size: clamp(0.58rem, 1.1vw, 0.70rem);
-            font-weight: 900;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.6px;
             white-space: nowrap;
