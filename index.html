@@ -2172,26 +2172,6 @@
             content-visibility: hidden;
             contain: layout style paint;
         }
-
-        @media (max-width: 899px) {
-
-            .photo-card,
-            .intro-card {
-                opacity: 1 !important;
-                animation: mobileCriticalEntrance 0.35s cubic-bezier(0.16, 1, 0.3, 1) both !important;
-                animation-delay: 0s !important;
-            }
-
-            @keyframes mobileCriticalEntrance {
-                from {
-                    transform: translateY(8px) scale(0.985);
-                }
-
-                to {
-                    transform: translateY(0) scale(1);
-                }
-            }
-        }
     </style>
 </head>
 
