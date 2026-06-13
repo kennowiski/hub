@@ -1407,7 +1407,7 @@
         // ==========================================
         // TYPEWRITER EFFECT (OTIMIZADO PARA LCP/FCP)
         // ==========================================
-        const textToType = "Entusiasta de programação explorando conhecimento. Gamer, cinéfilo e amante da música.";
+        const textToType = "Gamer, cinéfilo e amante da música.";
         const typingElement = document.getElementById('typing-text');
         let typeIndex = 0;
         
@@ -1418,7 +1418,7 @@
             if (typeIndex < textToType.length) {
                 typingElement.textContent += textToType.charAt(typeIndex);
                 typeIndex++;
-                setTimeout(typeWriter, 10); 
+                setTimeout(typeWriter, 25); 
             }
         }
 
