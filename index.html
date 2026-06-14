@@ -2247,11 +2247,18 @@
         }
 
         .spotify-label-last {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 0.67rem;
-    letter-spacing: 1.2px;
-}
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.67rem;
+            letter-spacing: 1.2px;
+        }
+
+        .spotify-label-now {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.67rem;
+            letter-spacing: 1.2px;
+        }
     </style>
 </head>
 
@@ -3009,7 +3016,7 @@
                     <div class="spotify-playing">
                         <img src="${data.albumImageUrl}" class="spotify-art" alt="Capa do Álbum" width="72" height="72" decoding="async" style="animation: ${pulseAnimation};">
                         <div class="spotify-info">
-                            <span class="spotify-label" style="color: ${labelColor};">${labelIcon} ${labelText}</span>
+                            <span class="spotify-label spotify-label-now" style="color: ${labelColor};">${labelIcon} ${labelText}</span>
                             <strong class="spotify-track">${data.title}</strong>
                             <span class="spotify-artist">${data.artist}</span>
                         </div>
