@@ -140,7 +140,7 @@
 
         window.addEventListener('load', () => {
             setTimeout(fetchDiscordPresence, 1200);
-            setInterval(fetchDiscordPresence, 30000);
+            setInterval(fetchDiscordPresence, 60000);
         });
 
         // ==========================================
