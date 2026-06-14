@@ -2236,6 +2236,22 @@
                 will-change: opacity;
             }
         }
+
+        .lb-header,
+        .trakt-header,
+        .trakt-share-label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.67rem;
+            letter-spacing: 1.2px;
+        }
+
+        .spotify-label-last {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.67rem;
+    letter-spacing: 1.2px;
+}
     </style>
 </head>
 
@@ -2961,7 +2977,7 @@
                         <div class="spotify-playing">
                             <img src="${hasAlbumImage ? data.albumImageUrl : fallbackCover}" class="spotify-art" alt="Capa do Álbum" width="72" height="72" decoding="async" style="animation: none;">
                             <div class="spotify-info">
-                                <span class="spotify-label" style="color: ${historyLabelColor};">${historyIcon} ÚLTIMA MÚSICA OUVIDA</span>
+                                <span class="spotify-label spotify-label-last" style="color: ${historyLabelColor};">${historyIcon} ÚLTIMA MÚSICA OUVIDA</span>
                                 <strong class="spotify-track">${data.title}</strong>
                                 <span class="spotify-artist">${data.artist}</span>
                             </div>
