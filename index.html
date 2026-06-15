@@ -3712,11 +3712,36 @@
         // ==========================================
         const GEMINI_RECOMMENDATION_API = 'https://spotify-api-xi-gold.vercel.app/api/gemini';
 
+        const GEMINI_CACHE_PREFIX = 'gemini-recommendation:';
+        const GEMINI_CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 horas
+        const GEMINI_COOLDOWN_MS = 10000; // 10 segundos
+
+        const geminiPendingBySource = {
+            lb: false,
+            trakt: false
+        };
+
+        const geminiLastRequestAtBySource = {
+            lb: 0,
+            trakt: 0
+        };
+
         function getGeminiElements(source) {
             return {
                 button: document.getElementById(`${source}-recommend-btn`),
                 box: document.getElementById(`${source}-recommendation-box`)
             };
+        }
+
+        function getGeminiButtonHtml() {
+            return `
+        <svg aria-hidden="true" class="icon" viewbox="0 0 512 512">
+            <path
+                d="M512 80c0 18-14.3 34.6-38.4 48c24.1 13.4 38.4 30 38.4 48c0 26.5-31.3 48-70 48s-70-21.5-70-48c0-18 14.3-34.6 38.4-48c-24.1-13.4-38.4-30-38.4-48c0-26.5 31.3-48 70-48s70 21.5 70 48zM160 96l32 96l96 32l-96 32l-32 96l-32-96l-96-32l96-32l32-96zM448 320l16 48l48 16l-48 16l-16 48l-16-48l-48-16l48-16l16-48zM256 352l24 72l72 24l-72 24l-24 72l-24-72l-72-24l72-24l24-72z">
+            </path>
+        </svg>
+        Recomendação
+    `;
         }
 
         function resetGeminiRecommendation(source) {
@@ -3737,7 +3762,70 @@
                 .replace(/'/g, '&#039;');
         }
 
-        function renderGeminiRecommendations(source, recommendations) {
+        function getGeminiCacheKey(target) {
+            const type = String(target?.type || '').toLowerCase().trim();
+            const title = String(target?.title || '').toLowerCase().trim();
+            const year = String(target?.year || '').toLowerCase().trim();
+
+            return `${GEMINI_CACHE_PREFIX}${type}:${title}:${year}`;
+        }
+
+        function getCachedGeminiRecommendation(target) {
+            try {
+                const cacheKey = getGeminiCacheKey(target);
+                const rawCache = localStorage.getItem(cacheKey);
+
+                if (!rawCache) return null;
+
+                const cached = JSON.parse(rawCache);
+
+                if (!cached?.createdAt || !Array.isArray(cached.recommendations)) {
+                    localStorage.removeItem(cacheKey);
+                    return null;
+                }
+
+                const isExpired = Date.now() - cached.createdAt > GEMINI_CACHE_TTL_MS;
+
+                if (isExpired) {
+                    localStorage.removeItem(cacheKey);
+                    return null;
+                }
+
+                return cached.recommendations;
+            } catch {
+                return null;
+            }
+        }
+
+        function setCachedGeminiRecommendation(target, recommendations) {
+            try {
+                if (!Array.isArray(recommendations) || recommendations.length === 0) return;
+
+                const cacheKey = getGeminiCacheKey(target);
+
+                localStorage.setItem(cacheKey, JSON.stringify({
+                    createdAt: Date.now(),
+                    recommendations: recommendations.slice(0, 3)
+                }));
+            } catch {
+                // Se o navegador bloquear localStorage, apenas ignora.
+            }
+        }
+
+        function showGeminiMessage(source, title, message) {
+            const { box } = getGeminiElements(source);
+
+            if (!box) return;
+
+            box.innerHTML = `
+        <span class="gemini-recommendation-title">${escapeGeminiHtml(title)}</span>
+        ${escapeGeminiHtml(message)}
+    `;
+
+            box.classList.add('active');
+        }
+
+        function renderGeminiRecommendations(source, recommendations, fromCache = false) {
             const { box } = getGeminiElements(source);
 
             if (!box) return;
@@ -3765,13 +3853,39 @@
             }).join('');
 
             box.innerHTML = `
-        <span class="gemini-recommendation-title">Recomendações da IA</span>
+        <span class="gemini-recommendation-title">
+            Recomendações da IA${fromCache ? ' · cache' : ''}
+        </span>
         <div class="gemini-recommendation-list">
             ${itemsHtml}
         </div>
     `;
 
             box.classList.add('active');
+        }
+
+        function getGeminiFriendlyErrorMessage(status, data) {
+            if (status === 429) {
+                return 'Limite temporário de uso da IA atingido. Tente novamente em alguns minutos.';
+            }
+
+            if (status === 503) {
+                return 'A IA está sobrecarregada agora. Tente novamente em instantes.';
+            }
+
+            if (data?.details?.error?.message) {
+                return data.details.error.message;
+            }
+
+            if (data?.details) {
+                return String(data.details);
+            }
+
+            if (data?.error) {
+                return String(data.error);
+            }
+
+            return 'Não foi possível gerar recomendações agora.';
         }
 
         async function handleGeminiRecommendation(source) {
@@ -3782,24 +3896,55 @@
             const { button, box } = getGeminiElements(source);
 
             if (!target || !target.title) {
-                if (box) {
-                    box.innerHTML = `
-                <span class="gemini-recommendation-title">Recomendação</span>
-                Ainda não há dados suficientes para recomendar.
-            `;
-                    box.classList.add('active');
-                }
+                showGeminiMessage(
+                    source,
+                    'Recomendação',
+                    'Ainda não há dados suficientes para recomendar.'
+                );
+                return;
+            }
+
+            if (geminiPendingBySource[source]) {
+                showGeminiMessage(
+                    source,
+                    'Recomendação',
+                    'Aguarde a recomendação atual terminar.'
+                );
+                return;
+            }
+
+            const cachedRecommendations = getCachedGeminiRecommendation(target);
+
+            if (cachedRecommendations) {
+                renderGeminiRecommendations(source, cachedRecommendations, true);
+                return;
+            }
+
+            const now = Date.now();
+            const timeSinceLastRequest = now - geminiLastRequestAtBySource[source];
+
+            if (timeSinceLastRequest < GEMINI_COOLDOWN_MS) {
+                const secondsToWait = Math.ceil((GEMINI_COOLDOWN_MS - timeSinceLastRequest) / 1000);
+
+                showGeminiMessage(
+                    source,
+                    'Recomendação',
+                    `Aguarde ${secondsToWait} segundo(s) antes de pedir outra recomendação.`
+                );
 
                 return;
             }
 
             try {
+                geminiPendingBySource[source] = true;
+                geminiLastRequestAtBySource[source] = Date.now();
+
                 if (button) {
                     button.disabled = true;
                     button.innerHTML = `
-    <span class="gemini-loader" aria-hidden="true" style="width: 14px; height: 14px; border-width: 2px;"></span>
-    Gerando...
-`;
+                <span class="gemini-loader" aria-hidden="true" style="width: 14px; height: 14px; border-width: 2px;"></span>
+                Gerando...
+            `;
                 }
 
                 if (box) {
@@ -3818,34 +3963,34 @@
                     body: JSON.stringify(target)
                 });
 
-                const data = await response.json();
+                const data = await response.json().catch(() => ({}));
 
                 if (!response.ok || data.error) {
-                    throw new Error(data.error || 'Erro ao gerar recomendação.');
+                    throw new Error(getGeminiFriendlyErrorMessage(response.status, data));
                 }
 
-                renderGeminiRecommendations(source, data.recommendations);
+                const recommendations = Array.isArray(data.recommendations)
+                    ? data.recommendations.slice(0, 3)
+                    : [];
+
+                setCachedGeminiRecommendation(target, recommendations);
+                renderGeminiRecommendations(source, recommendations);
             } catch (error) {
                 console.error('Erro ao buscar recomendação Gemini:', error);
 
-                if (box) {
-                    box.innerHTML = `
-                <span class="gemini-recommendation-title">Recomendação</span>
-                Não foi possível gerar recomendações agora.
-            `;
-                    box.classList.add('active');
-                }
+                showGeminiMessage(
+                    source,
+                    'Recomendação',
+                    error instanceof Error
+                        ? error.message
+                        : 'Não foi possível gerar recomendações agora.'
+                );
             } finally {
+                geminiPendingBySource[source] = false;
+
                 if (button) {
                     button.disabled = false;
-                    button.innerHTML = `
-    <svg aria-hidden="true" class="icon" viewbox="0 0 512 512">
-        <path
-            d="M512 80c0 18-14.3 34.6-38.4 48c24.1 13.4 38.4 30 38.4 48c0 26.5-31.3 48-70 48s-70-21.5-70-48c0-18 14.3-34.6 38.4-48c-24.1-13.4-38.4-30-38.4-48c0-26.5 31.3-48 70-48s70 21.5 70 48zM160 96l32 96l96 32l-96 32l-32 96l-32-96l-96-32l96-32l32-96zM448 320l16 48l48 16l-48 16l-16 48l-16-48l-48-16l48-16l16-48zM256 352l24 72l72 24l-72 24l-24 72l-24-72l-72-24l72-24l24-72z">
-        </path>
-    </svg>
-    Recomendação
-`;
+                    button.innerHTML = getGeminiButtonHtml();
                 }
             }
         }
