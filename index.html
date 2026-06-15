@@ -1913,7 +1913,10 @@
 
         .trakt-share-actions {
             display: flex;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            gap: 10px;
             width: 100%;
             margin-top: 18px;
             position: relative;
@@ -1927,8 +1930,12 @@
             text-decoration: none;
             border-radius: 12px;
             padding: 11px 12px;
+            font-family: 'Inter', sans-serif;
             font-size: 0.82rem;
             font-weight: 700;
+            line-height: 1;
+            appearance: none;
+            -webkit-appearance: none;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1951,10 +1958,67 @@
             color: #fecaca;
         }
 
-        .lb-share-btn.primary {
-            background: rgba(255, 128, 0, 0.16);
-            border-color: rgba(255, 128, 0, 0.35);
-            color: #fed7aa;
+        .gemini-share-btn.primary {
+            background: rgba(129, 140, 248, 0.16);
+            border-color: rgba(129, 140, 248, 0.38);
+            color: #c7d2fe;
+        }
+
+        .trakt-share-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .gemini-recommendation-box {
+            display: none;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 310px;
+            margin: 14px auto 0;
+            padding: 14px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            text-align: left;
+            font-size: 0.78rem;
+            line-height: 1.45;
+        }
+
+        .gemini-recommendation-box.active {
+            display: block;
+        }
+
+        .gemini-recommendation-box strong {
+            color: var(--text-main);
+        }
+
+        .gemini-recommendation-title {
+            display: block;
+            color: var(--accent);
+            font-size: 0.70rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+            margin-bottom: 10px;
+        }
+
+        .gemini-recommendation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .gemini-recommendation-item {
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .gemini-recommendation-item:first-child {
+            padding-top: 0;
+            border-top: none;
         }
 
         @media (max-width: 899px) {
@@ -2202,6 +2266,27 @@
             text-align: left;
         }
 
+        @keyframes gemini-spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .gemini-loader {
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(129, 140, 248, 0.22);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: gemini-spin 0.8s linear infinite;
+            box-shadow: 0 0 18px rgba(129, 140, 248, 0.28);
+            flex-shrink: 0;
+        }
+
 
         /* Otimização sem alterar visual: evita renderizar modais escondidos antes da hora */
         .tech-modal-overlay:not(.active),
@@ -2433,7 +2518,16 @@
                             </path>
                         </svg> Abrir no Trakt
                     </a>
+                    <button class="trakt-share-btn gemini-share-btn primary" id="trakt-recommend-btn" type="button">
+                        <svg aria-hidden="true" class="icon" viewbox="0 0 512 512">
+                            <path
+                                d="M512 80c0 18-14.3 34.6-38.4 48c24.1 13.4 38.4 30 38.4 48c0 26.5-31.3 48-70 48s-70-21.5-70-48c0-18 14.3-34.6 38.4-48c-24.1-13.4-38.4-30-38.4-48c0-26.5 31.3-48 70-48s70 21.5 70 48zM160 96l32 96l96 32l-96 32l-32 96l-32-96l-96-32l96-32l32-96zM448 320l16 48l48 16l-48 16l-16 48l-16-48l-48-16l48-16l16-48zM256 352l24 72l72 24l-72 24l-24 72l-24-72l-72-24l72-24l24-72z">
+                            </path>
+                        </svg>
+                        Recomendação
+                    </button>
                 </div>
+                <div class="gemini-recommendation-box" id="trakt-recommendation-box" aria-live="polite"></div>
             </div>
         </div>
     </div>
@@ -2471,7 +2565,16 @@
                             </path>
                         </svg> Abrir no Letterboxd
                     </a>
+                    <button class="trakt-share-btn gemini-share-btn primary" id="lb-recommend-btn" type="button">
+                        <svg aria-hidden="true" class="icon" viewbox="0 0 512 512">
+                            <path
+                                d="M512 80c0 18-14.3 34.6-38.4 48c24.1 13.4 38.4 30 38.4 48c0 26.5-31.3 48-70 48s-70-21.5-70-48c0-18 14.3-34.6 38.4-48c-24.1-13.4-38.4-30-38.4-48c0-26.5 31.3-48 70-48s70 21.5 70 48zM160 96l32 96l96 32l-96 32l-32 96l-32-96l-96-32l96-32l32-96zM448 320l16 48l48 16l-48 16l-16 48l-16-48l-48-16l48-16l16-48zM256 352l24 72l72 24l-72 24l-24 72l-24-72l-72-24l72-24l24-72z">
+                            </path>
+                        </svg>
+                        Recomendação
+                    </button>
                 </div>
+                <div class="gemini-recommendation-box" id="lb-recommendation-box" aria-live="polite"></div>
             </div>
         </div>
     </div>
@@ -3423,6 +3526,9 @@
             };
         }
 
+        let currentMovieRecommendationTarget = null;
+        let currentSeriesRecommendationTarget = null;
+
         // ==========================================
         // LETTERBOXD 
         // ==========================================
@@ -3442,6 +3548,16 @@
             }
             if (modalBg) modalBg.style.backgroundImage = `url('${poster}')`;
             const normalizedData = normalizeLetterboxdData(data);
+
+            currentMovieRecommendationTarget = {
+                type: 'movie',
+                title: normalizedData.title || 'Filme não encontrado',
+                year: data.year || data.releaseYear || '',
+                extra: normalizedData.rating ? `Avaliação: ${normalizedData.rating}` : ''
+            };
+
+            resetGeminiRecommendation('lb');
+
             if (modalTitle) modalTitle.textContent = normalizedData.title || 'Filme não encontrado';
             if (modalRating) modalRating.textContent = normalizedData.rating;
             if (openLink) openLink.href = data.link || 'https://letterboxd.com/kennowiski/';
@@ -3520,6 +3636,15 @@
                 modalPoster.onerror = function () { this.src = safeFallback; };
                 setImageSrcIfChanged(modalPoster, poster);
             }
+            currentSeriesRecommendationTarget = {
+                type: 'series',
+                title: data.show || 'Série não encontrada',
+                year: data.year || '',
+                extra: episodeText ? `Episódio atual: ${episodeText}` : ''
+            };
+
+            resetGeminiRecommendation('trakt');
+
             if (modalBg) modalBg.style.backgroundImage = `url('${poster}')`;
             if (modalTitle) modalTitle.textContent = data.show || 'Série não encontrada';
             if (modalEpisode) modalEpisode.textContent = episodeText;
@@ -3581,6 +3706,168 @@
         }
         if (closeTraktModalBtn) closeTraktModalBtn.addEventListener('click', closeTraktModalFn);
         if (traktModal) traktModal.addEventListener('click', (e) => { if (e.target === traktModal) closeTraktModalFn(); });
+
+        // ==========================================
+        // RECOMENDAÇÕES COM GEMINI
+        // ==========================================
+        const GEMINI_RECOMMENDATION_API = 'https://spotify-api-xi-gold.vercel.app/api/gemini';
+
+        function getGeminiElements(source) {
+            return {
+                button: document.getElementById(`${source}-recommend-btn`),
+                box: document.getElementById(`${source}-recommendation-box`)
+            };
+        }
+
+        function resetGeminiRecommendation(source) {
+            const { box } = getGeminiElements(source);
+
+            if (!box) return;
+
+            box.classList.remove('active');
+            box.innerHTML = '';
+        }
+
+        function escapeGeminiHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function renderGeminiRecommendations(source, recommendations) {
+            const { box } = getGeminiElements(source);
+
+            if (!box) return;
+
+            if (!Array.isArray(recommendations) || recommendations.length === 0) {
+                box.innerHTML = `
+            <span class="gemini-recommendation-title">Recomendação</span>
+            Nenhuma recomendação encontrada agora.
+        `;
+                box.classList.add('active');
+                return;
+            }
+
+            const itemsHtml = recommendations.slice(0, 3).map((item) => {
+                const title = escapeGeminiHtml(item.title || 'Título não informado');
+                const year = item.year ? ` (${escapeGeminiHtml(item.year)})` : '';
+                const reason = escapeGeminiHtml(item.reason || 'Obra com elementos parecidos.');
+
+                return `
+            <div class="gemini-recommendation-item">
+                <strong>${title}${year}</strong><br>
+                <span>${reason}</span>
+            </div>
+        `;
+            }).join('');
+
+            box.innerHTML = `
+        <span class="gemini-recommendation-title">Recomendações da IA</span>
+        <div class="gemini-recommendation-list">
+            ${itemsHtml}
+        </div>
+    `;
+
+            box.classList.add('active');
+        }
+
+        async function handleGeminiRecommendation(source) {
+            const target = source === 'lb'
+                ? currentMovieRecommendationTarget
+                : currentSeriesRecommendationTarget;
+
+            const { button, box } = getGeminiElements(source);
+
+            if (!target || !target.title) {
+                if (box) {
+                    box.innerHTML = `
+                <span class="gemini-recommendation-title">Recomendação</span>
+                Ainda não há dados suficientes para recomendar.
+            `;
+                    box.classList.add('active');
+                }
+
+                return;
+            }
+
+            try {
+                if (button) {
+                    button.disabled = true;
+                    button.innerHTML = `
+    <span class="gemini-loader" aria-hidden="true" style="width: 14px; height: 14px; border-width: 2px;"></span>
+    Gerando...
+`;
+                }
+
+                if (box) {
+                    box.innerHTML = `
+                <span class="gemini-recommendation-title">Recomendação</span>
+                Buscando sugestões parecidas<span class="loading-dots"></span>
+            `;
+                    box.classList.add('active');
+                }
+
+                const response = await fetch(GEMINI_RECOMMENDATION_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(target)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    throw new Error(data.error || 'Erro ao gerar recomendação.');
+                }
+
+                renderGeminiRecommendations(source, data.recommendations);
+            } catch (error) {
+                console.error('Erro ao buscar recomendação Gemini:', error);
+
+                if (box) {
+                    box.innerHTML = `
+                <span class="gemini-recommendation-title">Recomendação</span>
+                Não foi possível gerar recomendações agora.
+            `;
+                    box.classList.add('active');
+                }
+            } finally {
+                if (button) {
+                    button.disabled = false;
+                    button.innerHTML = `
+    <svg aria-hidden="true" class="icon" viewbox="0 0 512 512">
+        <path
+            d="M512 80c0 18-14.3 34.6-38.4 48c24.1 13.4 38.4 30 38.4 48c0 26.5-31.3 48-70 48s-70-21.5-70-48c0-18 14.3-34.6 38.4-48c-24.1-13.4-38.4-30-38.4-48c0-26.5 31.3-48 70-48s70 21.5 70 48zM160 96l32 96l96 32l-96 32l-32 96l-32-96l-96-32l96-32l32-96zM448 320l16 48l48 16l-48 16l-16 48l-16-48l-48-16l48-16l16-48zM256 352l24 72l72 24l-72 24l-24 72l-24-72l-72-24l72-24l24-72z">
+        </path>
+    </svg>
+    Recomendação
+`;
+                }
+            }
+        }
+
+        const lbRecommendBtn = document.getElementById('lb-recommend-btn');
+        const traktRecommendBtn = document.getElementById('trakt-recommend-btn');
+
+        if (lbRecommendBtn) {
+            lbRecommendBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                handleGeminiRecommendation('lb');
+            });
+        }
+
+        if (traktRecommendBtn) {
+            traktRecommendBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                handleGeminiRecommendation('trakt');
+            });
+        }
 
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
