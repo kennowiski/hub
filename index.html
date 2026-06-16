@@ -2340,6 +2340,29 @@
             font-size: 0.67rem;
             letter-spacing: 1.2px;
         }
+
+
+        /* Mobile: tecnologias em grade estática, sem carrossel animado */
+        @media (max-width: 899px) {
+            .carousel-container {
+                -webkit-mask-image: none;
+                mask-image: none;
+                overflow: visible;
+                padding: 10px 0 0;
+            }
+
+            .carousel-track {
+                animation: none !important;
+                width: 100%;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .carousel-track .tech-box:nth-child(n+10) {
+                display: none;
+            }
+        }
     </style>
 </head>
 
