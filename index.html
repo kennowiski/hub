@@ -2340,35 +2340,45 @@
             font-size: 0.67rem;
             letter-spacing: 1.2px;
         }
+    
 
-
-        /* Mobile: tecnologias em grade estática 3x3, sem carrossel animado */
+        /* Otimizações de FPS no mobile: mantém o visual, mas reduz custo de GPU */
         @media (max-width: 899px) {
-            .carousel-container {
-                -webkit-mask-image: none;
-                mask-image: none;
-                overflow: visible;
-                padding: 10px 0 4px;
+            .bg-orb {
+                filter: blur(60px);
+                opacity: 0.24;
+                animation-duration: 22s;
             }
 
             .carousel-track {
-                animation: none !important;
-                display: grid;
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 12px;
-                width: 100%;
+                animation-duration: 28s;
+                will-change: transform;
             }
 
-            .carousel-track .tech-box {
-                width: 100%;
-                height: 58px;
+            .card:hover,
+            .tech-box:hover,
+            .trakt-card:hover .trakt-poster,
+            .letterboxd-card:hover .lb-poster,
+            .photo-card:hover img {
+                transform: none !important;
+                box-shadow: none !important;
             }
 
-            .carousel-track .tech-box:nth-child(n+10) {
-                display: none;
+            .trakt-modal-overlay,
+            .tech-modal-overlay {
+                backdrop-filter: blur(6px);
+                -webkit-backdrop-filter: blur(6px);
+            }
+
+            .card,
+            .bg-orb,
+            .photo-card img,
+            .tech-modal-container,
+            .trakt-modal-container {
+                will-change: auto;
             }
         }
-    </style>
+</style>
 </head>
 
 <body style="background-color: #0f1117;">
