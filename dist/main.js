@@ -160,7 +160,7 @@ async function fetchSpotify() {
         return;
     const spotifyContainer = document.getElementById('spotify-card-container');
     try {
-        const vercelUrl = 'https://spotify-api-xi-gold.vercel.app/api/spotify';
+        const vercelUrl = 'https://kennowiski-api-hub.vercel.app/api/spotify';
         const response = await fetch(vercelUrl);
         const data = await response.json();
         lastSpotifyData = data;
@@ -378,7 +378,7 @@ function renderSpotifyHistory(tracks, message = '') {
     spotifyHistoryList.innerHTML = items + (message ? `<div class="spotify-history-empty">${escapeHtml(message)}</div>` : '');
 }
 async function fetchSpotifyHistory() {
-    const baseUrl = 'https://spotify-api-xi-gold.vercel.app';
+    const baseUrl = 'https://kennowiski-api-hub.vercel.app';
     const endpoints = [
         `${baseUrl}/api/lastfm?limit=10`,
         `${baseUrl}/api/lastfm/recent?limit=10`,
@@ -605,7 +605,7 @@ function updateLbModal(data) {
 }
 async function fetchLetterboxd() {
     try {
-        const response = await fetch('https://spotify-api-xi-gold.vercel.app/api/letterboxd');
+        const response = await fetch('https://kennowiski-api-hub.vercel.app/api/letterboxd');
         const data = await response.json();
         if (!data.title)
             return;
@@ -694,7 +694,7 @@ function updateTraktModal(data) {
 }
 async function fetchTrakt() {
     try {
-        const response = await fetch('https://spotify-api-xi-gold.vercel.app/api/trakt');
+        const response = await fetch('https://kennowiski-api-hub.vercel.app/api/trakt');
         const data = await response.json();
         if (data.error)
             return;
@@ -751,7 +751,7 @@ if (traktModal)
 // ==========================================
 // RECOMENDAÇÕES COM GEMINI
 // ==========================================
-const GEMINI_RECOMMENDATION_API = 'https://spotify-api-xi-gold.vercel.app/api/gemini';
+const GEMINI_RECOMMENDATION_API = 'https://kennowiski-api-hub.vercel.app/api/gemini';
 const GEMINI_CACHE_PREFIX = 'gemini-recommendation:';
 const GEMINI_CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24 horas
 const GEMINI_COOLDOWN_MS = 10000; // 10 segundos
