@@ -259,3 +259,35 @@ body {
         padding-right: 24px !important;
     }
 }
+
+/* Ajuste desktop: aumenta um pouco a altura visual do bloco central */
+@media (min-width: 576px) {
+    .links-card {
+        padding-top: 46px !important;
+        padding-bottom: 46px !important;
+    }
+
+    .profile {
+        margin-bottom: 34px !important;
+    }
+
+    .links-list {
+        gap: 16px !important;
+    }
+}
+
+/* Ajuste desktop: aumenta a altura visual do bloco central */
+@media (min-width: 576px) {
+    .links-card {
+        padding-top: 56px !important;
+        padding-bottom: 56px !important;
+    }
+
+    .profile {
+        margin-bottom: 38px !important;
+    }
+
+    .links-list {
+        gap: 17px !important;
+    }
+}
