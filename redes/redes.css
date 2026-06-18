@@ -1,0 +1,449 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    min-height: 100%;
+    background: #101116;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #ffffff;
+    background:
+        radial-gradient(circle at 72% 28%, rgba(67, 72, 64, 0.72), transparent 25rem),
+        radial-gradient(circle at 22% 30%, rgba(177, 136, 112, 0.88), transparent 30rem),
+        linear-gradient(135deg, #b9937e 0%, #1c1d24 48%, #111217 100%);
+    background-attachment: fixed;
+}
+
+.links-page {
+    width: min(100%, 760px);
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 70px 22px 56px;
+    position: relative;
+}
+
+.close-link {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 10;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 2.1rem;
+    line-height: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+}
+
+.links-card {
+    width: min(100%, 560px);
+    margin: 0 auto;
+    padding: 18px 44px 48px;
+    border-radius: 22px;
+    background: rgba(15, 16, 22, 0.96);
+    box-shadow: 0 34px 90px rgba(0, 0, 0, 0.42);
+}
+
+.top-actions {
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.share-button {
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    cursor: default;
+    color: #111217;
+    background: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.hero {
+    position: relative;
+    width: min(100%, 330px);
+    aspect-ratio: 1 / 1.08;
+    margin: 0 auto 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #18191f;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.02);
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 42% 0 0;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.86));
+    pointer-events: none;
+}
+
+.hero-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 18px;
+    z-index: 1;
+    text-align: center;
+    padding: 0 16px;
+}
+
+.hero-overlay h1 {
+    font-size: clamp(1.75rem, 6vw, 2.35rem);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    margin-bottom: 8px;
+}
+
+.hero-overlay p {
+    font-size: 0.98rem;
+    line-height: 1.35;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 14px;
+}
+
+.hero-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.hero-icons a {
+    color: #ffffff;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+}
+
+.hero-icons svg {
+    width: 25px;
+    height: 25px;
+    fill: currentColor;
+    display: block;
+}
+
+.links-list {
+    display: grid;
+    gap: 16px;
+}
+
+.link-button {
+    min-height: 62px;
+    border-radius: 999px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 54px 1fr 54px;
+    align-items: center;
+    text-decoration: none;
+    color: #111217;
+    background: #ffffff;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.link-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
+}
+
+.link-button span:nth-child(2) {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+.link-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    color: #111217;
+}
+
+.link-icon svg {
+    width: 34px;
+    height: 34px;
+    fill: currentColor;
+    display: block;
+}
+
+@media (max-width: 640px) {
+    .links-page {
+        padding: 52px 20px 36px;
+    }
+
+    .links-card {
+        padding: 16px 28px 38px;
+        border-radius: 20px;
+    }
+
+    .hero {
+        width: min(100%, 310px);
+        margin-bottom: 28px;
+    }
+
+    .link-button {
+        min-height: 64px;
+        grid-template-columns: 48px 1fr 48px;
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 420px) {
+    .links-page {
+        padding-inline: 14px;
+    }
+
+    .links-card {
+        padding-inline: 20px;
+    }
+
+    .hero-overlay h1 {
+        font-size: 1.75rem;
+    }
+
+    .hero-overlay p {
+        font-size: 0.88rem;
+    }
+}
+
+/* Ajuste do degradê inferior da foto na página de redes */
+.links-card {
+    background: #0f1016;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 68%;
+    z-index: 1;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(15, 16, 22, 0) 0%,
+            rgba(15, 16, 22, 0.35) 35%,
+            rgba(15, 16, 22, 0.78) 68%,
+            #0f1016 100%
+        );
+    pointer-events: none;
+}
+
+.hero-overlay {
+    z-index: 2;
+}
+
+/* Remove botão de compartilhar e aumenta a imagem principal */
+.top-actions {
+    display: none;
+}
+
+.links-card {
+    padding-top: 36px;
+}
+
+.hero {
+    width: 100%;
+    max-width: none;
+    aspect-ratio: 1 / 1.18;
+    margin-bottom: 30px;
+}
+
+.hero-image {
+    transform: none;
+    object-fit: cover;
+    object-position: center top;
+}
+
+@media (max-width: 640px) {
+    .links-card {
+        padding-top: 34px;
+    }
+
+    .hero {
+        width: 100%;
+        aspect-ratio: 1 / 1.22;
+    }
+}
+
+/* Ajuste final: foto integrada ao card, estilo Linktree */
+.top-actions {
+    display: none !important;
+}
+
+.links-card {
+    padding: 34px 42px 48px !important;
+    background: #0f1016 !important;
+}
+
+.hero {
+    width: 100% !important;
+    max-width: 390px !important;
+    aspect-ratio: 1 / 1.18 !important;
+    margin: 0 auto 34px !important;
+    border-radius: 12px 12px 0 0 !important;
+    overflow: hidden !important;
+    background: #0f1016 !important;
+}
+
+.hero-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+    transform: none !important;
+    display: block !important;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 72%;
+    z-index: 1;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(15, 16, 22, 0) 0%,
+            rgba(15, 16, 22, 0.16) 28%,
+            rgba(15, 16, 22, 0.58) 58%,
+            rgba(15, 16, 22, 0.9) 82%,
+            #0f1016 100%
+        );
+    pointer-events: none;
+}
+
+.hero-overlay {
+    z-index: 2 !important;
+    bottom: 16px !important;
+}
+
+.hero-overlay h1 {
+    font-size: clamp(1.75rem, 5.4vw, 2.25rem) !important;
+    letter-spacing: -0.04em !important;
+    margin-bottom: 6px !important;
+}
+
+.hero-overlay p {
+    max-width: 320px;
+    margin: 0 auto 13px !important;
+    font-size: 0.88rem !important;
+    line-height: 1.25 !important;
+}
+
+.hero-icons {
+    gap: 18px !important;
+}
+
+.hero-icons a {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.hero-icons svg {
+    width: 23px !important;
+    height: 23px !important;
+}
+
+.links-list {
+    margin-top: 0 !important;
+}
+
+@media (max-width: 640px) {
+    .links-card {
+        padding: 30px 28px 40px !important;
+    }
+
+    .hero {
+        max-width: none !important;
+        aspect-ratio: 1 / 1.22 !important;
+        margin-bottom: 30px !important;
+    }
+
+    .hero-overlay {
+        bottom: 15px !important;
+    }
+}
+
+/* Mobile: card colado nas laterais */
+@media (max-width: 640px) {
+    .links-page {
+        width: 100%;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .links-card {
+        width: 100% !important;
+        max-width: none !important;
+        border-radius: 0 !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    .hero {
+        width: 100% !important;
+        max-width: none !important;
+    }
+}
+
+/* Correção mobile: card perto das laterais, mas mantendo proporção e bordas */
+@media (max-width: 640px) {
+    .links-page {
+        width: 100%;
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+    }
+
+    .links-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 22px !important;
+        padding-left: 22px !important;
+        padding-right: 22px !important;
+    }
+
+    .hero {
+        width: 100% !important;
+        max-width: 390px !important;
+        aspect-ratio: 1 / 1.18 !important;
+        border-radius: 12px 12px 0 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
