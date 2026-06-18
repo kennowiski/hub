@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap");
 
 * {
     box-sizing: border-box;
@@ -7,100 +7,110 @@
 }
 
 :root {
-    --profile-bg: #FDB1CB;
-    --desktop-frame: color-mix(in srgb, #FDB1CB 88%, black 12%);
-    --button-bg: #FEFBF4;
+    --pink: #fdb1cb;
+    --button-bg: #fefbf4;
     --text: #000000;
-    --link-gap: 14px;
-    --button-radius: 28px;
-    --profile-width: 580px;
+    --gap: 14px;
+    --radius: 28px;
 }
 
 html {
     min-height: 100%;
-    background: var(--profile-bg);
+    background: #16161a;
 }
 
 body {
     min-height: 100vh;
     font-family: "Space Mono", Inter, system-ui, sans-serif;
     color: var(--text);
-    background: var(--profile-bg);
+    background:
+        linear-gradient(rgba(20, 12, 40, 0.16), rgba(20, 12, 40, 0.22)),
+        url("../assets/images/wall.webp") center / cover fixed no-repeat;
     overflow-x: hidden;
 }
 
 .links-page {
     width: 100%;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    padding-top: 40px;
+    display: grid;
+    place-items: center;
+    padding: 34px 16px;
 }
 
 .links-card {
     position: relative;
-    width: 100%;
-    max-width: var(--profile-width);
-    min-height: calc(100vh - 40px);
-    padding: 96px var(--link-gap) 48px;
-    background: var(--profile-bg);
-    border-radius: 24px 24px 0 0;
-    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.15);
+    width: min(100%, 430px);
+    padding: 34px 18px 32px;
+    border-radius: 28px;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(253, 177, 203, 0.92) 0%,
+            rgba(239, 166, 215, 0.88) 48%,
+            rgba(203, 161, 238, 0.90) 100%
+        );
+    box-shadow:
+        0 26px 60px rgba(0, 0, 0, 0.28),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .close-link {
-    position: fixed;
-    top: 54px;
-    left: calc(50% - min(50%, 290px) + var(--link-gap));
-    z-index: 20;
-    width: 40px;
-    height: 40px;
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 10;
+    width: 38px;
+    height: 38px;
     border-radius: 16px;
     display: grid;
     place-items: center;
     color: #000000;
-    background: color-mix(in srgb, rgba(255, 255, 255, 0.50), rgba(0, 0, 0, 0) 12%);
-    outline: 1px solid rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(16px) brightness(1.4);
-    -webkit-backdrop-filter: blur(16px) brightness(1.4);
+    background: rgba(255, 255, 255, 0.64);
+    outline: 1px solid rgba(255, 255, 255, 0.42);
+    backdrop-filter: blur(14px) brightness(1.15);
+    -webkit-backdrop-filter: blur(14px) brightness(1.15);
     text-decoration: none;
     font-family: Inter, system-ui, sans-serif;
-    font-size: 1.7rem;
+    font-size: 1.85rem;
     line-height: 1;
 }
 
 .profile {
     text-align: center;
-    margin-bottom: 28px;
+    padding-top: 32px;
+    margin-bottom: 30px;
 }
 
 .profile-photo {
-    width: 96px;
-    height: 96px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     object-fit: cover;
     object-position: center top;
     display: block;
     margin: 0 auto 16px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
 }
 
 .profile h1 {
-    max-width: calc(100% - 48px);
     margin: 0 auto;
     font-family: Inter, system-ui, sans-serif;
-    font-size: 1.5rem;
-    line-height: 1.2;
-    font-weight: 600;
+    font-size: 1.82rem;
+    line-height: 1.15;
+    font-weight: 700;
     color: var(--text);
     overflow-wrap: break-word;
 }
 
 .profile-quote {
-    max-width: calc(100% - 84px);
-    margin: 4px auto 8px;
+    max-width: 340px;
+    margin: 7px auto 12px;
     font-family: "Space Mono", monospace;
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 1rem;
+    line-height: 1.35;
     font-weight: 500;
     color: var(--text);
     overflow-wrap: anywhere;
@@ -111,8 +121,8 @@ body {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 0;
-    margin-top: 8px;
+    gap: 2px;
+    margin-top: 10px;
 }
 
 .social-icons a {
@@ -128,10 +138,6 @@ body {
     transition: transform 0.16s ease;
 }
 
-.social-icons a:hover {
-    transform: scale(1.075);
-}
-
 .social-icons svg {
     width: 32px;
     height: 32px;
@@ -142,18 +148,18 @@ body {
 .links-list {
     display: flex;
     flex-direction: column;
-    gap: var(--link-gap);
+    gap: var(--gap);
 }
 
 .link-row {
     position: relative;
     width: 100%;
     min-height: 64px;
-    border-radius: var(--button-radius);
+    border-radius: var(--radius);
     display: grid;
-    grid-template-columns: 64px 1fr 36px;
+    grid-template-columns: 64px 1fr 64px;
     align-items: center;
-    padding: 8px 12px 8px 8px;
+    padding: 8px;
     color: #000000;
     background: var(--button-bg);
     text-decoration: none;
@@ -162,12 +168,6 @@ body {
         0.9px 1.8px 2.5px -0.6px hsl(0deg 0% 6.7% / 0.026),
         2px 4px 5.5px -1.2px hsl(0deg 0% 6.7% / 0.031),
         4.6px 9.3px 12.8px -1.7px hsl(0deg 0% 6.7% / 0.035);
-    transition: transform 0.16s ease, background 0.16s ease;
-}
-
-.link-row:hover {
-    transform: scale(1.015);
-    background: color-mix(in srgb, var(--button-bg) 93%, #000000 7%);
 }
 
 .link-thumb {
@@ -190,7 +190,7 @@ body {
 .link-label {
     text-align: center;
     font-family: "Space Mono", monospace;
-    font-size: 14px;
+    font-size: 0.96rem;
     line-height: 1.2;
     font-weight: 500;
     color: #000000;
@@ -199,18 +199,14 @@ body {
 }
 
 .link-menu {
-    justify-self: center;
-    font-family: Inter, system-ui, sans-serif;
-    font-size: 1.25rem;
-    line-height: 1;
-    color: #000000;
-    opacity: 0.5;
+    display: none;
 }
 
 @media (max-width: 575px) {
-    html,
     body {
-        background: var(--profile-bg);
+        background:
+            linear-gradient(rgba(20, 12, 40, 0.10), rgba(20, 12, 40, 0.18)),
+            url("../assets/images/wall.webp") center / cover fixed no-repeat;
     }
 
     .links-page {
@@ -221,114 +217,45 @@ body {
 
     .links-card {
         width: 100%;
-        max-width: none;
         min-height: 100vh;
-        padding: 96px var(--link-gap) 42px;
         border-radius: 0;
+        padding: 34px 18px 34px;
         box-shadow: none;
     }
 
-    .close-link {
-        top: var(--link-gap);
-        left: var(--link-gap);
-    }
-
     .profile {
-        margin-bottom: 28px;
+        padding-top: 36px;
+        margin-bottom: 30px;
     }
 
-    .profile h1 {
-        font-size: 1.5rem;
-    }
-
-    .profile-quote {
-        font-size: 15px;
-    }
-
-    .link-label {
-        font-size: 14px;
-    }
-}
-
-/* Ajuste: imagem de fundo + aumento de textos em 10% */
-body {
-    background:
-        linear-gradient(rgba(253, 177, 203, 0.34), rgba(203, 161, 238, 0.42)),
-        url("../assets/images/wall.webp") center / cover fixed no-repeat !important;
-}
-
-.links-page {
-    background: transparent !important;
-}
-
-.links-card {
-    background:
-        linear-gradient(
-            180deg,
-            rgba(253, 177, 203, 0.82) 0%,
-            rgba(239, 166, 215, 0.78) 48%,
-            rgba(203, 161, 238, 0.82) 100%
-        ) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-/* Textos +10% */
-.profile h1 {
-    font-size: calc(1.5rem * 1.1) !important;
-}
-
-.profile-quote {
-    font-size: calc(16px * 1.1) !important;
-}
-
-.link-label {
-    font-size: calc(14px * 1.1) !important;
-}
-
-.link-menu {
-    font-size: calc(1.25rem * 1.1) !important;
-}
-
-.close-link {
-    font-size: calc(1.7rem * 1.1) !important;
-}
-
-@media (max-width: 575px) {
-    .profile h1 {
-        font-size: calc(1.5rem * 1.1) !important;
-    }
-
-    .profile-quote {
-        font-size: calc(15px * 1.1) !important;
-    }
-
-    .link-label {
-        font-size: calc(14px * 1.1) !important;
-    }
-}
-
-/* Ajuste: avatar +25% e remoção dos três pontinhos dos cards */
-.profile-photo {
-    width: 120px !important;
-    height: 120px !important;
-}
-
-.link-menu {
-    display: none !important;
-}
-
-.link-row {
-    grid-template-columns: 64px 1fr 64px !important;
-}
-
-@media (max-width: 575px) {
     .profile-photo {
-        width: 108px !important;
-        height: 108px !important;
+        width: 108px;
+        height: 108px;
+    }
+
+    .profile h1 {
+        font-size: 1.7rem;
+    }
+
+    .profile-quote {
+        max-width: 330px;
+        font-size: 0.94rem;
     }
 
     .link-row {
-        grid-template-columns: 64px 1fr 64px !important;
+        min-height: 64px;
+        grid-template-columns: 64px 1fr 64px;
+    }
+
+    .link-label {
+        font-size: 0.92rem;
+    }
+}
+/* Ajuste desktop: aumenta um pouco o bloco central */
+@media (min-width: 576px) {
+    .links-card {
+        width: min(100%, 480px) !important;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
     }
 }
