@@ -447,3 +447,128 @@ body {
         margin-right: auto !important;
     }
 }
+
+/* Mobile real: layout full screen, sem card arredondado */
+@media (max-width: 640px) {
+    html,
+    body {
+        width: 100%;
+        min-height: 100%;
+        background: #0f1016 !important;
+        overflow-x: hidden;
+    }
+
+    .links-page {
+        width: 100% !important;
+        max-width: none !important;
+        min-height: 100vh;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .links-card {
+        width: 100% !important;
+        max-width: none !important;
+        min-height: 100vh;
+        margin: 0 !important;
+        padding: 0 40px 42px !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: #0f1016 !important;
+    }
+
+    .hero {
+        width: calc(100% + 80px) !important;
+        max-width: none !important;
+        margin-left: -40px !important;
+        margin-right: -40px !important;
+        margin-top: 0 !important;
+        margin-bottom: 38px !important;
+        border-radius: 0 !important;
+        aspect-ratio: 1 / 1.24 !important;
+        background: #0f1016 !important;
+    }
+
+    .hero-image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center top !important;
+        transform: none !important;
+    }
+
+    .hero::after {
+        height: 62% !important;
+        background:
+            linear-gradient(
+                to bottom,
+                rgba(15, 16, 22, 0) 0%,
+                rgba(15, 16, 22, 0.25) 34%,
+                rgba(15, 16, 22, 0.72) 68%,
+                #0f1016 100%
+            ) !important;
+    }
+
+    .hero-overlay {
+        bottom: 28px !important;
+        padding: 0 28px !important;
+    }
+
+    .hero-overlay h1 {
+        font-size: 2.35rem !important;
+        line-height: 1 !important;
+        margin-bottom: 10px !important;
+    }
+
+    .hero-overlay p {
+        max-width: 320px;
+        font-size: 1rem !important;
+        line-height: 1.35 !important;
+        margin-bottom: 20px !important;
+    }
+
+    .hero-icons {
+        gap: 24px !important;
+    }
+
+    .hero-icons a {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .hero-icons svg {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .links-list {
+        gap: 18px !important;
+    }
+
+    .link-button {
+        min-height: 78px !important;
+        border-radius: 999px !important;
+        padding: 0 26px !important;
+        grid-template-columns: 58px 1fr 58px !important;
+    }
+
+    .link-button span:nth-child(2) {
+        font-size: 1.2rem !important;
+        font-weight: 500 !important;
+    }
+
+    .link-icon svg {
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    .close-link {
+        top: 22px !important;
+        left: 22px !important;
+        width: 58px !important;
+        height: 58px !important;
+        font-size: 2.4rem !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        z-index: 20 !important;
+    }
+}
