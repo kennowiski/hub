@@ -572,3 +572,80 @@ body {
         z-index: 20 !important;
     }
 }
+
+/* Ajuste fino mobile: reduz proporções para ficar mais próximo do modelo */
+@media (max-width: 640px) {
+    .links-card {
+        padding: 0 40px 36px !important;
+    }
+
+    .hero {
+        width: calc(100% + 80px) !important;
+        margin-left: -40px !important;
+        margin-right: -40px !important;
+        margin-bottom: 30px !important;
+        aspect-ratio: 1 / 1.16 !important;
+    }
+
+    .hero-overlay {
+        bottom: 24px !important;
+        padding: 0 28px !important;
+    }
+
+    .hero-overlay h1 {
+        font-size: 2rem !important;
+        line-height: 1 !important;
+        margin-bottom: 8px !important;
+        letter-spacing: -0.035em !important;
+    }
+
+    .hero-overlay p {
+        max-width: 330px !important;
+        font-size: 0.9rem !important;
+        line-height: 1.25 !important;
+        margin-bottom: 17px !important;
+        font-weight: 600 !important;
+    }
+
+    .hero-icons {
+        gap: 22px !important;
+    }
+
+    .hero-icons a {
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    .hero-icons svg {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    .links-list {
+        gap: 16px !important;
+    }
+
+    .link-button {
+        min-height: 68px !important;
+        padding: 0 24px !important;
+        grid-template-columns: 52px 1fr 52px !important;
+    }
+
+    .link-button span:nth-child(2) {
+        font-size: 1.05rem !important;
+        font-weight: 500 !important;
+    }
+
+    .link-icon svg {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .close-link {
+        top: 22px !important;
+        left: 22px !important;
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 2.1rem !important;
+    }
+}
