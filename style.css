@@ -2364,3 +2364,65 @@
                 will-change: auto;
             }
         }
+
+/* Padroniza o botão Redes sociais no mobile */
+a[aria-label="Redes sociais"] > svg:first-child {
+    width: 1.1rem;
+    height: 1.1rem;
+    min-width: 1.1rem;
+    fill: currentColor;
+}
+
+a[aria-label="Redes sociais"] > span {
+    flex: 1;
+    text-align: left;
+}
+
+a[aria-label="Redes sociais"] .external-icon {
+    width: 0.95rem;
+    height: 0.95rem;
+    min-width: 0.95rem;
+    fill: currentColor;
+    opacity: 0.9;
+}
+
+/* Correção final: padroniza botão Redes sociais com os outros links mobile */
+a[aria-label="Redes sociais"] {
+    display: grid !important;
+    grid-template-columns: 1.15rem 1fr 1rem !important;
+    align-items: center !important;
+    column-gap: 0.75rem !important;
+}
+
+a[aria-label="Redes sociais"] > svg:first-child {
+    width: 1.15rem !important;
+    height: 1.15rem !important;
+    min-width: 1.15rem !important;
+    fill: currentColor !important;
+    justify-self: center !important;
+}
+
+a[aria-label="Redes sociais"] > span {
+    justify-self: start !important;
+    text-align: left !important;
+    margin: 0 !important;
+}
+
+a[aria-label="Redes sociais"] .external-icon {
+    width: 1rem !important;
+    height: 1rem !important;
+    min-width: 1rem !important;
+    fill: currentColor !important;
+    justify-self: end !important;
+    opacity: 1 !important;
+}
+
+/* Correção: deixa o ícone externo do botão Redes sociais no mesmo tamanho dos outros */
+a[aria-label="Redes sociais"] .external-icon {
+    width: 1.15rem !important;
+    height: 1.15rem !important;
+    min-width: 1.15rem !important;
+    min-height: 1.15rem !important;
+    fill: currentColor !important;
+    opacity: 1 !important;
+}
