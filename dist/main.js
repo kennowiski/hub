@@ -163,9 +163,12 @@ async function fetchSpotify() {
         const vercelUrl = 'https://kennowiski-api-hub.vercel.app/api/spotify';
         const response = await fetch(vercelUrl);
         const data = await response.json();
-        lastSpotifyData = data;
-        syncCurrentTrackWithCachedHistory();
-        const hasTrackInfo = data.title && data.artist;
+        const responseHasTrackInfo = data.title && data.artist;
+        if (data.isPlaying || responseHasTrackInfo) {
+            lastSpotifyData = data;
+            syncCurrentTrackWithCachedHistory();
+        }
+        const hasTrackInfo = responseHasTrackInfo;
         const hasAlbumImage = data.albumImageUrl;
         if (!data.isPlaying && hasTrackInfo) {
             const historyLabelColor = '#8aa0b8';
@@ -184,15 +187,38 @@ async function fetchSpotify() {
             return;
         }
         if (!data.isPlaying) {
-            setContainerHtmlIfChanged(spotifyContainer, `
-                        <div class="spotify-offline">
-                            <svg class="icon spotify-icon-offline" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.2 9.4c3.6-1.1 7.2-.6 9.6.8M7.7 12.2c2.9-.8 5.8-.4 7.7.7M8.3 14.8c2-.5 4-.3 5.5.5" fill="none" stroke="var(--bg-color)" stroke-width="1.7" stroke-linecap="round"/></svg>
+            const cachedTrack = lastSpotifyData && lastSpotifyData.title && lastSpotifyData.artist
+                ? lastSpotifyData
+                : null;
+            if (cachedTrack) {
+                const historyLabelColor = '#8aa0b8';
+                const historyIcon = cachedTrack.provider === 'lastfm' ? svgIcon('lastfm') : svgIcon('clock');
+                const fallbackCover = 'https://placehold.co/160x160/14161e/94a3b8?text=%E2%99%AA';
+                setContainerHtmlIfChanged(spotifyContainer, `
+                        <div class="spotify-playing">
+                            <img src="${cachedTrack.albumImageUrl || cachedTrack.imageUrl || fallbackCover}" class="spotify-art" alt="Capa do Álbum" width="72" height="72" decoding="async" style="animation: none;">
                             <div class="spotify-info">
-                                <span class="spotify-label" style="color: var(--text-muted);"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="18" r="2.5" fill="currentColor"/><circle cx="17" cy="16" r="2.5" fill="currentColor"/></svg> Status Musical</span>
-                                <strong class="spotify-track">Sincronizando<span class="loading-dots"></span></strong>
+                                <span class="spotify-label spotify-label-last" style="color: ${historyLabelColor};">${historyIcon} ÚLTIMA MÚSICA OUVIDA</span>
+                                <strong class="spotify-track">${cachedTrack.title}</strong>
+                                <span class="spotify-artist">${cachedTrack.artist}</span>
                             </div>
                         </div>
                     `);
+                return;
+            }
+            setContainerHtmlIfChanged(spotifyContainer, `
+                    <div class="spotify-offline">
+                        <svg class="icon spotify-icon-offline" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="7" cy="18" r="2.5" fill="currentColor"/>
+                            <circle cx="17" cy="16" r="2.5" fill="currentColor"/>
+                        </svg>
+                        <div class="spotify-info">
+                            <span class="spotify-label" style="color: var(--text-muted);">Status Musical</span>
+                            <strong class="spotify-track">Nenhuma música recente encontrada. Tentando novamente<span class="loading-dots"></span></strong>
+                        </div>
+                    </div>
+                `);
             return;
         }
         const isLastFm = data.provider === 'lastfm';
