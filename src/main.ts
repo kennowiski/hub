@@ -205,7 +205,7 @@
                             <svg class="icon spotify-icon-offline" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.2 9.4c3.6-1.1 7.2-.6 9.6.8M7.7 12.2c2.9-.8 5.8-.4 7.7.7M8.3 14.8c2-.5 4-.3 5.5.5" fill="none" stroke="var(--bg-color)" stroke-width="1.7" stroke-linecap="round"/></svg>
                             <div class="spotify-info">
                                 <span class="spotify-label" style="color: var(--text-muted);"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="18" r="2.5" fill="currentColor"/><circle cx="17" cy="16" r="2.5" fill="currentColor"/></svg> Status Musical</span>
-                                <strong class="spotify-track">Pausado no momento...</strong>
+                                <strong class="spotify-track">Sincronizando<span class="loading-dots"></span></strong>
                             </div>
                         </div>
                     `);
