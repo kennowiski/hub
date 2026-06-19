@@ -2426,3 +2426,12 @@ a[aria-label="Redes sociais"] .external-icon {
     fill: currentColor !important;
     opacity: 1 !important;
 }
+
+/* Remove Redes sociais somente no desktop */
+@media (min-width: 769px) {
+    a[href="redes/"],
+    a[href="/redes/"],
+    a[href="./redes/"] {
+        display: none !important;
+    }
+}
