@@ -2435,3 +2435,13 @@ a[aria-label="Redes sociais"] .external-icon {
         display: none !important;
     }
 }
+
+/* Ícone rosa nos botões Recomendação */
+#trakt-recommend-btn > .icon,
+#lb-recommend-btn > .icon {
+    color: #f2b3d9;
+    width: 1.32em !important;
+    height: 1.32em !important;
+    overflow: visible;
+}
+/* Fim ícone rosa nos botões Recomendação */
