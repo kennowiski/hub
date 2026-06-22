@@ -2445,3 +2445,70 @@ a[aria-label="Redes sociais"] .external-icon {
     overflow: visible;
 }
 /* Fim ícone rosa nos botões Recomendação */
+
+/* Botão discreto de Story no modal Trakt */
+.trakt-modal-share {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 3;
+
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #fff;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.trakt-modal-share:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.trakt-modal-share .icon {
+    width: 1em !important;
+    height: 1em !important;
+}
+/* Fim botão discreto de Story no modal Trakt */
+
+.trakt-modal-share {
+    height: 29px !important;
+    top: 20px !important;
+}
+
+.trakt-modal-share .icon {
+    width: 1em !important;
+}
+/* Fim ajuste fino botão compartilhar Trakt */
+
+/* Correção: botão compartilhar Trakt perfeitamente circular */
+.trakt-modal-share {
+    width: 29px !important;
+    height: 29px !important;
+    min-width: 29px !important;
+    max-width: 29px !important;
+    min-height: 29px !important;
+    max-height: 29px !important;
+    aspect-ratio: 1 / 1 !important;
+
+    padding: 0 !important;
+    border-radius: 50% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.trakt-modal-share .icon {
+    width: 1em !important;
+    height: 1em !important;
+}
+/* Fim correção botão compartilhar Trakt circular */
