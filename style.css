@@ -2512,3 +2512,12 @@ a[aria-label="Redes sociais"] .external-icon {
     height: 1em !important;
 }
 /* Fim correção botão compartilhar Trakt circular */
+
+/* Ajuste mobile X modal tecnologias */
+@media (max-width: 899px) {
+    #mobile-tech-modal #close-tech-modal {
+        transform: translateX(8px);
+    }
+}
+/* Fim ajuste mobile X modal tecnologias */
+
