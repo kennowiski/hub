@@ -1711,7 +1711,8 @@ function cleanSupabaseAuthUrl() {
     const url = new URL(window.location.href);
     url.searchParams.delete('login');
     url.searchParams.delete('logout');
-    window.history.replaceState({}, document.title, url.pathname + (url.search ? url.search : '') + url.hash);
+    const cleanPath = url.pathname.replace(/\/+$/, '') === '/login' ? '/' : url.pathname;
+    window.history.replaceState({}, document.title, cleanPath + (url.search ? url.search : '') + url.hash);
 }
 function closeStoryLoginModal() {
     const modal = document.getElementById('story-login-modal');
@@ -1732,7 +1733,7 @@ function openStoryLoginModal(client) {
             resolve(false);
             return;
         }
-        emailInput.value = AUTHORIZED_STORY_EMAIL;
+        emailInput.value = '';
         passwordInput.value = '';
         setStoryLoginMessage('');
         modal.classList.add('active');
@@ -1818,7 +1819,8 @@ function openStoryLoginModal(client) {
 }
 async function handleSupabaseStoryAuth() {
     const params = new URLSearchParams(window.location.search);
-    const wantsLogin = params.get('login') === 'on';
+    const normalizedPath = window.location.pathname.replace(/\/+$/, '') || '/';
+    const wantsLogin = normalizedPath === '/login';
     const wantsLogout = params.get('logout') === 'on';
     if (!wantsLogin && !wantsLogout && !hasSupabaseSessionStored()) {
         hideTraktStoryButton();
@@ -1855,3 +1857,69 @@ async function handleSupabaseStoryAuth() {
 }
 handleSupabaseStoryAuth();
 /* Fim Supabase Auth Gate - botão Story Trakt */
+/* Floating Trakt Logout Button */
+document.addEventListener('click', async (event) => {
+    const target = event.target;
+    const button = target?.closest ? target.closest('#floating-trakt-logout') : null;
+    if (!button)
+        return;
+    event.preventDefault();
+    event.stopPropagation();
+    button.disabled = true;
+    try {
+        const client = await getSupabaseAuthClient();
+        await client.auth.signOut();
+        hideTraktStoryButton();
+    }
+    catch (error) {
+        console.error('Erro ao sair do Supabase Auth:', error);
+    }
+    finally {
+        button.disabled = false;
+    }
+});
+/* Fim Floating Trakt Logout Button */
+/* Correção posição fixa logout Trakt */
+function pinFloatingTraktLogoutButton() {
+    const button = document.getElementById('floating-trakt-logout');
+    if (!button)
+        return;
+    if (button.parentElement !== document.body) {
+        document.body.appendChild(button);
+    }
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', pinFloatingTraktLogoutButton);
+}
+else {
+    pinFloatingTraktLogoutButton();
+}
+window.addEventListener('load', pinFloatingTraktLogoutButton);
+/* Fim correção posição fixa logout Trakt */
+/* Logout Trakt preso na viewport */
+function keepFloatingTraktLogoutInViewport() {
+    const button = document.getElementById('floating-trakt-logout');
+    if (!button)
+        return;
+    if (button.parentElement !== document.body) {
+        document.body.appendChild(button);
+    }
+    const topOffset = window.innerWidth <= 899 ? 18 : 22;
+    const rightOffset = window.innerWidth <= 899 ? 18 : 22;
+    button.style.position = 'absolute';
+    button.style.top = String(window.scrollY + topOffset) + 'px';
+    button.style.left = String(window.scrollX + window.innerWidth - button.offsetWidth - rightOffset) + 'px';
+    button.style.right = 'auto';
+    button.style.bottom = 'auto';
+    button.style.zIndex = '2147483647';
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', keepFloatingTraktLogoutInViewport);
+}
+else {
+    keepFloatingTraktLogoutInViewport();
+}
+window.addEventListener('load', keepFloatingTraktLogoutInViewport);
+window.addEventListener('scroll', keepFloatingTraktLogoutInViewport, { passive: true });
+window.addEventListener('resize', keepFloatingTraktLogoutInViewport);
+/* Fim Logout Trakt preso na viewport */
