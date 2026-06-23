@@ -2918,7 +2918,10 @@ html body #floating-trakt-login.floating-trakt-login {
 
 /* Ajuste transparência login Trakt */
 html body #floating-trakt-login.floating-trakt-login {
-    background: rgba(14, 18, 30, 0.24) !important;
+    background: rgba(14, 18, 30, 0.10) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+    color: rgba(255, 255, 255, 0.30) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
 }
 /* Fim ajuste transparência login Trakt */
 
