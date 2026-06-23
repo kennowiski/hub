@@ -1738,9 +1738,6 @@ function openStoryLoginModal(client) {
         setStoryLoginMessage('');
         modal.classList.add('active');
         modal.setAttribute('aria-hidden', 'false');
-        setTimeout(() => {
-            passwordInput.focus();
-        }, 50);
         const cleanup = () => {
             form.removeEventListener('submit', handleSubmit);
             closeBtn?.removeEventListener('click', handleCancel);
@@ -1879,6 +1876,27 @@ document.addEventListener('click', async (event) => {
     }
 });
 /* Fim Floating Trakt Logout Button */
+/* Floating Trakt Login Button */
+document.addEventListener('click', async (event) => {
+    const target = event.target;
+    const button = target?.closest ? target.closest('#floating-trakt-login') : null;
+    if (!button)
+        return;
+    event.preventDefault();
+    event.stopPropagation();
+    button.disabled = true;
+    try {
+        const client = await getSupabaseAuthClient();
+        await openStoryLoginModal(client);
+    }
+    catch (error) {
+        console.error('Erro ao abrir login privado do Trakt:', error);
+    }
+    finally {
+        button.disabled = false;
+    }
+});
+/* Fim Floating Trakt Login Button */
 /* Correção posição fixa logout Trakt */
 function pinFloatingTraktLogoutButton() {
     const button = document.getElementById('floating-trakt-logout');
@@ -1896,6 +1914,23 @@ else {
 }
 window.addEventListener('load', pinFloatingTraktLogoutButton);
 /* Fim correção posição fixa logout Trakt */
+/* Correção posição fixa login Trakt */
+function pinFloatingTraktLoginButton() {
+    const button = document.getElementById('floating-trakt-login');
+    if (!button)
+        return;
+    if (button.parentElement !== document.body) {
+        document.body.appendChild(button);
+    }
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', pinFloatingTraktLoginButton);
+}
+else {
+    pinFloatingTraktLoginButton();
+}
+window.addEventListener('load', pinFloatingTraktLoginButton);
+/* Fim correção posição fixa login Trakt */
 /* Logout Trakt preso na viewport */
 function keepFloatingTraktLogoutInViewport() {
     const button = document.getElementById('floating-trakt-logout');
@@ -1923,3 +1958,30 @@ window.addEventListener('load', keepFloatingTraktLogoutInViewport);
 window.addEventListener('scroll', keepFloatingTraktLogoutInViewport, { passive: true });
 window.addEventListener('resize', keepFloatingTraktLogoutInViewport);
 /* Fim Logout Trakt preso na viewport */
+/* Login Trakt preso na viewport */
+function keepFloatingTraktLoginInViewport() {
+    const button = document.getElementById('floating-trakt-login');
+    if (!button)
+        return;
+    if (button.parentElement !== document.body) {
+        document.body.appendChild(button);
+    }
+    const topOffset = window.innerWidth <= 899 ? 18 : 22;
+    const rightOffset = window.innerWidth <= 899 ? 18 : 22;
+    button.style.position = 'absolute';
+    button.style.top = String(window.scrollY + topOffset) + 'px';
+    button.style.left = String(window.scrollX + window.innerWidth - button.offsetWidth - rightOffset) + 'px';
+    button.style.right = 'auto';
+    button.style.bottom = 'auto';
+    button.style.zIndex = '2147483647';
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', keepFloatingTraktLoginInViewport);
+}
+else {
+    keepFloatingTraktLoginInViewport();
+}
+window.addEventListener('load', keepFloatingTraktLoginInViewport);
+window.addEventListener('scroll', keepFloatingTraktLoginInViewport, { passive: true });
+window.addEventListener('resize', keepFloatingTraktLoginInViewport);
+/* Fim Login Trakt preso na viewport */
