@@ -1896,3 +1896,265 @@ function updateTraktModal(data) {
 })();
 /* Fim Trakt Story Generator - clique do botão Story */
 
+
+/* Supabase Auth Gate - botão Story Trakt */
+const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
+const AUTHORIZED_STORY_EMAIL = 'kennowiski@yahoo.com';
+const SUPABASE_AUTH_STORAGE_KEY = 'sb-ivbpcyjkvzsawjzhrwsd-auth-token';
+
+function hasSupabaseSessionStored() {
+    try {
+        return Boolean(localStorage.getItem(SUPABASE_AUTH_STORAGE_KEY));
+    } catch {
+        return false;
+    }
+}
+
+function loadSupabaseSdk() {
+    return new Promise((resolve, reject) => {
+        if (window.supabase && window.supabase.createClient) {
+            resolve(window.supabase);
+            return;
+        }
+
+        const existingScript = document.querySelector('script[data-supabase-sdk="true"]');
+
+        if (existingScript) {
+            existingScript.addEventListener('load', () => resolve(window.supabase), { once: true });
+            existingScript.addEventListener('error', reject, { once: true });
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+        script.async = true;
+        script.defer = true;
+        script.dataset.supabaseSdk = 'true';
+
+        script.onload = () => resolve(window.supabase);
+        script.onerror = () => reject(new Error('Não foi possível carregar o Supabase Auth.'));
+
+        document.head.appendChild(script);
+    });
+}
+
+async function getSupabaseAuthClient() {
+    const supabaseGlobal = await loadSupabaseSdk();
+
+    return supabaseGlobal.createClient(
+        SUPABASE_PROJECT_URL,
+        SUPABASE_PUBLISHABLE_KEY,
+        {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: false
+            }
+        }
+    );
+}
+
+function showTraktStoryButton() {
+    document.documentElement.classList.add('supabase-story-authorized');
+}
+
+function hideTraktStoryButton() {
+    document.documentElement.classList.remove('supabase-story-authorized');
+}
+
+function setStoryLoginMessage(message, type = '') {
+    const messageEl = document.getElementById('story-login-message');
+
+    if (!messageEl) return;
+
+    messageEl.textContent = message;
+    messageEl.classList.remove('error', 'success');
+
+    if (type) {
+        messageEl.classList.add(type);
+    }
+}
+
+function cleanSupabaseAuthUrl() {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('login');
+    url.searchParams.delete('logout');
+
+    window.history.replaceState(
+        {},
+        document.title,
+        url.pathname + (url.search ? url.search : '') + url.hash
+    );
+}
+
+function closeStoryLoginModal() {
+    const modal = document.getElementById('story-login-modal');
+
+    if (!modal) return;
+
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+}
+
+function openStoryLoginModal(client) {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('story-login-modal');
+        const form = document.getElementById('story-login-form');
+        const emailInput = document.getElementById('story-login-email');
+        const passwordInput = document.getElementById('story-login-password');
+        const closeBtn = document.getElementById('story-login-close');
+        const submitBtn = document.getElementById('story-login-submit');
+
+        if (!modal || !form || !emailInput || !passwordInput || !submitBtn) {
+            resolve(false);
+            return;
+        }
+
+        emailInput.value = AUTHORIZED_STORY_EMAIL;
+        passwordInput.value = '';
+        setStoryLoginMessage('');
+
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+
+        setTimeout(() => {
+            passwordInput.focus();
+        }, 50);
+
+        const cleanup = () => {
+            form.removeEventListener('submit', handleSubmit);
+            closeBtn?.removeEventListener('click', handleCancel);
+            modal.removeEventListener('click', handleOverlayClick);
+            document.removeEventListener('keydown', handleEscape);
+        };
+
+        const finish = (result) => {
+            cleanup();
+            closeStoryLoginModal();
+            resolve(result);
+        };
+
+        const handleCancel = () => {
+            cleanSupabaseAuthUrl();
+            finish(false);
+        };
+
+        const handleOverlayClick = (event) => {
+            if (event.target === modal) {
+                handleCancel();
+            }
+        };
+
+        const handleEscape = (event) => {
+            if (event.key === 'Escape') {
+                handleCancel();
+            }
+        };
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!email || !password) {
+                setStoryLoginMessage('Preencha e-mail e senha.', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            setStoryLoginMessage('Entrando...');
+
+            try {
+                const { data, error } = await client.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if (error) {
+                    setStoryLoginMessage('Login inválido.', 'error');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    return;
+                }
+
+                const loggedEmail = data && data.user && data.user.email
+                    ? data.user.email.toLowerCase()
+                    : '';
+
+                if (loggedEmail !== AUTHORIZED_STORY_EMAIL.toLowerCase()) {
+                    await client.auth.signOut();
+                    hideTraktStoryButton();
+                    setStoryLoginMessage('Usuário não autorizado.', 'error');
+                    return;
+                }
+
+                showTraktStoryButton();
+                cleanSupabaseAuthUrl();
+                setStoryLoginMessage('Acesso liberado.', 'success');
+
+                setTimeout(() => {
+                    finish(true);
+                }, 350);
+            } catch (error) {
+                console.error('Erro no login do Supabase:', error);
+                setStoryLoginMessage('Erro ao entrar. Tente novamente.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+            }
+        }
+
+        form.addEventListener('submit', handleSubmit);
+        closeBtn?.addEventListener('click', handleCancel);
+        modal.addEventListener('click', handleOverlayClick);
+        document.addEventListener('keydown', handleEscape);
+    });
+}
+
+async function handleSupabaseStoryAuth() {
+    const params = new URLSearchParams(window.location.search);
+    const wantsLogin = params.get('login') === 'on';
+    const wantsLogout = params.get('logout') === 'on';
+
+    if (!wantsLogin && !wantsLogout && !hasSupabaseSessionStored()) {
+        hideTraktStoryButton();
+        return;
+    }
+
+    try {
+        const client = await getSupabaseAuthClient();
+
+        if (wantsLogout) {
+            await client.auth.signOut();
+            hideTraktStoryButton();
+            cleanSupabaseAuthUrl();
+            return;
+        }
+
+        if (wantsLogin) {
+            await openStoryLoginModal(client);
+            return;
+        }
+
+        const { data, error } = await client.auth.getUser();
+
+        if (error || !data || !data.user || !data.user.email) {
+            hideTraktStoryButton();
+            return;
+        }
+
+        if (data.user.email.toLowerCase() === AUTHORIZED_STORY_EMAIL.toLowerCase()) {
+            showTraktStoryButton();
+        } else {
+            hideTraktStoryButton();
+        }
+    } catch (error) {
+        console.error('Erro no Supabase Auth:', error);
+        hideTraktStoryButton();
+    }
+}
+
+handleSupabaseStoryAuth();
+/* Fim Supabase Auth Gate - botão Story Trakt */
+

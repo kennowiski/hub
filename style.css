@@ -2521,3 +2521,169 @@ a[aria-label="Redes sociais"] .external-icon {
 }
 /* Fim ajuste mobile X modal tecnologias */
 
+
+
+/* Story Login Modal */
+#trakt-story-btn {
+    display: none !important;
+}
+
+.supabase-story-authorized #trakt-story-btn {
+    display: flex !important;
+}
+
+.story-login-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.story-login-overlay.active {
+    display: flex;
+}
+
+.story-login-card {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    padding: 28px;
+    border-radius: 24px;
+    background: rgba(18, 18, 20, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.65);
+    color: var(--text-main);
+    animation: fadeInSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.story-login-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.story-login-close:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.story-login-badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.24);
+    color: #fca5a5;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
+
+.story-login-card h3 {
+    font-size: 1.5rem;
+    line-height: 1.15;
+    margin-bottom: 8px;
+}
+
+.story-login-desc {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.45;
+    margin-bottom: 22px;
+}
+
+.story-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.story-login-form label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-top: 6px;
+}
+
+.story-login-form input {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-main);
+    border-radius: 12px;
+    padding: 12px 13px;
+    font: inherit;
+    outline: none;
+}
+
+.story-login-form input:focus {
+    border-color: rgba(129, 140, 248, 0.6);
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.14);
+}
+
+.story-login-message {
+    min-height: 18px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.story-login-message.error {
+    color: #fca5a5;
+}
+
+.story-login-message.success {
+    color: #86efac;
+}
+
+.story-login-submit {
+    margin-top: 4px;
+    border: 1px solid rgba(129, 140, 248, 0.45);
+    background: rgba(129, 140, 248, 0.18);
+    color: #c7d2fe;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.story-login-submit:hover {
+    background: rgba(129, 140, 248, 0.25);
+    transform: translateY(-1px);
+}
+
+.story-login-submit:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 899px) {
+    .story-login-card {
+        max-width: 340px;
+        padding: 26px;
+    }
+}
+/* Fim Story Login Modal */
