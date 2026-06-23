@@ -2921,3 +2921,20 @@ html body #floating-trakt-login.floating-trakt-login {
     background: rgba(14, 18, 30, 0.24) !important;
 }
 /* Fim ajuste transparência login Trakt */
+
+/* Oculta login/logout quando qualquer modal estiver aberto */
+html:has(#spotify-history-modal.active) #floating-trakt-login,
+html:has(#spotify-history-modal.active) #floating-trakt-logout,
+html:has(#mobile-tech-modal.active) #floating-trakt-login,
+html:has(#mobile-tech-modal.active) #floating-trakt-logout,
+html:has(#lb-modal.active) #floating-trakt-login,
+html:has(#lb-modal.active) #floating-trakt-logout,
+html:has(#trakt-modal.active) #floating-trakt-login,
+html:has(#trakt-modal.active) #floating-trakt-logout,
+html:has(#story-login-modal.active) #floating-trakt-login,
+html:has(#story-login-modal.active) #floating-trakt-logout {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+/* Fim oculta login/logout quando qualquer modal estiver aberto */
