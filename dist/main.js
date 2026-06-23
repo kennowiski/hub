@@ -597,6 +597,96 @@ function normalizeLetterboxdData(data) {
 }
 let currentMovieRecommendationTarget = null;
 let currentSeriesRecommendationTarget = null;
+/* Cache Letterboxd e Trakt */
+const LETTERBOXD_CACHE_KEY = 'kenny-letterboxd-last-movie';
+const LETTERBOXD_CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24 horas
+const TRAKT_CACHE_KEY = 'kenny-trakt-last-episode';
+const TRAKT_CACHE_TTL_MS = 1000 * 60 * 90; // 1h30min
+function readTimedMediaCache(key, ttlMs) {
+    try {
+        const raw = localStorage.getItem(key);
+        if (!raw)
+            return null;
+        const cached = JSON.parse(raw);
+        if (!cached || typeof cached.createdAt !== 'number' || !cached.data) {
+            localStorage.removeItem(key);
+            return null;
+        }
+        if (Date.now() - cached.createdAt > ttlMs) {
+            localStorage.removeItem(key);
+            return null;
+        }
+        return cached.data;
+    }
+    catch (error) {
+        console.warn('Cache local indisponível:', key, error);
+        return null;
+    }
+}
+function writeTimedMediaCache(key, data) {
+    try {
+        if (!data)
+            return;
+        localStorage.setItem(key, JSON.stringify({
+            createdAt: Date.now(),
+            data
+        }));
+    }
+    catch (error) {
+        console.warn('Não foi possível salvar cache local:', key, error);
+    }
+}
+function isValidLetterboxdData(data) {
+    return Boolean(data && data.title);
+}
+function isValidTraktData(data) {
+    return Boolean(data && !data.error && (data.show || data.episode));
+}
+function renderLetterboxdData(data) {
+    if (!isValidLetterboxdData(data))
+        return false;
+    const posterImg = document.getElementById('lb-poster');
+    const titleSpan = document.getElementById('lb-title');
+    const ratingSpan = document.getElementById('lb-rating-card');
+    const safeFallback = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='72' viewBox='0 0 48 72'%3E%3Crect width='48' height='72' rx='6' fill='%2314161e'/%3E%3Ctext x='24' y='38' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='8'%3EFilme%3C/text%3E%3C/svg%3E";
+    if (posterImg) {
+        posterImg.onerror = function () { this.src = safeFallback; };
+        setImageSrcIfChanged(posterImg, data.poster || safeFallback);
+    }
+    const normalizedData = normalizeLetterboxdData(data);
+    if (titleSpan)
+        titleSpan.textContent = normalizedData.title;
+    if (ratingSpan)
+        ratingSpan.textContent = normalizedData.rating;
+    updateLbModal(normalizedData);
+    return true;
+}
+function renderTraktData(data) {
+    if (!isValidTraktData(data))
+        return false;
+    const posterImg = document.getElementById('trakt-poster');
+    const titleSpan = document.getElementById('trakt-title');
+    const episodeSpan = document.getElementById('trakt-episode');
+    const ratingSpan = document.getElementById('trakt-rating');
+    if (titleSpan)
+        titleSpan.textContent = data.show || 'Série não encontrada';
+    if (episodeSpan) {
+        const season = String(data.season || 0).padStart(2, '0');
+        const episode = String(data.episodeNumber || 0).padStart(2, '0');
+        episodeSpan.textContent = `S${season}E${episode} — ${data.episode || 'Episódio'}`;
+    }
+    if (ratingSpan)
+        ratingSpan.textContent = renderTraktStars(data.rating);
+    if (posterImg) {
+        const safeFallback = 'https://placehold.co/48x72/14161e/94a3b8?text=TV';
+        posterImg.onerror = function () { this.src = safeFallback; };
+        setImageSrcIfChanged(posterImg, data.poster || safeFallback);
+    }
+    currentTraktStoryData = data;
+    updateTraktModal(data);
+    return true;
+}
+/* Fim Cache Letterboxd e Trakt */
 // ==========================================
 // LETTERBOXD 
 // ==========================================
@@ -630,28 +720,24 @@ function updateLbModal(data) {
         openLink.href = data.link || 'https://letterboxd.com/kennowiski/';
 }
 async function fetchLetterboxd() {
+    const cachedData = readTimedMediaCache(LETTERBOXD_CACHE_KEY, LETTERBOXD_CACHE_TTL_MS);
+    if (cachedData) {
+        renderLetterboxdData(cachedData);
+    }
     try {
         const response = await fetch('https://kennowiski-api-hub.vercel.app/api/letterboxd');
-        const data = await response.json();
-        if (!data.title)
-            return;
-        const posterImg = document.getElementById('lb-poster');
-        const titleSpan = document.getElementById('lb-title');
-        const ratingSpan = document.getElementById('lb-rating-card');
-        const safeFallback = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='72' viewBox='0 0 48 72'%3E%3Crect width='48' height='72' rx='6' fill='%2314161e'/%3E%3Ctext x='24' y='38' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='8'%3EFilme%3C/text%3E%3C/svg%3E";
-        if (posterImg) {
-            posterImg.onerror = function () { this.src = safeFallback; };
-            setImageSrcIfChanged(posterImg, data.poster || safeFallback);
+        if (!response.ok) {
+            throw new Error('Resposta inválida da API do Letterboxd.');
         }
-        const normalizedData = normalizeLetterboxdData(data);
-        if (titleSpan)
-            titleSpan.textContent = normalizedData.title;
-        if (ratingSpan)
-            ratingSpan.textContent = normalizedData.rating;
-        updateLbModal(normalizedData);
+        const data = await response.json();
+        if (!isValidLetterboxdData(data))
+            return;
+        if (renderLetterboxdData(data)) {
+            writeTimedMediaCache(LETTERBOXD_CACHE_KEY, data);
+        }
     }
     catch (error) {
-        console.error(error);
+        console.error('Erro no Letterboxd:', error);
     }
 }
 fetchLetterboxd();
@@ -991,30 +1077,21 @@ function updateTraktModal(data) {
         openLink.href = data.traktUrl || 'https://trakt.tv/users/kennowiski/history';
 }
 async function fetchTrakt() {
+    const cachedData = readTimedMediaCache(TRAKT_CACHE_KEY, TRAKT_CACHE_TTL_MS);
+    if (cachedData) {
+        renderTraktData(cachedData);
+    }
     try {
         const response = await fetch('https://kennowiski-api-hub.vercel.app/api/trakt');
+        if (!response.ok) {
+            throw new Error('Resposta inválida da API do Trakt.');
+        }
         const data = await response.json();
-        if (data.error)
+        if (!isValidTraktData(data))
             return;
-        const posterImg = document.getElementById('trakt-poster');
-        const titleSpan = document.getElementById('trakt-title');
-        const episodeSpan = document.getElementById('trakt-episode');
-        const ratingSpan = document.getElementById('trakt-rating');
-        if (titleSpan)
-            titleSpan.textContent = data.show || 'Série não encontrada';
-        if (episodeSpan) {
-            const season = String(data.season || 0).padStart(2, '0');
-            const episode = String(data.episodeNumber || 0).padStart(2, '0');
-            episodeSpan.textContent = `S${season}E${episode} — ${data.episode || 'Episódio'}`;
+        if (renderTraktData(data)) {
+            writeTimedMediaCache(TRAKT_CACHE_KEY, data);
         }
-        if (ratingSpan)
-            ratingSpan.textContent = renderTraktStars(data.rating);
-        if (posterImg) {
-            const safeFallback = 'https://placehold.co/48x72/14161e/94a3b8?text=TV';
-            posterImg.onerror = function () { this.src = safeFallback; };
-            setImageSrcIfChanged(posterImg, data.poster || safeFallback);
-        }
-        updateTraktModal(data);
     }
     catch (error) {
         console.error('Erro no Trakt:', error);
