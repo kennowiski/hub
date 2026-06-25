@@ -1915,7 +1915,52 @@ const traktCard = document.getElementById('trakt-card');
 /* Supabase Auth Gate - botão Story Trakt */
 const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
-const AUTHORIZED_STORY_EMAIL = 'kennowiski@yahoo.com';
+const ADMIN_VERIFY_ENDPOINT = 'https://kennowiski-api-hub.vercel.app/api/admin/verify';
+
+
+/* ADMIN_VERIFY_HELPER_V1 */
+async function verifyAdminSessionWithBackend(client: any, authData?: any): Promise<boolean> {
+    let accessToken = authData &&
+        authData.session &&
+        authData.session.access_token;
+
+    if (!accessToken && authData && authData.access_token) {
+        accessToken = authData.access_token;
+    }
+
+    if (!accessToken && client && client.auth && typeof client.auth.getSession === 'function') {
+        const sessionResult = await client.auth.getSession();
+        accessToken = sessionResult &&
+            sessionResult.data &&
+            sessionResult.data.session &&
+            sessionResult.data.session.access_token;
+    }
+
+    if (!accessToken) return false;
+
+    try {
+        const response = await fetch(ADMIN_VERIFY_ENDPOINT, {
+            method: 'GET',
+            cache: 'no-store',
+            headers: {
+                authorization: 'Bearer ' + accessToken
+            }
+        });
+
+        if (!response.ok) return false;
+
+        const data = await response.json().catch(() => ({
+            allowed: false
+        }));
+
+        return data && data.allowed === true;
+    } catch (error) {
+        console.error('Erro ao verificar admin:', error);
+        return false;
+    }
+}
+/* FIM ADMIN_VERIFY_HELPER_V1 */
+
 const SUPABASE_AUTH_STORAGE_KEY = 'sb-ivbpcyjkvzsawjzhrwsd-auth-token';
 
 function hasSupabaseSessionStored() {
@@ -2153,7 +2198,7 @@ function openStoryLoginModal(client) {
                     ? data.user.email.toLowerCase()
                     : '';
 
-                if (loggedEmail !== AUTHORIZED_STORY_EMAIL.toLowerCase()) {
+                if (!(await verifyAdminSessionWithBackend(client, data))) {
                     await client.auth.signOut();
                     hideTraktStoryButton();
                     setStoryLoginMessage('Usuário não autorizado.', 'error');
@@ -2219,7 +2264,7 @@ async function handleSupabaseStoryAuth() {
             return;
         }
 
-        if (data.user.email.toLowerCase() === AUTHORIZED_STORY_EMAIL.toLowerCase()) {
+        if (await verifyAdminSessionWithBackend(client, data)) {
             showTraktStoryButton();
         } else {
             hideTraktStoryButton();

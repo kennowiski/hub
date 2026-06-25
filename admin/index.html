@@ -421,7 +421,502 @@
         }
         /* FIM ADMIN_AUTH_GATE_V1 */
 
-    </style>
+    
+/* ADMIN_API_DEBUG_SECTION_V1 */
+.ka-debug-grid {
+    display: grid;
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.ka-debug-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+}
+
+.ka-debug-toolbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ka-debug-hint {
+    color: rgba(232, 236, 245, .58);
+    font-size: .82rem;
+    line-height: 1.5;
+}
+
+.ka-debug-card {
+    border: 1px solid rgba(255, 255, 255, .08);
+    background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, .06), transparent 38%),
+        rgba(255, 255, 255, .035);
+    border-radius: 20px;
+    padding: 16px;
+    overflow: hidden;
+}
+
+.ka-debug-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+.ka-debug-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(248, 250, 252, .94);
+    font-size: .95rem;
+    font-weight: 800;
+    letter-spacing: -.01em;
+}
+
+.ka-debug-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, .55);
+    box-shadow: 0 0 0 5px rgba(148, 163, 184, .08);
+    flex: 0 0 auto;
+}
+
+.ka-debug-card[data-status="ok"] .ka-debug-dot {
+    background: #35d07f;
+    box-shadow: 0 0 0 5px rgba(53, 208, 127, .12);
+}
+
+.ka-debug-card[data-status="error"] .ka-debug-dot {
+    background: #ff5c7a;
+    box-shadow: 0 0 0 5px rgba(255, 92, 122, .12);
+}
+
+.ka-debug-card[data-status="loading"] .ka-debug-dot {
+    background: #f5c451;
+    box-shadow: 0 0 0 5px rgba(245, 196, 81, .12);
+}
+
+.ka-debug-url {
+    margin-top: 5px;
+    color: rgba(232, 236, 245, .46);
+    font-size: .75rem;
+    line-height: 1.35;
+    word-break: break-all;
+}
+
+.ka-debug-meta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.ka-debug-meta-item {
+    border-radius: 14px;
+    background: rgba(0, 0, 0, .18);
+    border: 1px solid rgba(255, 255, 255, .06);
+    padding: 10px;
+}
+
+.ka-debug-meta-label {
+    display: block;
+    color: rgba(232, 236, 245, .42);
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 5px;
+}
+
+.ka-debug-meta-value {
+    color: rgba(248, 250, 252, .9);
+    font-size: .82rem;
+    font-weight: 700;
+}
+
+.ka-debug-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.ka-debug-json {
+    display: none;
+    max-height: 360px;
+    overflow: auto;
+    margin: 12px 0 0;
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, .32);
+    border: 1px solid rgba(255, 255, 255, .07);
+    color: rgba(230, 236, 245, .86);
+    font-size: .76rem;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.ka-debug-card.is-open .ka-debug-json {
+    display: block;
+}
+
+.ka-debug-empty {
+    color: rgba(232, 236, 245, .48);
+    font-size: .8rem;
+    line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+    .ka-debug-card-head {
+        display: block;
+    }
+
+    .ka-debug-card-head .ka-button,
+    .ka-debug-actions .ka-button {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .ka-debug-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 460px) {
+    .ka-debug-meta {
+        grid-template-columns: 1fr;
+    }
+}
+/* FIM ADMIN_API_DEBUG_SECTION_V1 */
+
+
+/* ADMIN_API_DEBUG_POLISH_V1 */
+#api-debug {
+    scroll-margin-top: 28px;
+}
+
+#api-debug .ka-section-head {
+    margin-bottom: 4px;
+}
+
+#api-debug .ka-section-head h2 {
+    margin-bottom: 8px;
+}
+
+.ka-debug-toolbar {
+    padding: 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, .08);
+    background: rgba(255, 255, 255, .035);
+}
+
+.ka-debug-toolbar .ka-debug-hint {
+    max-width: 620px;
+    margin: 0;
+}
+
+.ka-debug-toolbar-actions {
+    margin-left: auto;
+}
+
+.ka-debug-toolbar .ka-button,
+.ka-debug-card .ka-button {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .075);
+    color: rgba(248, 250, 252, .92);
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, .18);
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        background .18s ease,
+        opacity .18s ease;
+}
+
+.ka-debug-toolbar .ka-button:hover,
+.ka-debug-card .ka-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(139, 92, 246, .38);
+    background: rgba(139, 92, 246, .16);
+}
+
+.ka-debug-toolbar .ka-button:disabled,
+.ka-debug-card .ka-button:disabled {
+    cursor: wait;
+    opacity: .55;
+    transform: none;
+}
+
+#ka-debug-run-all {
+    background: linear-gradient(135deg, rgba(124, 92, 255, .95), rgba(167, 139, 250, .72));
+    border-color: rgba(167, 139, 250, .44);
+    color: #fff;
+}
+
+#ka-debug-collapse-all,
+.ka-debug-card .ka-button-secondary {
+    background: rgba(255, 255, 255, .055);
+    border-color: rgba(255, 255, 255, .085);
+    color: rgba(226, 232, 240, .82);
+    box-shadow: none;
+}
+
+.ka-debug-grid {
+    gap: 14px;
+}
+
+.ka-debug-card {
+    padding: 17px;
+    border-radius: 22px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .025)),
+        rgba(9, 11, 20, .42);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .045),
+        0 18px 38px rgba(0, 0, 0, .16);
+}
+
+.ka-debug-card-head {
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.ka-debug-title {
+    font-size: 1rem;
+}
+
+.ka-debug-url {
+    opacity: .86;
+}
+
+.ka-debug-meta {
+    gap: 9px;
+}
+
+.ka-debug-meta-item {
+    min-height: 58px;
+    padding: 11px 12px;
+    background: rgba(7, 9, 18, .38);
+}
+
+.ka-debug-meta-label {
+    color: rgba(184, 194, 215, .58);
+    font-size: .64rem;
+}
+
+.ka-debug-meta-value {
+    font-size: .84rem;
+}
+
+.ka-debug-card[data-status="ok"] .ka-debug-meta-value[data-debug-status] {
+    color: #7df2b0;
+}
+
+.ka-debug-card[data-status="error"] .ka-debug-meta-value[data-debug-status] {
+    color: #ff8ca0;
+}
+
+.ka-debug-card[data-status="loading"] .ka-debug-meta-value[data-debug-status] {
+    color: #ffd66b;
+}
+
+.ka-debug-actions {
+    justify-content: flex-end;
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+
+.ka-debug-json {
+    margin-top: 14px;
+    border-radius: 18px;
+    background: rgba(3, 5, 12, .62);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .035);
+}
+
+@media (max-width: 760px) {
+    .ka-debug-toolbar {
+        align-items: stretch;
+    }
+
+    .ka-debug-toolbar-actions {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .ka-debug-toolbar-actions .ka-button {
+        flex: 1;
+    }
+
+    .ka-debug-card-head .ka-button,
+    .ka-debug-actions .ka-button {
+        width: auto;
+        margin-top: 0;
+    }
+
+    .ka-debug-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 520px) {
+    .ka-debug-toolbar-actions,
+    .ka-debug-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .ka-debug-toolbar .ka-button,
+    .ka-debug-card .ka-button {
+        width: 100%;
+    }
+}
+/* FIM ADMIN_API_DEBUG_POLISH_V1 */
+
+
+/* ADMIN_API_DEBUG_JSON_HIGHLIGHT_V1 */
+.ka-debug-json {
+    font-family:
+        "Cascadia Code",
+        "Fira Code",
+        "JetBrains Mono",
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+    font-size: .76rem;
+    tab-size: 2;
+}
+
+.ka-json-key {
+    color: #9cdcfe;
+}
+
+.ka-json-string {
+    color: #ce9178;
+}
+
+.ka-json-number {
+    color: #b5cea8;
+}
+
+.ka-json-boolean {
+    color: #569cd6;
+}
+
+.ka-json-null {
+    color: #c586c0;
+}
+
+.ka-json-punctuation {
+    color: rgba(226, 232, 240, .7);
+}
+/* FIM ADMIN_API_DEBUG_JSON_HIGHLIGHT_V1 */
+
+
+/* ADMIN_LAYOUT_FINAL_POLISH_V1 */
+.ka-section-head > span,
+.ka-section-head [class*="number"],
+.ka-section-head [class*="index"],
+.ka-section-head [class*="badge"],
+.ka-section-head [class*="step"],
+.ka-section-head [class*="order"],
+.ka-card > span[class*="number"],
+.ka-card > span[class*="index"],
+.ka-card > span[class*="badge"],
+.ka-card > span[class*="step"],
+.ka-card > span[class*="order"] {
+    display: none !important;
+}
+
+.ka-sidebar-logout {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 42px;
+    margin-top: auto;
+    padding: 0 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, .09);
+    background: rgba(255, 255, 255, .065);
+    color: rgba(248, 250, 252, .92);
+    font: inherit;
+    font-size: .86rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .18);
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        background .18s ease;
+}
+
+.ka-sidebar-logout:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 92, 122, .35);
+    background: rgba(255, 92, 122, .13);
+}
+
+#api-debug .ka-eyebrow {
+    display: none !important;
+}
+/* FIM ADMIN_LAYOUT_FINAL_POLISH_V1 */
+
+
+/* ADMIN_DEBUG_MENU_SPACING_FIX_V1 */
+#api-debug {
+    padding-top: 24px !important;
+}
+
+#api-debug .ka-section-head {
+    display: block !important;
+    min-height: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 14px !important;
+    padding-top: 0 !important;
+}
+
+#api-debug .ka-section-head > * {
+    margin-top: 0 !important;
+}
+
+#api-debug .ka-section-head h2 {
+    margin-top: 0 !important;
+}
+
+#api-debug .ka-eyebrow,
+#api-debug .ka-section-head > span,
+#api-debug .ka-section-head [class*="number"],
+#api-debug .ka-section-head [class*="index"],
+#api-debug .ka-section-head [class*="badge"],
+#api-debug .ka-section-head [class*="step"],
+#api-debug .ka-section-head [class*="order"] {
+    display: none !important;
+}
+/* FIM ADMIN_DEBUG_MENU_SPACING_FIX_V1 */
+
+</style>
 </head>
 
 <body class="ka-auth-checking">
@@ -439,7 +934,35 @@
             const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
             const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
             const SUPABASE_AUTH_STORAGE_KEY = 'sb-ivbpcyjkvzsawjzhrwsd-auth-token';
-            const AUTHORIZED_EMAIL = 'kennowiski@yahoo.com';
+            const ADMIN_VERIFY_ENDPOINT = 'https://kennowiski-api-hub.vercel.app/api/admin/verify';
+
+
+async function verifyAdminSessionWithBackend(session) {
+    const accessToken = session && session.access_token;
+
+    if (!accessToken) return false;
+
+    try {
+        const response = await fetch(ADMIN_VERIFY_ENDPOINT, {
+            method: 'GET',
+            cache: 'no-store',
+            headers: {
+                authorization: 'Bearer ' + accessToken
+            }
+        });
+
+        if (!response.ok) return false;
+
+        const data = await response.json().catch(() => ({
+            allowed: false
+        }));
+
+        return data && data.allowed === true;
+    } catch (error) {
+        console.error('Erro ao verificar admin no backend:', error);
+        return false;
+    }
+}
 
             function redirectToLogin() {
                 window.location.replace('/login');
@@ -500,7 +1023,7 @@
                     const user = userResult && userResult.data ? userResult.data.user : null;
                     const email = String((user && user.email) || (session.user && session.user.email) || '').toLowerCase();
 
-                    if (email !== AUTHORIZED_EMAIL) {
+                    if (!(await verifyAdminSessionWithBackend(session))) {
                         try {
                             await client.auth.signOut();
                         } catch {}
@@ -534,7 +1057,7 @@
         <aside class="ka-sidebar">
             <div class="ka-brand">
                 <span class="ka-logo">✦</span>
-                <span>Kenny Admin</span>
+                <span>Painel Admin</span>
             </div>
 
             <nav class="ka-nav" aria-label="Menu do admin">
@@ -542,11 +1065,12 @@
                 <a href="#apis">APIs</a>
                 <a href="#cache">Cache</a>
                 <a href="#stories">Stories</a>
+<a href="#api-debug">Debug das APIs</a>
                 <a href="#sessao">Sessão</a>
             </nav>
 
             <div class="ka-sidebar-bottom">
-                <a class="ka-btn" href="/">Voltar ao site</a>
+                <button class="ka-sidebar-logout ka-btn" id="logout-btn" type="button">Sair</button>
             </div>
         </aside>
 
@@ -565,9 +1089,7 @@
             </section>
 
             <section class="ka-section" id="dashboard">
-                <div class="ka-section-title">
-                    <span class="ka-number">01</span>
-                    <div>
+                <div class="ka-section-title"><div>
                         <h2>Dashboard</h2>
                         <p>Status geral das integrações do portfólio.</p>
                     </div>
@@ -598,9 +1120,7 @@
             </section>
 
             <section class="ka-section" id="apis">
-                <div class="ka-section-title">
-                    <span class="ka-number">02</span>
-                    <div>
+                <div class="ka-section-title"><div>
                         <h2>APIs</h2>
                         <p>Consulta rápida dos serviços usados no site.</p>
                     </div>
@@ -610,9 +1130,7 @@
             </section>
 
             <section class="ka-section" id="cache">
-                <div class="ka-section-title">
-                    <span class="ka-number">03</span>
-                    <div>
+                <div class="ka-section-title"><div>
                         <h2>Cache</h2>
                         <p>Estado do cache local usado pelo navegador.</p>
                     </div>
@@ -622,9 +1140,7 @@
             </section>
 
             <section class="ka-section" id="stories">
-                <div class="ka-section-title">
-                    <span class="ka-number">04</span>
-                    <div>
+                <div class="ka-section-title"><div>
                         <h2>Stories</h2>
                         <p>Atalhos privados para geração de stories.</p>
                     </div>
@@ -648,10 +1164,294 @@
                 </div>
             </section>
 
-            <section class="ka-section" id="sessao">
-                <div class="ka-section-title">
-                    <span class="ka-number">05</span>
+            <section class="ka-card" id="api-debug">
+                <div class="ka-section-head">
                     <div>
+                        <h2>Debug das APIs</h2>
+                        <p class="ka-debug-hint">
+                            Teste as integrações do portfólio e veja status HTTP, tempo de resposta e JSON retornado.
+                            Esta área é apenas administrativa e não altera dados globais do site.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="ka-debug-toolbar">
+                    <p class="ka-debug-hint">
+                        Use para descobrir rapidamente se uma integração caiu, demorou demais ou retornou dados vazios.
+                    </p>
+
+                    <div class="ka-debug-toolbar-actions">
+                        <button class="ka-button" type="button" id="ka-debug-run-all">
+                            Testar todas
+                        </button>
+
+                        <button class="ka-button ka-button-secondary" type="button" id="ka-debug-collapse-all">
+                            Fechar JSONs
+                        </button>
+                    </div>
+                </div>
+
+                <div class="ka-debug-grid" id="ka-debug-grid">
+
+                    <article class="ka-debug-card" data-debug-card="spotify" data-status="idle">
+                        <div class="ka-debug-card-head">
+                            <div>
+                                <div class="ka-debug-title">
+                                    <span class="ka-debug-dot" aria-hidden="true"></span>
+                                    <span>Spotify</span>
+                                </div>
+                                <div class="ka-debug-url">https://kennowiski-api-hub.vercel.app/api/spotify</div>
+                            </div>
+
+                            <button class="ka-button" type="button" data-debug-run="spotify">
+                                Testar
+                            </button>
+                        </div>
+
+                        <div class="ka-debug-meta">
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Status</span>
+                                <span class="ka-debug-meta-value" data-debug-status="spotify">Aguardando</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">HTTP</span>
+                                <span class="ka-debug-meta-value" data-debug-http="spotify">—</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Tempo</span>
+                                <span class="ka-debug-meta-value" data-debug-time="spotify">—</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Último teste</span>
+                                <span class="ka-debug-meta-value" data-debug-updated="spotify">—</span>
+                            </div>
+                        </div>
+
+                        <div class="ka-debug-actions">
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-toggle="spotify">
+                                Ver JSON
+                            </button>
+
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-copy="spotify" disabled>
+                                Copiar JSON
+                            </button>
+                        </div>
+
+                        <pre class="ka-debug-json" data-debug-json="spotify"><code class="ka-debug-empty">Nenhum teste executado ainda.</code></pre>
+                    </article>
+
+
+                    <article class="ka-debug-card" data-debug-card="lastfm" data-status="idle">
+                        <div class="ka-debug-card-head">
+                            <div>
+                                <div class="ka-debug-title">
+                                    <span class="ka-debug-dot" aria-hidden="true"></span>
+                                    <span>Last.fm</span>
+                                </div>
+                                <div class="ka-debug-url">https://kennowiski-api-hub.vercel.app/api/lastfm?limit=1</div>
+                            </div>
+
+                            <button class="ka-button" type="button" data-debug-run="lastfm">
+                                Testar
+                            </button>
+                        </div>
+
+                        <div class="ka-debug-meta">
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Status</span>
+                                <span class="ka-debug-meta-value" data-debug-status="lastfm">Aguardando</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">HTTP</span>
+                                <span class="ka-debug-meta-value" data-debug-http="lastfm">—</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Tempo</span>
+                                <span class="ka-debug-meta-value" data-debug-time="lastfm">—</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Último teste</span>
+                                <span class="ka-debug-meta-value" data-debug-updated="lastfm">—</span>
+                            </div>
+                        </div>
+
+                        <div class="ka-debug-actions">
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-toggle="lastfm">
+                                Ver JSON
+                            </button>
+
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-copy="lastfm" disabled>
+                                Copiar JSON
+                            </button>
+                        </div>
+
+                        <pre class="ka-debug-json" data-debug-json="lastfm"><code class="ka-debug-empty">Nenhum teste executado ainda.</code></pre>
+                    </article>
+
+
+                    <article class="ka-debug-card" data-debug-card="letterboxd" data-status="idle">
+                        <div class="ka-debug-card-head">
+                            <div>
+                                <div class="ka-debug-title">
+                                    <span class="ka-debug-dot" aria-hidden="true"></span>
+                                    <span>Letterboxd</span>
+                                </div>
+                                <div class="ka-debug-url">https://kennowiski-api-hub.vercel.app/api/letterboxd</div>
+                            </div>
+
+                            <button class="ka-button" type="button" data-debug-run="letterboxd">
+                                Testar
+                            </button>
+                        </div>
+
+                        <div class="ka-debug-meta">
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Status</span>
+                                <span class="ka-debug-meta-value" data-debug-status="letterboxd">Aguardando</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">HTTP</span>
+                                <span class="ka-debug-meta-value" data-debug-http="letterboxd">—</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Tempo</span>
+                                <span class="ka-debug-meta-value" data-debug-time="letterboxd">—</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Último teste</span>
+                                <span class="ka-debug-meta-value" data-debug-updated="letterboxd">—</span>
+                            </div>
+                        </div>
+
+                        <div class="ka-debug-actions">
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-toggle="letterboxd">
+                                Ver JSON
+                            </button>
+
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-copy="letterboxd" disabled>
+                                Copiar JSON
+                            </button>
+                        </div>
+
+                        <pre class="ka-debug-json" data-debug-json="letterboxd"><code class="ka-debug-empty">Nenhum teste executado ainda.</code></pre>
+                    </article>
+
+
+                    <article class="ka-debug-card" data-debug-card="trakt" data-status="idle">
+                        <div class="ka-debug-card-head">
+                            <div>
+                                <div class="ka-debug-title">
+                                    <span class="ka-debug-dot" aria-hidden="true"></span>
+                                    <span>Trakt</span>
+                                </div>
+                                <div class="ka-debug-url">https://kennowiski-api-hub.vercel.app/api/trakt</div>
+                            </div>
+
+                            <button class="ka-button" type="button" data-debug-run="trakt">
+                                Testar
+                            </button>
+                        </div>
+
+                        <div class="ka-debug-meta">
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Status</span>
+                                <span class="ka-debug-meta-value" data-debug-status="trakt">Aguardando</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">HTTP</span>
+                                <span class="ka-debug-meta-value" data-debug-http="trakt">—</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Tempo</span>
+                                <span class="ka-debug-meta-value" data-debug-time="trakt">—</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Último teste</span>
+                                <span class="ka-debug-meta-value" data-debug-updated="trakt">—</span>
+                            </div>
+                        </div>
+
+                        <div class="ka-debug-actions">
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-toggle="trakt">
+                                Ver JSON
+                            </button>
+
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-copy="trakt" disabled>
+                                Copiar JSON
+                            </button>
+                        </div>
+
+                        <pre class="ka-debug-json" data-debug-json="trakt"><code class="ka-debug-empty">Nenhum teste executado ainda.</code></pre>
+                    </article>
+
+
+                    <article class="ka-debug-card" data-debug-card="discord" data-status="idle">
+                        <div class="ka-debug-card-head">
+                            <div>
+                                <div class="ka-debug-title">
+                                    <span class="ka-debug-dot" aria-hidden="true"></span>
+                                    <span>Discord / Lanyard</span>
+                                </div>
+                                <div class="ka-debug-url">https://api.lanyard.rest/v1/users/387025115898183702</div>
+                            </div>
+
+                            <button class="ka-button" type="button" data-debug-run="discord">
+                                Testar
+                            </button>
+                        </div>
+
+                        <div class="ka-debug-meta">
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Status</span>
+                                <span class="ka-debug-meta-value" data-debug-status="discord">Aguardando</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">HTTP</span>
+                                <span class="ka-debug-meta-value" data-debug-http="discord">—</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Tempo</span>
+                                <span class="ka-debug-meta-value" data-debug-time="discord">—</span>
+                            </div>
+
+                            <div class="ka-debug-meta-item">
+                                <span class="ka-debug-meta-label">Último teste</span>
+                                <span class="ka-debug-meta-value" data-debug-updated="discord">—</span>
+                            </div>
+                        </div>
+
+                        <div class="ka-debug-actions">
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-toggle="discord">
+                                Ver JSON
+                            </button>
+
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-copy="discord" disabled>
+                                Copiar JSON
+                            </button>
+                        </div>
+
+                        <pre class="ka-debug-json" data-debug-json="discord"><code class="ka-debug-empty">Nenhum teste executado ainda.</code></pre>
+                    </article>
+
+                </div>
+            </section>
+
+<section class="ka-section" id="sessao">
+                <div class="ka-section-title"><div>
                         <h2>Sessão</h2>
                         <p>Controle da sessão privada do administrador.</p>
                     </div>
@@ -665,10 +1465,17 @@
                     </article>
 
                     <div class="ka-actions" style="justify-content:flex-start;">
-                        <button class="ka-btn" id="logout-btn" type="button">Sair</button>
+                        
                     </div>
                 </div>
             </section>
+
+
+        
+<!-- ADMIN_API_DEBUG_SECTION_V1 -->
+            
+<!-- FIM ADMIN_API_DEBUG_SECTION_V1 -->
+
         </main>
     </div>
 
@@ -997,5 +1804,403 @@ document.addEventListener('click', (event) => {
             window.addEventListener('kenny-admin-auth-ready', initAdminAfterAuth, { once: true });
         }
     </script>
+
+<!-- ADMIN_API_DEBUG_SCRIPT_V1 -->
+<script>
+(function () {
+    const DEBUG_APIS = {
+        spotify: {
+            name: 'Spotify',
+            url: 'https://kennowiski-api-hub.vercel.app/api/spotify'
+        },
+        lastfm: {
+            name: 'Last.fm',
+            url: 'https://kennowiski-api-hub.vercel.app/api/lastfm?limit=1'
+        },
+        letterboxd: {
+            name: 'Letterboxd',
+            url: 'https://kennowiski-api-hub.vercel.app/api/letterboxd'
+        },
+        trakt: {
+            name: 'Trakt',
+            url: 'https://kennowiski-api-hub.vercel.app/api/trakt'
+        },
+        discord: {
+            name: 'Discord / Lanyard',
+            url: 'https://api.lanyard.rest/v1/users/387025115898183702'
+        }
+    };
+
+    const SENSITIVE_KEYS = [
+        'access_token',
+        'refresh_token',
+        'authorization',
+        'client_secret',
+        'client_id',
+        'password',
+        'email',
+        'token',
+        'secret',
+        'api_key',
+        'apikey',
+        'key'
+    ];
+
+    const debugState = {};
+
+    function getDebugElements(key) {
+        return {
+            card: document.querySelector('[data-debug-card="' + key + '"]'),
+            status: document.querySelector('[data-debug-status="' + key + '"]'),
+            http: document.querySelector('[data-debug-http="' + key + '"]'),
+            time: document.querySelector('[data-debug-time="' + key + '"]'),
+            updated: document.querySelector('[data-debug-updated="' + key + '"]'),
+            json: document.querySelector('[data-debug-json="' + key + '"]'),
+            copy: document.querySelector('[data-debug-copy="' + key + '"]'),
+            run: document.querySelector('[data-debug-run="' + key + '"]')
+        };
+    }
+
+    function nowLabel() {
+        return new Date().toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+    }
+
+    function isSensitiveKey(key) {
+        const normalized = String(key || '').toLowerCase();
+
+        return SENSITIVE_KEYS.some(function (sensitive) {
+            return normalized.includes(sensitive);
+        });
+    }
+
+    function maskSensitiveData(value, parentKey) {
+        if (isSensitiveKey(parentKey)) {
+            return '[oculto]';
+        }
+
+        if (Array.isArray(value)) {
+            return value.map(function (item) {
+                return maskSensitiveData(item, parentKey);
+            });
+        }
+
+        if (value && typeof value === 'object') {
+            const output = {};
+
+            Object.keys(value).forEach(function (key) {
+                output[key] = maskSensitiveData(value[key], key);
+            });
+
+            return output;
+        }
+
+        return value;
+    }
+
+    function stringifyDebugPayload(payload) {
+        try {
+            return JSON.stringify(maskSensitiveData(payload), null, 2);
+        } catch (error) {
+            return String(payload);
+        }
+    }
+
+
+    function escapeDebugHtml(value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function syntaxHighlightJson(json) {
+        const escaped = escapeDebugHtml(json);
+
+        return escaped
+            .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?|[{}\[\],:])/g, function (match) {
+                let className = 'ka-json-number';
+
+                if (/^"/.test(match)) {
+                    className = /:$/.test(match) ? 'ka-json-key' : 'ka-json-string';
+                } else if (/true|false/.test(match)) {
+                    className = 'ka-json-boolean';
+                } else if (/null/.test(match)) {
+                    className = 'ka-json-null';
+                } else if (/^[{}\[\],:]$/.test(match)) {
+                    className = 'ka-json-punctuation';
+                }
+
+                return '<span class="' + className + '">' + match + '</span>';
+            });
+    }
+
+    function renderDebugJson(element, payload) {
+        if (!element) return;
+
+        element.innerHTML = syntaxHighlightJson(stringifyDebugPayload(payload));
+    }
+
+    function setCardState(key, state) {
+        const elements = getDebugElements(key);
+
+        if (!elements.card) return;
+
+        elements.card.dataset.status = state;
+    }
+
+    function setText(element, value) {
+        if (element) {
+            element.textContent = value;
+        }
+    }
+
+    function setLoading(key) {
+        const elements = getDebugElements(key);
+
+        setCardState(key, 'loading');
+        setText(elements.status, 'Testando...');
+        setText(elements.http, '—');
+        setText(elements.time, '—');
+        setText(elements.updated, nowLabel());
+
+        if (elements.run) {
+            elements.run.disabled = true;
+            elements.run.textContent = 'Testando...';
+        }
+
+        if (elements.copy) {
+            elements.copy.disabled = true;
+        }
+    }
+
+    function setDone(key, result) {
+        const elements = getDebugElements(key);
+        const ok = result.ok === true;
+
+        setCardState(key, ok ? 'ok' : 'error');
+        setText(elements.status, ok ? 'Online' : 'Erro');
+        setText(elements.http, result.httpStatus ? String(result.httpStatus) : '—');
+        setText(elements.time, result.durationMs + 'ms');
+        setText(elements.updated, nowLabel());
+
+        if (elements.json) {
+            renderDebugJson(elements.json, result.payload);
+        }
+
+        if (elements.copy) {
+            elements.copy.disabled = false;
+        }
+
+        if (elements.run) {
+            elements.run.disabled = false;
+            elements.run.textContent = 'Testar';
+        }
+
+        debugState[key] = result;
+    }
+
+    function setFailedBeforeResponse(key, error, durationMs) {
+        const elements = getDebugElements(key);
+
+        const payload = {
+            ok: false,
+            error: error && error.name === 'AbortError'
+                ? 'Tempo limite excedido'
+                : error && error.message
+                    ? error.message
+                    : 'Erro desconhecido'
+        };
+
+        setCardState(key, 'error');
+        setText(elements.status, 'Erro');
+        setText(elements.http, '—');
+        setText(elements.time, durationMs + 'ms');
+        setText(elements.updated, nowLabel());
+
+        if (elements.json) {
+            renderDebugJson(elements.json, payload);
+        }
+
+        if (elements.copy) {
+            elements.copy.disabled = false;
+        }
+
+        if (elements.run) {
+            elements.run.disabled = false;
+            elements.run.textContent = 'Testar';
+        }
+
+        debugState[key] = {
+            ok: false,
+            httpStatus: null,
+            durationMs,
+            payload
+        };
+    }
+
+    async function readResponsePayload(response) {
+        const contentType = response.headers.get('content-type') || '';
+
+        if (contentType.includes('application/json')) {
+            return response.json();
+        }
+
+        const text = await response.text();
+
+        try {
+            return JSON.parse(text);
+        } catch (error) {
+            return {
+                raw: text
+            };
+        }
+    }
+
+    async function runDebug(key) {
+        const config = DEBUG_APIS[key];
+
+        if (!config) return;
+
+        const startedAt = performance.now();
+        const controller = new AbortController();
+        const timeout = window.setTimeout(function () {
+            controller.abort();
+        }, 15000);
+
+        setLoading(key);
+
+        try {
+            const response = await fetch(config.url, {
+                method: 'GET',
+                cache: 'no-store',
+                signal: controller.signal,
+                headers: {
+                    accept: 'application/json, text/plain, */*'
+                }
+            });
+
+            const payload = await readResponsePayload(response);
+            const durationMs = Math.round(performance.now() - startedAt);
+
+            setDone(key, {
+                ok: response.ok,
+                api: config.name,
+                url: config.url,
+                httpStatus: response.status,
+                statusText: response.statusText,
+                durationMs,
+                checkedAt: new Date().toISOString(),
+                payload
+            });
+        } catch (error) {
+            const durationMs = Math.round(performance.now() - startedAt);
+
+            setFailedBeforeResponse(key, error, durationMs);
+        } finally {
+            window.clearTimeout(timeout);
+        }
+    }
+
+    function toggleJson(key) {
+        const elements = getDebugElements(key);
+
+        if (!elements.card) return;
+
+        elements.card.classList.toggle('is-open');
+    }
+
+    async function copyJson(key) {
+        const elements = getDebugElements(key);
+
+        if (!elements.json) return;
+
+        const text = elements.json.textContent || '';
+
+        try {
+            await navigator.clipboard.writeText(text);
+
+            if (elements.copy) {
+                const oldText = elements.copy.textContent;
+                elements.copy.textContent = 'Copiado';
+
+                window.setTimeout(function () {
+                    elements.copy.textContent = oldText || 'Copiar JSON';
+                }, 1200);
+            }
+        } catch (error) {
+            alert('Não foi possível copiar automaticamente. Selecione o JSON manualmente.');
+        }
+    }
+
+    function collapseAllJson() {
+        document.querySelectorAll('[data-debug-card]').forEach(function (card) {
+            card.classList.remove('is-open');
+        });
+    }
+
+    function bindDebugEvents() {
+        document.addEventListener('click', function (event) {
+            const target = event.target;
+
+            if (!(target instanceof Element)) return;
+
+            const runButton = target.closest('[data-debug-run]');
+            const toggleButton = target.closest('[data-debug-toggle]');
+            const copyButton = target.closest('[data-debug-copy]');
+
+            if (runButton) {
+                event.preventDefault();
+                runDebug(runButton.getAttribute('data-debug-run'));
+                return;
+            }
+
+            if (toggleButton) {
+                event.preventDefault();
+                toggleJson(toggleButton.getAttribute('data-debug-toggle'));
+                return;
+            }
+
+            if (copyButton) {
+                event.preventDefault();
+                copyJson(copyButton.getAttribute('data-debug-copy'));
+            }
+        });
+
+        const runAllButton = document.getElementById('ka-debug-run-all');
+
+        if (runAllButton) {
+            runAllButton.addEventListener('click', async function () {
+                runAllButton.disabled = true;
+                runAllButton.textContent = 'Testando...';
+
+                for (const key of Object.keys(DEBUG_APIS)) {
+                    await runDebug(key);
+                }
+
+                runAllButton.disabled = false;
+                runAllButton.textContent = 'Testar todas';
+            });
+        }
+
+        const collapseAllButton = document.getElementById('ka-debug-collapse-all');
+
+        if (collapseAllButton) {
+            collapseAllButton.addEventListener('click', collapseAllJson);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindDebugEvents);
+    } else {
+        bindDebugEvents();
+    }
+})();
+</script>
+<!-- FIM ADMIN_API_DEBUG_SCRIPT_V1 -->
+
 </body>
 </html>

@@ -2864,3 +2864,13 @@ html.story-login-scroll-locked #story-login-modal * {
 }
 /* FIM STORY_LOGIN_SCROLL_LOCK_V1 */
 
+/* LOGIN_BUTTON_SOFT_OPACITY_V1 */
+#floating-trakt-login.site-auth-login {
+    opacity: .75 !important;
+}
+
+#floating-trakt-login.site-auth-login:hover,
+#floating-trakt-login.site-auth-login:focus-visible {
+    opacity: .9 !important;
+}
+/* FIM LOGIN_BUTTON_SOFT_OPACITY_V1 */
