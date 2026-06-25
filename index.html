@@ -25,13 +25,13 @@
             </svg>
         </a>
 
-        <a id="floating-trakt-login" class="site-top-action site-top-action-right site-auth-login" href="/login" title="Entrar" aria-label="Entrar">
+        <button id="floating-trakt-login" class="site-top-action site-top-action-right site-auth-login" type="button" title="Entrar" aria-label="Entrar">
             <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                 <path d="M10 17l5-5-5-5"></path>
                 <path d="M15 12H3"></path>
             </svg>
-        </a>
+        </button>
 
         <a id="floating-trakt-logout" class="site-top-action site-top-action-right site-auth-logout" href="/?logout=on" title="Sair" aria-label="Sair">
             <svg aria-hidden="true" class="icon" viewBox="0 0 24 24">
@@ -679,17 +679,7 @@
             </a>
         </div>
     </main>
-    <script type="module" src="dist/main.js"></script>
-
-<!-- Floating Trakt Login Button -->
-<!-- Fim Floating Trakt Login Button -->
-<!-- Floating Trakt Logout Button -->
-<!-- Fim Floating Trakt Logout Button -->
-</body>
-
-</html>
-
-<!-- Story Login Modal -->
+    <!-- Story Login Modal -->
 <div class="story-login-overlay" id="story-login-modal" aria-hidden="true">
     <div class="story-login-card" role="dialog" aria-modal="true" aria-labelledby="story-login-title">
         <button class="story-login-close" id="story-login-close" type="button" aria-label="Fechar login">
@@ -717,3 +707,12 @@
     </div>
 </div>
 <!-- Fim Story Login Modal -->
+
+    <script type="module" src="dist/main.js"></script>
+
+</body>
+
+</html>
+
+
+
