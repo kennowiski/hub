@@ -2809,3 +2809,16 @@ html.supabase-story-authorized .site-auth-login {
     }
 }
 /* FIM FLOATING_BUTTONS_INDEX_STATIC_V1 */
+
+
+/* TYPEWRITER_FALLBACK_V1 */
+#typing-text {
+    min-height: 1em;
+}
+
+#typing-text.typing-active,
+#typing-text.typing-done {
+    visibility: visible;
+}
+/* FIM TYPEWRITER_FALLBACK_V1 */
+

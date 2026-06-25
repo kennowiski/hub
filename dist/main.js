@@ -34,15 +34,23 @@ window.addEventListener('DOMContentLoaded', () => {
 const textToType = "Entusiasta de programação explorando conhecimento. Gamer, cinéfilo e amante da música.";
 const typingElement = document.getElementById('typing-text');
 let typeIndex = 0;
-if (typingElement)
-    typingElement.textContent = '';
+let typewriterStarted = false;
 function typeWriter() {
     if (!typingElement)
         return;
+    if (!typewriterStarted) {
+        typewriterStarted = true;
+        typingElement.textContent = '';
+        typingElement.classList.add('typing-active');
+    }
     if (typeIndex < textToType.length) {
         typingElement.textContent += textToType.charAt(typeIndex);
         typeIndex++;
         setTimeout(typeWriter, 15);
+    }
+    else {
+        typingElement.classList.remove('typing-active');
+        typingElement.classList.add('typing-done');
     }
 }
 // ==========================================
