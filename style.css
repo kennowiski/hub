@@ -2687,261 +2687,6 @@ a[aria-label="Redes sociais"] .external-icon {
     }
 }
 /* Fim Story Login Modal */
-
-/* Floating Trakt Logout Button */
-.floating-trakt-logout {
-    position: fixed !important;
-    top: 22px;
-    right: 22px;
-    z-index: 10000001;
-
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
-    max-width: 42px;
-    min-height: 42px;
-    max-height: 42px;
-    aspect-ratio: 1 / 1;
-
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    border-radius: 14px;
-    background: rgba(14, 18, 30, 0.74);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-
-    color: rgba(255, 255, 255, 0.88);
-
-    display: none;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
-    transition: 0.2s ease;
-}
-
-.supabase-story-authorized .floating-trakt-logout {
-    display: flex;
-}
-
-.floating-trakt-logout:hover {
-    transform: translateY(-1px);
-    background: rgba(20, 25, 40, 0.88);
-    border-color: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
-}
-
-.floating-trakt-logout .icon {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-}
-
-@media (max-width: 899px) {
-    .floating-trakt-logout {
-        top: 18px;
-        right: 18px;
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
-        max-width: 40px;
-        min-height: 40px;
-        max-height: 40px;
-        border-radius: 13px;
-    }
-
-    .floating-trakt-logout .icon {
-        width: 15px;
-        height: 15px;
-    }
-}
-/* Fim Floating Trakt Logout Button */
-
-/* Correção posição fixa logout Trakt */
-html body #floating-trakt-logout.floating-trakt-logout {
-    position: fixed !important;
-    top: 18px !important;
-    right: 18px !important;
-    left: auto !important;
-    bottom: auto !important;
-    z-index: 2147483647 !important;
-    transform: none !important;
-}
-
-html.supabase-story-authorized body #floating-trakt-logout.floating-trakt-logout {
-    display: flex !important;
-}
-/* Fim correção posição fixa logout Trakt */
-
-/* Logout Trakt preso na viewport */
-html body #floating-trakt-logout.floating-trakt-logout {
-    position: absolute !important;
-    z-index: 2147483647 !important;
-
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
-    max-width: 42px !important;
-    min-height: 42px !important;
-    max-height: 42px !important;
-
-    border-radius: 14px !important;
-    transform: none !important;
-}
-
-@media (max-width: 899px) {
-    html body #floating-trakt-logout.floating-trakt-logout {
-        width: 40px !important;
-        height: 40px !important;
-        min-width: 40px !important;
-        max-width: 40px !important;
-        min-height: 40px !important;
-        max-height: 40px !important;
-        border-radius: 13px !important;
-    }
-}
-/* Fim Logout Trakt preso na viewport */
-
-/* Floating Trakt Login Button */
-.floating-trakt-login {
-    position: fixed !important;
-    top: 22px;
-    right: 22px;
-    z-index: 10000001;
-
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
-    max-width: 42px;
-    min-height: 42px;
-    max-height: 42px;
-    aspect-ratio: 1 / 1;
-
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    border-radius: 14px;
-    background: rgba(14, 18, 30, 0.34);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-
-    color: rgba(255, 255, 255, 0.48);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
-    transition: 0.2s ease;
-}
-
-.supabase-story-authorized .floating-trakt-login {
-    display: none;
-}
-
-.floating-trakt-login:hover {
-    transform: translateY(-1px);
-    background: rgba(20, 25, 40, 0.88);
-    border-color: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
-}
-
-.floating-trakt-login .icon {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-}
-
-@media (max-width: 899px) {
-    .floating-trakt-login {
-        top: 18px;
-        right: 18px;
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
-        max-width: 40px;
-        min-height: 40px;
-        max-height: 40px;
-        border-radius: 13px;
-    }
-
-    .floating-trakt-login .icon {
-        width: 15px;
-        height: 15px;
-    }
-}
-/* Fim Floating Trakt Login Button */
-
-/* Correção posição fixa login Trakt */
-html body #floating-trakt-login.floating-trakt-login {
-    position: fixed !important;
-    top: 18px !important;
-    right: 18px !important;
-    left: auto !important;
-    bottom: auto !important;
-    z-index: 2147483647 !important;
-    transform: none !important;
-}
-
-html.supabase-story-authorized body #floating-trakt-login.floating-trakt-login {
-    display: none !important;
-}
-/* Fim correção posição fixa login Trakt */
-
-/* Login Trakt preso na viewport */
-html body #floating-trakt-login.floating-trakt-login {
-    position: absolute !important;
-    z-index: 2147483647 !important;
-
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
-    max-width: 42px !important;
-    min-height: 42px !important;
-    max-height: 42px !important;
-
-    border-radius: 14px !important;
-    transform: none !important;
-}
-
-@media (max-width: 899px) {
-    html body #floating-trakt-login.floating-trakt-login {
-        width: 40px !important;
-        height: 40px !important;
-        min-width: 40px !important;
-        max-width: 40px !important;
-        min-height: 40px !important;
-        max-height: 40px !important;
-        border-radius: 13px !important;
-    }
-}
-/* Fim Login Trakt preso na viewport */
-
-/* Ajuste transparência login Trakt */
-html body #floating-trakt-login.floating-trakt-login {
-    background: rgba(14, 18, 30, 0.10) !important;
-    border-color: rgba(255, 255, 255, 0.05) !important;
-    color: rgba(255, 255, 255, 0.30) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
-}
-/* Fim ajuste transparência login Trakt */
-
-/* Oculta login/logout quando qualquer modal estiver aberto */
-html:has(#spotify-history-modal.active) #floating-trakt-login,
-html:has(#spotify-history-modal.active) #floating-trakt-logout,
-html:has(#mobile-tech-modal.active) #floating-trakt-login,
-html:has(#mobile-tech-modal.active) #floating-trakt-logout,
-html:has(#lb-modal.active) #floating-trakt-login,
-html:has(#lb-modal.active) #floating-trakt-logout,
-html:has(#trakt-modal.active) #floating-trakt-login,
-html:has(#trakt-modal.active) #floating-trakt-logout,
-html:has(#story-login-modal.active) #floating-trakt-login,
-html:has(#story-login-modal.active) #floating-trakt-logout {
-    display: none !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-}
-/* Fim oculta login/logout quando qualquer modal estiver aberto */
-
 /* Admin Dashboard v1 */
 .admin-page {
     background-color: var(--bg-color);
@@ -3396,3 +3141,337 @@ html:has(#story-login-modal.active) #floating-trakt-logout {
     display: none !important;
 }
 /* Fim remove botão Story Trakt da home */
+
+
+/* ADMIN_SPACING_APIS_LOGOUT_FIX_V1 */
+.admin-hero,
+.admin-page .admin-hero {
+    margin-bottom: 24px !important;
+    min-height: 0 !important;
+}
+
+#dashboard,
+.admin-section#dashboard {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.admin-live-summary,
+.admin-live-apis {
+    display: grid !important;
+    gap: 1rem !important;
+    margin-top: 1.25rem !important;
+}
+
+.admin-live-summary {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.admin-live-apis {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.admin-live-card {
+    border: 1px solid rgba(148, 163, 184, 0.16) !important;
+    background: rgba(15, 18, 28, 0.72) !important;
+    border-radius: 1.25rem !important;
+    min-height: 7rem !important;
+    padding: 1.25rem !important;
+}
+
+.admin-live-card span {
+    color: #9aa8bd !important;
+    display: block !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.45rem !important;
+}
+
+.admin-live-card strong {
+    color: #ffffff !important;
+    display: block !important;
+    font-size: 1.3rem !important;
+    line-height: 1.15 !important;
+}
+
+.admin-live-card p {
+    color: #a8b3c7 !important;
+    font-size: 0.9rem !important;
+    margin: 0.55rem 0 0 !important;
+}
+
+.admin-live-card small {
+    color: #718096 !important;
+    display: block !important;
+    margin-top: 0.75rem !important;
+}
+
+.admin-live-card-top {
+    align-items: center !important;
+    display: flex !important;
+    gap: 0.65rem !important;
+    margin-bottom: 0.85rem !important;
+}
+
+.admin-live-card-top strong {
+    font-size: 1rem !important;
+    margin-right: auto !important;
+}
+
+.admin-live-title {
+    color: #ffffff !important;
+    font-size: 1.05rem !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+}
+
+.admin-live-dot {
+    background: #ef4444 !important;
+    border-radius: 999px !important;
+    display: inline-block !important;
+    flex: 0 0 auto !important;
+    height: 0.65rem !important;
+    margin: 0 !important;
+    width: 0.65rem !important;
+}
+
+.admin-live-online .admin-live-dot {
+    background: #22c55e !important;
+}
+
+.admin-api-refresh-one {
+    align-items: center !important;
+    background: rgba(124, 92, 255, 0.14) !important;
+    border: 1px solid rgba(124, 92, 255, 0.35) !important;
+    border-radius: 999px !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    justify-content: center !important;
+    min-height: 1.9rem !important;
+    padding: 0.35rem 0.7rem !important;
+    white-space: nowrap !important;
+}
+
+.admin-api-refresh-one:hover {
+    background: rgba(124, 92, 255, 0.26) !important;
+}
+
+.admin-api-refresh-one:disabled {
+    cursor: wait !important;
+    opacity: 0.65 !important;
+}
+
+@media (max-width: 900px) {
+    .admin-live-summary,
+    .admin-live-apis {
+        grid-template-columns: 1fr !important;
+    }
+}
+/* FIM ADMIN_SPACING_APIS_LOGOUT_FIX_V1 */
+/* ADMIN_INTRO_COMMON_BLOCK_FINAL_V1 */
+#admin-overview.admin-intro-section {
+    margin: 0 0 2rem 0 !important;
+    min-height: 0 !important;
+    padding: 1.75rem !important;
+}
+
+#admin-overview.admin-intro-section + #dashboard,
+#admin-overview.admin-intro-section + .admin-section {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+#admin-overview.admin-intro-section h1 {
+    margin: 0.35rem 0 0.65rem !important;
+}
+
+#admin-overview.admin-intro-section p {
+    margin: 0 !important;
+}
+
+#admin-overview.admin-intro-section [class*="action"],
+#admin-overview.admin-intro-section [class*="button"],
+#admin-overview.admin-intro-section .admin-btn {
+    position: static !important;
+}
+
+#admin-overview.admin-intro-section > div,
+#admin-overview.admin-intro-section header,
+#admin-overview.admin-intro-section .admin-section-header,
+#admin-overview.admin-intro-section .admin-hero-header,
+#admin-overview.admin-intro-section .admin-hero-top {
+    min-height: 0 !important;
+}
+
+main,
+.admin-main,
+.admin-content {
+    align-content: start !important;
+    justify-content: start !important;
+}
+/* FIM ADMIN_INTRO_COMMON_BLOCK_FINAL_V1 */
+
+
+/* ADMIN_INTRO_RUNTIME_FIX_V2 */
+.admin-intro-card-new {
+    align-items: flex-start !important;
+    background: rgba(15, 18, 28, 0.72) !important;
+    border: 1px solid rgba(148, 163, 184, 0.16) !important;
+    border-radius: 1.25rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 1.5rem !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    padding: 1.5rem 1.75rem !important;
+}
+
+.admin-intro-card-new + #dashboard,
+.admin-intro-card-new + .admin-section {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.admin-intro-kicker-new {
+    color: #a78bfa !important;
+    display: block !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.22em !important;
+    margin-bottom: 0.65rem !important;
+    text-transform: uppercase !important;
+}
+
+.admin-intro-card-new h1 {
+    color: #ffffff !important;
+    font-size: 2rem !important;
+    line-height: 1.1 !important;
+    margin: 0 0 0.55rem !important;
+}
+
+.admin-intro-card-new p {
+    color: #a8b3c7 !important;
+    margin: 0 !important;
+}
+
+.admin-intro-actions-new {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+    justify-content: flex-end !important;
+}
+
+@media (max-width: 900px) {
+    .admin-intro-card-new {
+        flex-direction: column !important;
+    }
+
+    .admin-intro-actions-new {
+        justify-content: flex-start !important;
+    }
+}
+/* FIM ADMIN_INTRO_RUNTIME_FIX_V2 */
+
+
+/* FLOATING_BUTTONS_INDEX_STATIC_V1 */
+.site-top-actions {
+    position: absolute;
+    top: 22px;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.site-top-action {
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    background: rgba(14, 18, 30, 0.74);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+    color: rgba(255, 255, 255, 0.88);
+    cursor: pointer;
+    display: flex;
+    height: 42px;
+    justify-content: center;
+    pointer-events: auto;
+    position: absolute;
+    text-decoration: none;
+    top: 0;
+    transition: 0.2s ease;
+    width: 42px;
+}
+
+.site-top-action-left {
+    left: 22px;
+}
+
+.site-top-action-right {
+    right: 22px;
+}
+
+.site-top-action:hover {
+    background: rgba(20, 25, 40, 0.88);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.site-top-action .icon {
+    fill: none;
+    flex-shrink: 0;
+    height: 16px;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    width: 16px;
+}
+
+.site-admin-link,
+.site-auth-logout {
+    display: none;
+}
+
+html.supabase-story-authorized .site-admin-link,
+html.supabase-story-authorized .site-auth-logout {
+    display: flex;
+}
+
+html.supabase-story-authorized .site-auth-login {
+    display: none;
+}
+
+@media (max-width: 899px) {
+    .site-top-actions {
+        top: 18px;
+    }
+
+    .site-top-action {
+        border-radius: 13px;
+        height: 40px;
+        width: 40px;
+    }
+
+    .site-top-action-left {
+        left: 18px;
+    }
+
+    .site-top-action-right {
+        right: 18px;
+    }
+
+    .site-top-action .icon {
+        height: 15px;
+        width: 15px;
+    }
+}
+/* FIM FLOATING_BUTTONS_INDEX_STATIC_V1 */
+

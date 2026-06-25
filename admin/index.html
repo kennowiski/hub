@@ -1,26 +1,543 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-    <base href="/">
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin · Portfólio do Kenny</title>
-    <link href="assets/images/favicon.webp" rel="icon" type="image/webp" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="../favicon.ico" />
+    <style>
+        :root {
+            --bg: #080a12;
+            --panel: rgba(15, 18, 28, 0.78);
+            --panel-strong: rgba(20, 24, 38, 0.92);
+            --border: rgba(148, 163, 184, 0.16);
+            --text: #ffffff;
+            --muted: #a8b3c7;
+            --muted-2: #718096;
+            --purple: #7c5cff;
+            --green: #22c55e;
+            --red: #ef4444;
+            --radius: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at 0% 10%, rgba(124, 92, 255, 0.22), transparent 34%),
+                radial-gradient(circle at 100% 85%, rgba(168, 36, 168, 0.28), transparent 32%),
+                var(--bg);
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ka-shell {
+            display: grid;
+            gap: 1.25rem;
+            grid-template-columns: 260px minmax(0, 1fr);
+            margin: 0 auto;
+            max-width: 1240px;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .ka-sidebar {
+            align-self: start;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+            min-height: calc(100vh - 3rem);
+            padding: 1.25rem;
+            position: sticky;
+            top: 1.5rem;
+        }
+
+        .ka-brand {
+            align-items: center;
+            display: flex;
+            gap: 0.75rem;
+            font-weight: 900;
+        }
+
+        .ka-logo {
+            align-items: center;
+            background: linear-gradient(135deg, #8b5cf6, #6d5dfc);
+            border-radius: 0.8rem;
+            display: inline-flex;
+            height: 2.1rem;
+            justify-content: center;
+            width: 2.1rem;
+        }
+
+        .ka-nav {
+            display: grid;
+            gap: 0.4rem;
+        }
+
+        .ka-nav a {
+            border-radius: 0.85rem;
+            color: var(--muted);
+            font-size: 0.92rem;
+            font-weight: 800;
+            padding: 0.75rem 0.7rem;
+        }
+
+        .ka-nav a:hover,
+        .ka-nav a.active {
+            background: rgba(124, 92, 255, 0.12);
+            color: var(--text);
+        }
+
+        .ka-sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .ka-main {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            min-width: 0;
+        }
+
+        .ka-card,
+        .ka-section {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .ka-intro {
+            align-items: flex-start;
+            display: flex;
+            gap: 1.25rem;
+            justify-content: space-between;
+        }
+
+        .ka-kicker {
+            color: #a78bfa;
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.22em;
+            margin-bottom: 0.65rem;
+            text-transform: uppercase;
+        }
+
+        .ka-card h1,
+        .ka-section h2 {
+            color: var(--text);
+            line-height: 1.1;
+            margin: 0;
+        }
+
+        .ka-card h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 0.65rem;
+        }
+
+        .ka-section h2 {
+            font-size: 1.35rem;
+        }
+
+        .ka-card p,
+        .ka-section p {
+            color: var(--muted);
+            margin: 0.35rem 0 0;
+        }
+
+        .ka-actions {
+            display: flex;
+            flex: 0 0 auto;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .ka-btn {
+            align-items: center;
+            background: rgba(148, 163, 184, 0.1);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            border-radius: 0.9rem;
+            color: var(--text);
+            cursor: pointer;
+            display: inline-flex;
+            font: inherit;
+            font-size: 0.88rem;
+            font-weight: 900;
+            justify-content: center;
+            min-height: 2.55rem;
+            padding: 0.65rem 1rem;
+            transition: 0.18s ease;
+        }
+
+        .ka-btn:hover {
+            background: rgba(148, 163, 184, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .ka-btn-primary {
+            background: linear-gradient(135deg, #8b5cf6, #6d5dfc);
+            border-color: transparent;
+        }
+
+        .ka-btn-small {
+            border-radius: 999px;
+            font-size: 0.74rem;
+            min-height: 1.9rem;
+            padding: 0.35rem 0.75rem;
+        }
+
+        .ka-btn:disabled {
+            cursor: wait;
+            opacity: 0.65;
+            transform: none;
+        }
+
+        .ka-section-title {
+            align-items: flex-start;
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .ka-number {
+            align-items: center;
+            background: linear-gradient(135deg, #8b5cf6, #6d5dfc);
+            border-radius: 999px;
+            color: #fff;
+            display: inline-flex;
+            flex: 0 0 auto;
+            font-size: 0.78rem;
+            font-weight: 900;
+            height: 1.8rem;
+            justify-content: center;
+            width: 1.8rem;
+        }
+
+        .ka-grid-4 {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .ka-grid-2 {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .ka-mini-card {
+            background: rgba(9, 12, 22, 0.68);
+            border: 1px solid var(--border);
+            border-radius: 1.1rem;
+            min-height: 7rem;
+            padding: 1.15rem;
+        }
+
+        .ka-mini-label {
+            color: var(--muted);
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 900;
+            margin-bottom: 0.45rem;
+        }
+
+        .ka-mini-value {
+            color: var(--text);
+            display: block;
+            font-size: 1.4rem;
+            font-weight: 950;
+            line-height: 1.1;
+        }
+
+        .ka-mini-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 0.55rem;
+        }
+
+        .ka-api-card {
+            background: rgba(9, 12, 22, 0.68);
+            border: 1px solid var(--border);
+            border-radius: 1.1rem;
+            min-height: 8.4rem;
+            padding: 1.15rem;
+        }
+
+        .ka-api-top {
+            align-items: center;
+            display: flex;
+            gap: 0.65rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .ka-dot {
+            background: var(--red);
+            border-radius: 999px;
+            flex: 0 0 auto;
+            height: 0.65rem;
+            width: 0.65rem;
+        }
+
+        .ka-api-card.online .ka-dot {
+            background: var(--green);
+        }
+
+        .ka-api-name {
+            font-weight: 950;
+            margin-right: auto;
+        }
+
+        .ka-api-title {
+            color: var(--text);
+            font-size: 1.05rem;
+            font-weight: 950;
+            line-height: 1.25;
+        }
+
+        .ka-api-card small {
+            color: var(--muted-2);
+            display: block;
+            margin-top: 0.75rem;
+        }
+
+        .ka-cache-list {
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .ka-cache-row {
+            align-items: center;
+            background: rgba(9, 12, 22, 0.68);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+
+        .ka-session-box {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .ka-muted {
+            color: var(--muted);
+        }
+
+        @media (max-width: 980px) {
+            .ka-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .ka-sidebar {
+                min-height: auto;
+                position: relative;
+                top: 0;
+            }
+
+            .ka-grid-4,
+            .ka-grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .ka-intro {
+                flex-direction: column;
+            }
+
+            .ka-actions {
+                justify-content: flex-start;
+            }
+        }
+    
+        /* ADMIN_AUTH_GATE_V1 */
+        .ka-auth-checking .ka-shell {
+            display: none !important;
+        }
+
+        #admin-auth-screen {
+            align-items: center;
+            background:
+                radial-gradient(circle at 0% 10%, rgba(124, 92, 255, 0.22), transparent 34%),
+                radial-gradient(circle at 100% 85%, rgba(168, 36, 168, 0.28), transparent 32%),
+                #080a12;
+            color: #ffffff;
+            display: none;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            inset: 0;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            position: fixed;
+            text-align: center;
+            z-index: 9999;
+        }
+
+        .ka-auth-checking #admin-auth-screen {
+            display: flex;
+        }
+
+        .ka-auth-box {
+            background: rgba(15, 18, 28, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            border-radius: 1.25rem;
+            max-width: 420px;
+            padding: 1.5rem;
+            width: 100%;
+        }
+
+        .ka-auth-box strong {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.45rem;
+        }
+
+        .ka-auth-box p {
+            color: #a8b3c7;
+            margin: 0;
+        }
+        /* FIM ADMIN_AUTH_GATE_V1 */
+
+    </style>
 </head>
 
-<body class="admin-page">
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
+<body class="ka-auth-checking">
 
-    <main class="admin-shell" id="admin-shell">
-        <aside class="admin-sidebar">
-            <a class="admin-brand" href="/admin">
-                <span class="admin-brand-icon">✦</span>
+    <div id="admin-auth-screen">
+        <div class="ka-auth-box">
+            <strong>Verificando acesso privado</strong>
+            <p>Aguarde enquanto validamos sua sessão.</p>
+        </div>
+    </div>
+
+    <script>
+        /* ADMIN_AUTH_GATE_V1 */
+        (() => {
+            const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
+            const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
+            const SUPABASE_AUTH_STORAGE_KEY = 'sb-ivbpcyjkvzsawjzhrwsd-auth-token';
+            const AUTHORIZED_EMAIL = 'kennowiski@yahoo.com';
+
+            function redirectToLogin() {
+                window.location.replace('/login');
+            }
+
+            function loadSupabaseSdk() {
+                return new Promise((resolve, reject) => {
+                    if (window.supabase && window.supabase.createClient) {
+                        resolve(window.supabase);
+                        return;
+                    }
+
+                    const existing = document.querySelector('script[data-admin-supabase-sdk="true"]');
+
+                    if (existing) {
+                        existing.addEventListener('load', () => resolve(window.supabase), { once: true });
+                        existing.addEventListener('error', reject, { once: true });
+                        return;
+                    }
+
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                    script.async = true;
+                    script.defer = true;
+                    script.dataset.adminSupabaseSdk = 'true';
+
+                    script.addEventListener('load', () => resolve(window.supabase), { once: true });
+                    script.addEventListener('error', reject, { once: true });
+
+                    document.head.appendChild(script);
+                });
+            }
+
+            async function verifyAdminAccess() {
+                try {
+                    const supabaseSdk = await loadSupabaseSdk();
+
+                    const client = supabaseSdk.createClient(SUPABASE_PROJECT_URL, SUPABASE_PUBLISHABLE_KEY, {
+                        auth: {
+                            storageKey: SUPABASE_AUTH_STORAGE_KEY,
+                            persistSession: true,
+                            autoRefreshToken: true,
+                            detectSessionInUrl: true
+                        }
+                    });
+
+                    window.kennyAdminSupabase = client;
+
+                    const sessionResult = await client.auth.getSession();
+                    const session = sessionResult && sessionResult.data ? sessionResult.data.session : null;
+
+                    if (!session) {
+                        redirectToLogin();
+                        return;
+                    }
+
+                    const userResult = await client.auth.getUser();
+                    const user = userResult && userResult.data ? userResult.data.user : null;
+                    const email = String((user && user.email) || (session.user && session.user.email) || '').toLowerCase();
+
+                    if (email !== AUTHORIZED_EMAIL) {
+                        try {
+                            await client.auth.signOut();
+                        } catch {}
+
+                        redirectToLogin();
+                        return;
+                    }
+
+                    const emailEl = document.getElementById('session-email');
+
+                    if (emailEl) {
+                        emailEl.textContent = email;
+                    }
+
+                    window.KENNY_ADMIN_AUTH_ALLOWED = true;
+                    document.body.classList.remove('ka-auth-checking');
+                    document.body.classList.add('ka-auth-ok');
+                    window.dispatchEvent(new Event('kenny-admin-auth-ready'));
+                } catch (error) {
+                    console.error('Erro ao verificar acesso ao admin:', error);
+                    redirectToLogin();
+                }
+            }
+
+            verifyAdminAccess();
+        })();
+        /* FIM ADMIN_AUTH_GATE_V1 */
+    </script>
+
+    <div class="ka-shell">
+        <aside class="ka-sidebar">
+            <div class="ka-brand">
+                <span class="ka-logo">✦</span>
                 <span>Kenny Admin</span>
-            </a>
+            </div>
 
-            <nav class="admin-nav" aria-label="Menu do painel admin">
+            <nav class="ka-nav" aria-label="Menu do admin">
                 <a href="#dashboard">Dashboard</a>
                 <a href="#apis">APIs</a>
                 <a href="#cache">Cache</a>
@@ -28,412 +545,457 @@
                 <a href="#sessao">Sessão</a>
             </nav>
 
-            <a class="admin-sidebar-link" href="/">Voltar ao site</a>
+            <div class="ka-sidebar-bottom">
+                <a class="ka-btn" href="/">Voltar ao site</a>
+            </div>
         </aside>
 
-        <section class="admin-main">
-            <header class="admin-header">
+        <main class="ka-main">
+            <section class="ka-card ka-intro" id="overview">
                 <div>
-                    <span class="admin-kicker">Painel privado</span>
+                    <span class="ka-kicker">Painel privado</span>
                     <h1>Dashboard</h1>
                     <p>Resumo simplificado das integrações públicas do portfólio.</p>
                 </div>
 
-                <div class="admin-header-actions">
-                    <button class="admin-btn admin-btn-secondary" id="admin-refresh-all" type="button">Atualizar tudo</button>
-                    <a class="admin-btn" href="/">Ver site</a>
+                <div class="ka-actions">
+                    <button class="ka-btn" id="refresh-all" type="button">Atualizar tudo</button>
+                    <a class="ka-btn ka-btn-primary" href="/">Ver site</a>
                 </div>
-            </header>
+            </section>
 
-            <section class="admin-content" id="admin-content" hidden>
-                    <span id="trakt-modal-title"></span>
-                    <span id="trakt-modal-episode"></span>
-                    <span id="trakt-modal-rating"></span>
-                    <a id="trakt-open-link" href="#"></a>
+            <section class="ka-section" id="dashboard">
+                <div class="ka-section-title">
+                    <span class="ka-number">01</span>
+                    <div>
+                        <h2>Dashboard</h2>
+                        <p>Status geral das integrações do portfólio.</p>
+                    </div>
                 </div>
-                    <span id="trakt-modal-title"></span>
-                    <span id="trakt-modal-episode"></span>
-                    <span id="trakt-modal-rating"></span>
-                    <a id="trakt-open-link" href="#"></a>
+
+                <div class="ka-grid-4" id="summary-grid">
+                    <article class="ka-mini-card">
+                        <span class="ka-mini-label">APIs online</span>
+                        <strong class="ka-mini-value">--/--</strong>
+                        <p>Aguardando atualização.</p>
+                    </article>
+                    <article class="ka-mini-card">
+                        <span class="ka-mini-label">Última atualização</span>
+                        <strong class="ka-mini-value">--:--</strong>
+                        <p>Horário local do navegador.</p>
+                    </article>
+                    <article class="ka-mini-card">
+                        <span class="ka-mini-label">Tempo médio</span>
+                        <strong class="ka-mini-value">--ms</strong>
+                        <p>Média das respostas testadas.</p>
+                    </article>
+                    <article class="ka-mini-card">
+                        <span class="ka-mini-label">Status geral</span>
+                        <strong class="ka-mini-value">Verificando</strong>
+                        <p>Aguardando APIs.</p>
+                    </article>
                 </div>
-                <section class="admin-section" id="dashboard">
-                    <div class="admin-section-heading">
-                        <span>01</span>
-                        <div>
-                            <h2>Dashboard</h2>
-                            <p>Status geral das integrações do portfólio.</p>
-                        </div>
+            </section>
+
+            <section class="ka-section" id="apis">
+                <div class="ka-section-title">
+                    <span class="ka-number">02</span>
+                    <div>
+                        <h2>APIs</h2>
+                        <p>Consulta rápida dos serviços usados no site.</p>
                     </div>
+                </div>
 
-                    <div class="admin-stats-grid">
-                        <article class="admin-stat-card">
-                            <span>APIs online</span>
-                            <strong id="admin-online-count">0/5</strong>
-                            <small id="admin-online-note">Aguardando atualização.</small>
-                        </article>
+                <div class="ka-grid-2" id="api-grid"></div>
+            </section>
 
-                        <article class="admin-stat-card">
-                            <span>Última atualização</span>
-                            <strong id="admin-last-update">--:--</strong>
-                            <small>Horário local do navegador.</small>
-                        </article>
-
-                        <article class="admin-stat-card">
-                            <span>Tempo médio</span>
-                            <strong id="admin-average-time">--ms</strong>
-                            <small>Média das respostas testadas.</small>
-                        </article>
-
-                        <article class="admin-stat-card">
-                            <span>Status geral</span>
-                            <strong id="admin-general-status">Verificando</strong>
-                            <small id="admin-general-note">Aguardando APIs.</small>
-                        </article>
+            <section class="ka-section" id="cache">
+                <div class="ka-section-title">
+                    <span class="ka-number">03</span>
+                    <div>
+                        <h2>Cache</h2>
+                        <p>Estado do cache local usado pelo navegador.</p>
                     </div>
-                </section>
+                </div>
 
-                <section class="admin-section" id="apis">
-                    <div class="admin-section-heading">
-                        <span>02</span>
-                        <div>
-                            <h2>APIs</h2>
-                            <p>Consulta rápida dos serviços usados no site.</p>
-                        </div>
+                <div class="ka-cache-list" id="cache-list"></div>
+            </section>
+
+            <section class="ka-section" id="stories">
+                <div class="ka-section-title">
+                    <span class="ka-number">04</span>
+                    <div>
+                        <h2>Stories</h2>
+                        <p>Atalhos privados para geração de stories.</p>
                     </div>
+                </div>
 
-                    <div class="admin-api-grid" id="admin-api-grid"></div>
-                </section>
-
-                <section class="admin-section" id="cache">
-                    <div class="admin-section-heading">
-                        <span>03</span>
-                        <div>
-                            <h2>Cache</h2>
-                            <p>Estado do cache local usado pelo navegador.</p>
-                        </div>
-                    </div>
-
-                    <div class="admin-cache-grid">
-                        <article class="admin-card">
-                            <div class="admin-card-top">
-                                <span class="admin-service-dot admin-dot-letterboxd"></span>
-                                <h3>Letterboxd</h3>
-                            </div>
-                            <dl class="admin-data-list">
-                                <div><dt>Status</dt><dd id="cache-letterboxd-status">--</dd></div>
-                                <div><dt>Expira em</dt><dd id="cache-letterboxd-expire">--</dd></div>
-                                <div><dt>Último filme</dt><dd id="cache-letterboxd-title">--</dd></div>
-                            </dl>
-                            <button class="admin-btn admin-btn-secondary admin-full-btn" data-clear-cache="letterboxd" type="button">Limpar cache Letterboxd</button>
-                        </article>
-
-                        <article class="admin-card">
-                            <div class="admin-card-top">
-                                <span class="admin-service-dot admin-dot-trakt"></span>
-                                <h3>Trakt</h3>
-                            </div>
-                            <dl class="admin-data-list">
-                                <div><dt>Status</dt><dd id="cache-trakt-status">--</dd></div>
-                                <div><dt>Expira em</dt><dd id="cache-trakt-expire">--</dd></div>
-                                <div><dt>Última série</dt><dd id="cache-trakt-title">--</dd></div>
-                            </dl>
-                            <button class="admin-btn admin-btn-secondary admin-full-btn" data-clear-cache="trakt" type="button">Limpar cache Trakt</button>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="admin-section" id="stories">
-                    <div class="admin-section-heading">
-                        <span>04</span>
-                        <div>
-                            <h2>Stories</h2>
-                            <p>Ações privadas ligadas aos cards compartilháveis.</p>
-                        </div>
-                    </div>
-
-                    <div class="admin-story-grid">
-                        <article class="admin-card">
-                            <div class="admin-card-top">
-                                <span class="admin-service-dot admin-dot-trakt"></span>
-                                <h3>Story do Trakt</h3>
-                            </div>
-                            <p class="admin-card-text">O botão de compartilhar aparece no modal do Trakt quando você está logado.</p>
-                            <div class="admin-actions-row">
-                                <a class="admin-btn" id="admin-trakt-story-btn" href="/?traktStory=1">Compartilhar story</a>
-                                <button class="admin-btn admin-btn-secondary" id="admin-copy-trakt-link" type="button">Copiar link</button>
-                            </div>
-                        </article>
-
-                        <article class="admin-card">
-                            <div class="admin-card-top">
-                                <span class="admin-service-dot admin-dot-lastfm"></span>
-                                <h3>Story do Last.fm</h3>
-                            </div>
-                            <p class="admin-card-text">Área reservada para a próxima etapa do story musical.</p>
-                            <div class="admin-actions-row">
-                                <button class="admin-btn admin-btn-secondary" type="button" disabled>Em breve</button>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-
-                <section class="admin-section" id="sessao">
-                    <div class="admin-section-heading">
-                        <span>05</span>
-                        <div>
-                            <h2>Sessão</h2>
-                            <p>Dados da autenticação atual.</p>
-                        </div>
-                    </div>
-
-                    <article class="admin-card">
-                        <dl class="admin-data-list">
-                            <div><dt>Conta</dt><dd id="admin-user-email">--</dd></div>
-                            <div><dt>Permissão</dt><dd>Administrador</dd></div>
-                            <div><dt>Projeto</dt><dd>Supabase Auth</dd></div>
-                        </dl>
-
-                        <div class="admin-actions-row">
-                            <a class="admin-btn admin-btn-secondary" href="/">Voltar ao site</a>
-                            <button class="admin-btn admin-btn-danger" id="admin-signout" type="button">Sair</button>
+                <div class="ka-grid-2">
+                    <article class="ka-mini-card">
+                        <span class="ka-mini-label">Story do Trakt</span>
+                        <strong class="ka-mini-value">Disponível</strong>
+                        <p>Gera o story usando a lógica original da home.</p>
+                        <div class="ka-actions" style="justify-content:flex-start;margin-top:1rem;">
+                            <a class="ka-btn ka-btn-primary" href="/?traktStory=1">Compartilhar story</a>
                         </div>
                     </article>
-                </section>
+
+                    <article class="ka-mini-card">
+                        <span class="ka-mini-label">Story do Last.fm</span>
+                        <strong class="ka-mini-value">Em breve</strong>
+                        <p>Reservado para uma próxima etapa.</p>
+                    </article>
+                </div>
             </section>
-        </section>
-    </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+            <section class="ka-section" id="sessao">
+                <div class="ka-section-title">
+                    <span class="ka-number">05</span>
+                    <div>
+                        <h2>Sessão</h2>
+                        <p>Controle da sessão privada do administrador.</p>
+                    </div>
+                </div>
+
+                <div class="ka-session-box">
+                    <article class="ka-mini-card">
+                        <span class="ka-mini-label">Usuário autorizado</span>
+                        <strong class="ka-mini-value" id="session-email">kennowiski@yahoo.com</strong>
+                        <p>Área privada do portfólio.</p>
+                    </article>
+
+                    <div class="ka-actions" style="justify-content:flex-start;">
+                        <button class="ka-btn" id="logout-btn" type="button">Sair</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
     <script>
-        const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
-        const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
-        const AUTHORIZED_ADMIN_EMAIL = 'kennowiski@yahoo.com';
+        const ENDPOINTS = [
+            {
+                key: 'discord',
+                name: 'Discord',
+                url: 'https://api.lanyard.rest/v1/users/387025115898183702',
+                format(data) {
+                    const status = data && data.data ? data.data.discord_status : 'offline';
+                    return {
+                        title: status,
+                        detail: 'Status público via Lanyard.'
+                    };
+                }
+            },
+            {
+                key: 'spotify',
+                name: 'Spotify / Last.fm',
+                url: 'https://kennowiski-api-hub.vercel.app/api/spotify',
+                format(data) {
+                    return {
+                        title: data && data.title ? data.title : 'Sem música',
+                        detail: data && data.artist ? data.artist : 'Nenhum artista agora'
+                    };
+                }
+            },
+            {
+                key: 'letterboxd',
+                name: 'Letterboxd',
+                url: 'https://kennowiski-api-hub.vercel.app/api/letterboxd',
+                format(data) {
+                    return {
+                        title: data && data.title ? data.title : 'Sem filme',
+                        detail: data && data.rating ? 'Nota: ' + data.rating : 'Último filme visto.'
+                    };
+                }
+            },
+            {
+                key: 'trakt',
+                name: 'Trakt',
+                url: 'https://kennowiski-api-hub.vercel.app/api/trakt',
+                format(data) {
+                    const season = String((data && data.season) || 0).padStart(2, '0');
+                    const episode = String((data && data.episodeNumber) || 0).padStart(2, '0');
 
-        const LETTERBOXD_CACHE_KEY = 'kenny-letterboxd-last-movie';
-        const LETTERBOXD_CACHE_TTL_MS = 1000 * 60 * 60 * 6;
+                    return {
+                        title: data && data.show ? data.show : 'Sem série',
+                        detail: data && data.episode ? 'S' + season + 'E' + episode + ' — ' + data.episode : 'Último episódio visto.'
+                    };
+                }
+            },
+            {
+                key: 'lastfm',
+                name: 'Last.fm',
+                url: 'https://kennowiski-api-hub.vercel.app/api/lastfm?limit=1',
+                format(data) {
+                    const track =
+                        Array.isArray(data) ? data[0] :
+                        data && Array.isArray(data.tracks) ? data.tracks[0] :
+                        data && data.recenttracks && Array.isArray(data.recenttracks.track) ? data.recenttracks.track[0] :
+                        null;
 
-        const TRAKT_CACHE_KEY = 'kenny-trakt-last-episode';
-        const TRAKT_CACHE_TTL_MS = 1000 * 60 * 90;
-
-        const API_BASE = 'https://kennowiski-api-hub.vercel.app';
-
-        const services = [
-            { key: 'lastfm', name: 'Last.fm', url: API_BASE + '/api/lastfm?limit=1', dot: 'admin-dot-lastfm' },
-            { key: 'spotify', name: 'Spotify', url: API_BASE + '/api/spotify', dot: 'admin-dot-spotify' },
-            { key: 'letterboxd', name: 'Letterboxd', url: API_BASE + '/api/letterboxd', dot: 'admin-dot-letterboxd' },
-            { key: 'trakt', name: 'Trakt', url: API_BASE + '/api/trakt', dot: 'admin-dot-trakt' },
-            { key: 'discord', name: 'Discord', url: 'https://api.lanyard.rest/v1/users/387025115898183702', dot: 'admin-dot-discord' }
+                    return {
+                        title: track && (track.title || track.name) ? (track.title || track.name) : 'Histórico',
+                        detail: track && track.artist ? String(track.artist.name || track.artist) : 'Consulta de histórico recente.'
+                    };
+                }
+            }
         ];
 
-        const client = window.supabase.createClient(SUPABASE_PROJECT_URL, SUPABASE_PUBLISHABLE_KEY, {
-            auth: {
-                persistSession: true,
-                autoRefreshToken: true,
-                detectSessionInUrl: false
-            }
-        });
+        const resultsByKey = new Map();
 
-        function $(selector) {
+        function qs(selector) {
             return document.querySelector(selector);
         }
 
-        function formatTime(date = new Date()) {
-            return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        }
+        function setActiveNav() {
+            const links = Array.from(document.querySelectorAll('.ka-nav a'));
+            const sections = links
+                .map((link) => document.querySelector(link.getAttribute('href')))
+                .filter(Boolean);
 
-        function formatDuration(ms) {
-            if (!Number.isFinite(ms) || ms < 0) return '--';
-            const minutes = Math.floor(ms / 60000);
-            const hours = Math.floor(minutes / 60);
-            const restMinutes = minutes % 60;
+            let active = sections[0];
 
-            if (hours > 0) return `${hours}h ${restMinutes}min`;
-            if (minutes > 0) return `${minutes}min`;
-            return 'menos de 1min';
-        }
-
-        function readRawCache(key) {
-            try {
-                const raw = localStorage.getItem(key);
-                return raw ? JSON.parse(raw) : null;
-            } catch {
-                return null;
-            }
-        }
-
-        function getCacheInfo(key, ttlMs) {
-            const cached = readRawCache(key);
-
-            if (!cached || typeof cached.createdAt !== 'number' || !cached.data) {
-                return { valid: false, expiresIn: '--', data: null };
+            for (const section of sections) {
+                if (section.getBoundingClientRect().top <= 120) {
+                    active = section;
+                }
             }
 
-            const elapsed = Date.now() - cached.createdAt;
-            const remaining = ttlMs - elapsed;
-
-            if (remaining <= 0) {
-                return { valid: false, expiresIn: 'expirado', data: cached.data };
-            }
-
-            return { valid: true, expiresIn: formatDuration(remaining), data: cached.data };
-        }
-
-        function renderApiCards() {
-            const grid = $('#admin-api-grid');
-            grid.innerHTML = services.map(service => `
-                <article class="admin-api-card" data-service="${service.key}">
-                    <div class="admin-api-main">
-                        <span class="admin-service-dot ${service.dot}"></span>
-                        <div>
-                            <h3>${service.name}</h3>
-                            <p id="api-status-${service.key}">Aguardando</p>
-                        </div>
-                    </div>
-                    <div class="admin-api-meta">
-                        <strong id="api-time-${service.key}">--ms</strong>
-                        <button class="admin-mini-btn" data-refresh-service="${service.key}" type="button">Atualizar</button>
-                    </div>
-                </article>
-            `).join('');
-        }
-
-async
-
-async
-
-function updateCachePanel() {
-            const lb = getCacheInfo(LETTERBOXD_CACHE_KEY, LETTERBOXD_CACHE_TTL_MS);
-            const trakt = getCacheInfo(TRAKT_CACHE_KEY, TRAKT_CACHE_TTL_MS);
-
-            $('#cache-letterboxd-status').textContent = lb.valid ? 'válido' : 'sem cache válido';
-            $('#cache-letterboxd-expire').textContent = lb.expiresIn;
-            $('#cache-letterboxd-title').textContent = lb.data?.title || lb.data?.name || '--';
-
-            $('#cache-trakt-status').textContent = trakt.valid ? 'válido' : 'sem cache válido';
-            $('#cache-trakt-expire').textContent = trakt.expiresIn;
-            $('#cache-trakt-title').textContent = trakt.data?.show || trakt.data?.title || '--';
+            links.forEach((link) => {
+                link.classList.toggle('active', link.getAttribute('href') === '#' + active.id);
+            });
         }
 
         async function checkService(service) {
-            const statusEl = $(`#api-status-${service.key}`);
-            const timeEl = $(`#api-time-${service.key}`);
             const startedAt = performance.now();
-
-            statusEl.textContent = 'Verificando';
-            statusEl.className = 'admin-status-checking';
-            timeEl.textContent = '--ms';
 
             try {
                 const response = await fetch(service.url, { cache: 'no-store' });
                 const ms = Math.round(performance.now() - startedAt);
 
-                if (!response.ok) throw new Error('HTTP ' + response.status);
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
 
-                await response.json();
+                const data = await response.json();
+                const formatted = service.format(data);
 
-                statusEl.textContent = 'Online';
-                statusEl.className = 'admin-status-online';
-                timeEl.textContent = `${ms}ms`;
-
-                return { ok: true, ms };
-            } catch {
-                const ms = Math.round(performance.now() - startedAt);
-
-                statusEl.textContent = 'Offline';
-                statusEl.className = 'admin-status-offline';
-                timeEl.textContent = `${ms}ms`;
-
-                return { ok: false, ms };
+                return {
+                    ok: true,
+                    ms,
+                    title: formatted.title,
+                    detail: formatted.detail
+                };
+            } catch (error) {
+                return {
+                    ok: false,
+                    ms: Math.round(performance.now() - startedAt),
+                    title: 'Indisponível',
+                    detail: error && error.message ? error.message : 'Erro ao consultar.'
+                };
             }
         }
 
-        async function refreshAllServices() {
-            const button = $('#admin-refresh-all');
+        function renderApiCard(service, result, loading = false) {
+            const grid = qs('#api-grid');
+            let card = grid.querySelector(`[data-api="${service.key}"]`);
 
-            button.disabled = true;
-            button.textContent = 'Atualizando...';
+            if (!card) {
+                card = document.createElement('article');
+                card.className = 'ka-api-card';
+                card.dataset.api = service.key;
+                grid.appendChild(card);
+            }
 
-            const results = await Promise.all(services.map(checkService));
-            const online = results.filter(result => result.ok).length;
-            const average = Math.round(results.reduce((sum, result) => sum + result.ms, 0) / results.length);
+            card.classList.toggle('online', Boolean(result && result.ok));
 
-            $('#admin-online-count').textContent = `${online}/${services.length}`;
-            $('#admin-online-note').textContent = online === services.length ? 'Todas as APIs responderam.' : 'Uma ou mais APIs falharam.';
-            $('#admin-last-update').textContent = formatTime();
-            $('#admin-average-time').textContent = `${average}ms`;
-            $('#admin-general-status').textContent = online === services.length ? 'Tudo funcionando' : 'Atenção';
-            $('#admin-general-note').textContent = online === services.length ? 'Nenhuma falha detectada.' : 'Verifique os cards de APIs.';
-
-            updateCachePanel();
-
-            button.disabled = false;
-            button.textContent = 'Atualizar tudo';
+            card.innerHTML = `
+                <div class="ka-api-top">
+                    <span class="ka-dot"></span>
+                    <span class="ka-api-name">${service.name}</span>
+                    <button class="ka-btn ka-btn-small" data-refresh-api="${service.key}" type="button" ${loading ? 'disabled' : ''}>
+                        ${loading ? 'Atualizando...' : 'Atualizar'}
+                    </button>
+                </div>
+                <div class="ka-api-title">${loading ? 'Verificando...' : (result?.title || '--')}</div>
+                <p>${loading ? 'Fazendo nova requisição.' : (result?.detail || '--')}</p>
+                <small>${result?.ms ? result.ms + 'ms' : ''}</small>
+            `;
         }
 
+        function renderSummary() {
+            const results = ENDPOINTS.map((service) => resultsByKey.get(service.key)).filter(Boolean);
+            const online = results.filter((result) => result.ok).length;
+            const total = ENDPOINTS.length;
+            const avg = results.length ? Math.round(results.reduce((sum, result) => sum + result.ms, 0) / results.length) : 0;
+            const now = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            const status = online === total ? 'Tudo online' : online > 0 ? 'Parcial' : 'Fora do ar';
 
-        function bindAdminActions() {
-            document.addEventListener('click', async (event) => {
-                const target = event.target;
-
-                const refreshButton = target.closest('[data-refresh-service]');
-                if (refreshButton) {
-                    const service = services.find(item => item.key === refreshButton.dataset.refreshService);
-                    if (service) await checkService(service);
-                    return;
-                }
-
-                const clearButton = target.closest('[data-clear-cache]');
-                if (clearButton) {
-                    const type = clearButton.dataset.clearCache;
-                    if (type === 'letterboxd') localStorage.removeItem(LETTERBOXD_CACHE_KEY);
-                    if (type === 'trakt') localStorage.removeItem(TRAKT_CACHE_KEY);
-                    updateCachePanel();
-                    return;
-                }
-            });
-
-            $('#admin-refresh-all').addEventListener('click', refreshAllServices);
-
-
-
-            $('#admin-copy-trakt-link').addEventListener('click', async () => {
-                await navigator.clipboard.writeText(window.location.origin + '/#trakt');
-                $('#admin-copy-trakt-link').textContent = 'Copiado';
-                setTimeout(() => $('#admin-copy-trakt-link').textContent = 'Copiar link', 1200);
-            });
-
-            $('#admin-signout').addEventListener('click', async () => {
-                await client.auth.signOut();
-                window.location.href = '/';
-            });
+            qs('#summary-grid').innerHTML = `
+                <article class="ka-mini-card">
+                    <span class="ka-mini-label">APIs online</span>
+                    <strong class="ka-mini-value">${online}/${total}</strong>
+                    <p>Serviços respondendo agora.</p>
+                </article>
+                <article class="ka-mini-card">
+                    <span class="ka-mini-label">Última atualização</span>
+                    <strong class="ka-mini-value">${now}</strong>
+                    <p>Horário local do navegador.</p>
+                </article>
+                <article class="ka-mini-card">
+                    <span class="ka-mini-label">Tempo médio</span>
+                    <strong class="ka-mini-value">${avg}ms</strong>
+                    <p>Média das respostas testadas.</p>
+                </article>
+                <article class="ka-mini-card">
+                    <span class="ka-mini-label">Status geral</span>
+                    <strong class="ka-mini-value">${status}</strong>
+                    <p>${online} de ${total} serviços online.</p>
+                </article>
+            `;
         }
 
+        function renderCache() {
+            const list = qs('#cache-list');
+            const items = [];
 
-async function initAdmin() {
-            const content = $('#admin-content');
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (!key) continue;
+
+                const lower = key.toLowerCase();
+
+                if (!lower.includes('letterboxd') && !lower.includes('trakt')) continue;
+
+                let label = lower.includes('letterboxd') ? 'Letterboxd' : 'Trakt';
+                let value = 'Cache salvo';
+
+                try {
+                    const parsed = JSON.parse(localStorage.getItem(key));
+                    const data = parsed.data || parsed.value || parsed;
+
+                    value = data.title || data.name || data.show || value;
+                } catch {}
+
+                items.push({ key, label, value });
+            }
+
+            if (!items.length) {
+                list.innerHTML = `
+                    <article class="ka-cache-row">
+                        <div>
+                            <strong>Cache local</strong>
+                            <p class="ka-muted">Nenhum cache encontrado nesta origem do navegador ainda.</p>
+                        </div>
+                    </article>
+                `;
+                return;
+            }
+
+            list.innerHTML = items.map((item) => `
+                <article class="ka-cache-row">
+                    <div>
+                        <strong>${item.label}</strong>
+                        <p class="ka-muted">${item.value}</p>
+                    </div>
+                    <button class="ka-btn ka-btn-small" data-clear-cache="${item.key}" type="button">Limpar</button>
+                </article>
+            `).join('');
+        }
+
+        async function refreshApi(key) {
+            const service = ENDPOINTS.find((item) => item.key === key);
+            if (!service) return;
+
+            renderApiCard(service, resultsByKey.get(key), true);
+
+            const result = await checkService(service);
+            resultsByKey.set(key, result);
+
+            renderApiCard(service, result);
+            renderSummary();
+            renderCache();
+        }
+
+        async function refreshAll() {
+            qs('#refresh-all').disabled = true;
+            qs('#refresh-all').textContent = 'Atualizando...';
+
+            ENDPOINTS.forEach((service) => renderApiCard(service, null, true));
+
+            await Promise.all(ENDPOINTS.map((service) => refreshApi(service.key)));
+
+            qs('#refresh-all').disabled = false;
+            qs('#refresh-all').textContent = 'Atualizar tudo';
+        }
+
+async function logout() {
+            const button = qs('#logout-btn');
+            const oldText = button ? button.textContent : '';
+
+            if (button) {
+                button.disabled = true;
+                button.textContent = 'Saindo...';
+            }
 
             try {
-                const { data, error } = await client.auth.getUser();
-                const email = data?.user?.email || '';
-
-                if (error || email.toLowerCase() !== AUTHORIZED_ADMIN_EMAIL.toLowerCase()) {
-                    window.location.replace('/login');
-                    return;
+                if (window.kennyAdminSupabase) {
+                    await window.kennyAdminSupabase.auth.signOut();
                 }
-
-                $('#admin-user-email').textContent = email;
-                content.hidden = false;
-
-                renderApiCards();
-                updateCachePanel();
-                bindAdminActions();
-                refreshAllServices();
-            } catch {
-                window.location.replace('/login');
+            } catch (error) {
+                console.warn('Erro ao sair pelo Supabase:', error);
             }
+
+            const localKeys = [];
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (!key) continue;
+
+                const lower = key.toLowerCase();
+
+                if (lower.startsWith('sb-') || lower.includes('supabase') || lower.includes('auth-token')) {
+                    localKeys.push(key);
+                }
+            }
+
+            localKeys.forEach((key) => localStorage.removeItem(key));
+            sessionStorage.clear();
+
+            window.location.href = '/';
         }
 
-        initAdmin();
+document.addEventListener('click', (event) => {
+            const refreshApiButton = event.target.closest('[data-refresh-api]');
+            if (refreshApiButton) {
+                refreshApi(refreshApiButton.dataset.refreshApi);
+                return;
+            }
+
+            const clearCacheButton = event.target.closest('[data-clear-cache]');
+            if (clearCacheButton) {
+                localStorage.removeItem(clearCacheButton.dataset.clearCache);
+                renderCache();
+                return;
+            }
+        });
+
+        qs('#refresh-all').addEventListener('click', refreshAll);
+        qs('#logout-btn').addEventListener('click', logout);
+
+        window.addEventListener('scroll', setActiveNav, { passive: true });
+        window.addEventListener('resize', setActiveNav);
+        function initAdminAfterAuth() {
+            renderCache();
+            refreshAll();
+            setActiveNav();
+        }
+
+        if (window.KENNY_ADMIN_AUTH_ALLOWED) {
+            initAdminAfterAuth();
+        } else {
+            window.addEventListener('kenny-admin-auth-ready', initAdminAfterAuth, { once: true });
+        }
     </script>
 </body>
 </html>
