@@ -2005,13 +2005,60 @@ function cleanSupabaseAuthUrl() {
     );
 }
 
+
+/* STORY_LOGIN_SCROLL_LOCK_V1 */
+let storyLoginSavedScrollY = 0;
+let storyLoginScrollLocked = false;
+
+function lockStoryLoginScroll() {
+    if (storyLoginScrollLocked) return;
+
+    storyLoginSavedScrollY = window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+
+    storyLoginScrollLocked = true;
+
+    document.documentElement.classList.add('story-login-scroll-locked');
+    document.body.classList.add('story-login-scroll-locked');
+
+    document.body.style.position = 'fixed';
+    document.body.style.top = '-' + storyLoginSavedScrollY + 'px';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+    document.body.style.overflow = 'hidden';
+}
+
+function unlockStoryLoginScroll() {
+    if (!storyLoginScrollLocked) return;
+
+    storyLoginScrollLocked = false;
+
+    document.documentElement.classList.remove('story-login-scroll-locked');
+    document.body.classList.remove('story-login-scroll-locked');
+
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+
+    window.scrollTo(0, storyLoginSavedScrollY);
+}
+/* FIM STORY_LOGIN_SCROLL_LOCK_V1 */
+
 function closeStoryLoginModal() {
     const modal = document.getElementById('story-login-modal');
 
-    if (!modal) return;
+    if (modal) {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+    }
 
-    modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
+    unlockStoryLoginScroll();
 }
 
 function openStoryLoginModal(client) {
@@ -2033,6 +2080,7 @@ function openStoryLoginModal(client) {
         setStoryLoginMessage('');
 
         modal.classList.add('active');
+        lockStoryLoginScroll();
         modal.setAttribute('aria-hidden', 'false');
 
 

@@ -2846,3 +2846,21 @@ html.auth-redirecting body {
 }
 /* FIM LOGIN_BUTTON_NATIVE_RESET_V1 */
 
+
+/* STORY_LOGIN_SCROLL_LOCK_V1 */
+html.story-login-scroll-locked,
+body.story-login-scroll-locked {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+}
+
+body.story-login-scroll-locked {
+    touch-action: none;
+}
+
+html.story-login-scroll-locked #story-login-modal,
+html.story-login-scroll-locked #story-login-modal * {
+    touch-action: auto;
+}
+/* FIM STORY_LOGIN_SCROLL_LOCK_V1 */
+
