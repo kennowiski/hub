@@ -778,7 +778,32 @@ function getTraktStoryButtonHtml() {
         </svg>
     `;
 }
-function loadCanvasImage(src) {
+function getCanvasImageCandidateSources(src) {
+    const original = String(src || '').trim();
+    const candidates = [];
+    const addCandidate = (value) => {
+        if (value && !candidates.includes(value)) {
+            candidates.push(value);
+        }
+    };
+    if (!original)
+        return candidates;
+    addCandidate(original);
+    try {
+        const url = new URL(original, window.location.href);
+        if (url.hostname === 'image.tmdb.org') {
+            const higherQuality = url.href.replace('/t/p/w300/', '/t/p/w780/');
+            const withoutProtocol = higherQuality.replace(/^https?:\/\//, '');
+            addCandidate(higherQuality);
+            addCandidate('https://images.weserv.nl/?url=' + encodeURIComponent(withoutProtocol));
+            addCandidate('https://wsrv.nl/?url=' + encodeURIComponent(withoutProtocol));
+            addCandidate('https://images.weserv.nl/?url=' + encodeURIComponent(higherQuality));
+        }
+    }
+    catch { }
+    return candidates;
+}
+function loadSingleCanvasImage(src) {
     return new Promise((resolve, reject) => {
         if (!src) {
             reject(new Error('Imagem não informada.'));
@@ -786,10 +811,26 @@ function loadCanvasImage(src) {
         }
         const img = new Image();
         img.crossOrigin = 'anonymous';
+        img.referrerPolicy = 'no-referrer';
+        img.decoding = 'async';
         img.onload = () => resolve(img);
         img.onerror = () => reject(new Error('Não foi possível carregar a imagem: ' + src));
         img.src = src;
     });
+}
+async function loadCanvasImage(src) {
+    const sources = getCanvasImageCandidateSources(src);
+    let lastError = null;
+    for (const source of sources) {
+        try {
+            return await loadSingleCanvasImage(source);
+        }
+        catch (error) {
+            lastError = error;
+            console.warn('Falha ao carregar imagem do canvas, tentando fallback:', source, error);
+        }
+    }
+    throw lastError || new Error('Não foi possível carregar a imagem: ' + src);
 }
 function roundRectPath(ctx, x, y, width, height, radius) {
     ctx.beginPath();
@@ -861,6 +902,98 @@ async function getStoryAvatarImage() {
         throw error;
     }
 }
+/* TRAKT_STORY_ORIGINAL_VISUAL_HELPERS_V1 */
+function drawOriginalTraktLogo(ctx, x, y, logoWidth, logoHeight, color) {
+    const traktPath = new Path2D('M64 64L64 352L576 352L576 64L64 64zM0 64C0 28.7 28.7 0 64 0L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 416c-35.3 0-64-28.7-64-64L0 64zM128 448l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L128 512c-17.7 0-32-14.3-32-32s14.3-32 32-32z');
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(logoWidth / 640, logoHeight / 512);
+    ctx.fillStyle = color;
+    ctx.fill(traktPath);
+    ctx.restore();
+}
+function clampOriginalTraktColor(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+}
+function mixOriginalTraktColor(colorA, colorB, weight) {
+    return {
+        r: Math.round(colorA.r + (colorB.r - colorA.r) * weight),
+        g: Math.round(colorA.g + (colorB.g - colorA.g) * weight),
+        b: Math.round(colorA.b + (colorB.b - colorA.b) * weight)
+    };
+}
+function originalTraktColorToCss(color) {
+    return 'rgb(' + color.r + ', ' + color.g + ', ' + color.b + ')';
+}
+function sampleOriginalTraktPosterAverageColor(img) {
+    const sampleCanvas = document.createElement('canvas');
+    const sampleCtx = sampleCanvas.getContext('2d');
+    if (!sampleCtx)
+        return null;
+    sampleCanvas.width = 24;
+    sampleCanvas.height = 24;
+    try {
+        sampleCtx.drawImage(img, 0, 0, 24, 24);
+        const imageData = sampleCtx.getImageData(0, 0, 24, 24).data;
+        let r = 0;
+        let g = 0;
+        let b = 0;
+        let total = 0;
+        for (let i = 0; i < imageData.length; i += 4) {
+            const alpha = imageData[i + 3];
+            if (alpha < 16)
+                continue;
+            r += imageData[i];
+            g += imageData[i + 1];
+            b += imageData[i + 2];
+            total++;
+        }
+        if (!total)
+            return null;
+        return {
+            r: Math.round(r / total),
+            g: Math.round(g / total),
+            b: Math.round(b / total)
+        };
+    }
+    catch {
+        return null;
+    }
+}
+function paintOriginalTraktStoryBackground(ctx, posterImg) {
+    const gradient = ctx.createLinearGradient(0, 0, 0, 1920);
+    if (!posterImg) {
+        gradient.addColorStop(0, '#5d6f80');
+        gradient.addColorStop(0.48, '#1a2530');
+        gradient.addColorStop(1, '#020305');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 1080, 1920);
+        return;
+    }
+    const sampled = sampleOriginalTraktPosterAverageColor(posterImg);
+    if (!sampled) {
+        gradient.addColorStop(0, '#5d6f80');
+        gradient.addColorStop(0.48, '#1a2530');
+        gradient.addColorStop(1, '#020305');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 1080, 1920);
+        return;
+    }
+    const normalized = {
+        r: clampOriginalTraktColor(sampled.r, 0, 255),
+        g: clampOriginalTraktColor(sampled.g, 0, 255),
+        b: clampOriginalTraktColor(sampled.b, 0, 255)
+    };
+    const topColor = mixOriginalTraktColor(normalized, { r: 210, g: 225, b: 240 }, 0.38);
+    const midColor = mixOriginalTraktColor(normalized, { r: 20, g: 28, b: 38 }, 0.58);
+    const bottomColor = mixOriginalTraktColor(normalized, { r: 2, g: 3, b: 6 }, 0.86);
+    gradient.addColorStop(0, originalTraktColorToCss(topColor));
+    gradient.addColorStop(0.48, originalTraktColorToCss(midColor));
+    gradient.addColorStop(1, originalTraktColorToCss(bottomColor));
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 1080, 1920);
+}
+/* FIM TRAKT_STORY_ORIGINAL_VISUAL_HELPERS_V1 */
 async function generateTraktStoryBlob() {
     if (!currentTraktStoryData) {
         throw new Error('Nenhum item do Trakt carregado no momento.');
@@ -872,122 +1005,121 @@ async function generateTraktStoryBlob() {
     if (!ctx) {
         throw new Error('Canvas não suportado neste navegador.');
     }
-    const width = canvas.width;
-    const height = canvas.height;
-    const posterUrl = currentTraktStoryData.poster;
     const title = currentTraktStoryData.show || 'Série';
-    const year = currentTraktStoryData.year ? String(currentTraktStoryData.year) : '';
     const season = String(currentTraktStoryData.season || 0).padStart(2, '0');
     const episodeNumber = String(currentTraktStoryData.episodeNumber || 0).padStart(2, '0');
     const episodeTitle = currentTraktStoryData.episode || 'Episódio';
     const episodeLine = 'S' + season + 'E' + episodeNumber + ' • ' + episodeTitle;
     const stars = getTraktStoryStars(currentTraktStoryData.rating);
+    const posterEl = document.getElementById('trakt-modal-poster');
+    const cardPosterEl = document.getElementById('trakt-poster');
+    const posterSrcFromData = currentTraktStoryData.poster || '';
+    const posterSrcFromCard = cardPosterEl
+        ? (cardPosterEl.currentSrc || cardPosterEl.src || cardPosterEl.getAttribute('src') || '')
+        : '';
+    const posterSrcFromModal = posterEl
+        ? (posterEl.currentSrc || posterEl.src || posterEl.getAttribute('src') || '')
+        : '';
+    const posterSrc = posterSrcFromData || posterSrcFromCard || posterSrcFromModal;
     let posterImg = null;
     try {
-        posterImg = await loadCanvasImage(posterUrl);
+        posterImg = await loadCanvasImage(posterSrc);
     }
     catch (error) {
-        console.warn('Poster do Trakt não carregou para o story.', error);
+        console.error('Poster do Trakt não carregou para o story:', posterSrc, error);
+        throw new Error('O pôster do Trakt não carregou para o story. URL usada: ' + posterSrc);
     }
-    let avatarImg = null;
-    try {
-        avatarImg = await getStoryAvatarImage();
-    }
-    catch (error) {
-        console.warn('Avatar do story não carregou.', error);
-    }
-    const bgGradient = ctx.createLinearGradient(0, 0, 0, height);
-    bgGradient.addColorStop(0, '#5f7082');
-    bgGradient.addColorStop(0.42, '#1c2734');
-    bgGradient.addColorStop(1, '#030508');
-    ctx.fillStyle = bgGradient;
-    ctx.fillRect(0, 0, width, height);
-    if (posterImg) {
-        ctx.save();
-        ctx.globalAlpha = 0.16;
-        ctx.filter = 'blur(46px)';
-        drawCoverImage(ctx, posterImg, 90, 220, 900, 1180, 40);
-        ctx.restore();
-        ctx.filter = 'none';
-    }
-    const overlayGradient = ctx.createLinearGradient(0, 0, 0, height);
-    overlayGradient.addColorStop(0, 'rgba(0,0,0,0.06)');
-    overlayGradient.addColorStop(0.55, 'rgba(0,0,0,0.16)');
-    overlayGradient.addColorStop(1, 'rgba(0,0,0,0.72)');
-    ctx.fillStyle = overlayGradient;
-    ctx.fillRect(0, 0, width, height);
-    if (avatarImg) {
-        const avatarSize = 122;
-        const avatarX = (width - avatarSize) / 2;
-        const avatarY = 128;
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(width / 2, avatarY + avatarSize / 2, avatarSize / 2, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.clip();
-        ctx.drawImage(avatarImg, avatarX, avatarY, avatarSize, avatarSize);
-        ctx.restore();
-        ctx.strokeStyle = 'rgba(176, 99, 255, 0.92)';
-        ctx.lineWidth = 8;
-        ctx.beginPath();
-        ctx.arc(width / 2, avatarY + avatarSize / 2, avatarSize / 2 + 2, 0, Math.PI * 2);
-        ctx.stroke();
-    }
-    const posterWidth = 700;
-    const posterHeight = 1040;
-    const posterX = (width - posterWidth) / 2;
-    const posterY = 295;
+    paintOriginalTraktStoryBackground(ctx, posterImg);
+    const overlay = ctx.createLinearGradient(0, 0, 0, 1920);
+    overlay.addColorStop(0, 'rgba(0,0,0,0.04)');
+    overlay.addColorStop(0.7, 'rgba(0,0,0,0.22)');
+    overlay.addColorStop(1, 'rgba(0,0,0,0.78)');
+    ctx.fillStyle = overlay;
+    ctx.fillRect(0, 0, 1080, 1920);
+    const posterWidth = 690;
+    const posterHeight = 1025;
+    const posterX = (1080 - posterWidth) / 2;
+    const posterBaseY = 295;
     const avatarSize = 131;
-    const avatarBaseY = posterY - 86;
-    const titleBaseY = posterY + posterH + 117;
-    const episodeBaseY = titleBaseY + 80;
-    const ratingBaseY = episodeBaseY + 106;
-    const onBaseY = ratingBaseY + 82;
-    const logoBaseY = onBaseY + 88;
-    const groupTopY = avatarBaseY;
-    const groupBottomY = logoBaseY;
-    const layoutOffsetY = Math.round((1920 / 2) - ((groupTopY + groupBottomY) / 2));
+    const groupBaseTopY = posterBaseY - 86;
+    const groupBaseBottomY = posterBaseY + posterHeight + 117 + 80 + 106 + 82 + 88 + 50;
+    const layoutOffsetY = Math.round((1920 / 2) - ((groupBaseTopY + groupBaseBottomY) / 2));
+    const posterY = posterBaseY + layoutOffsetY;
+    const avatarY = posterY - 86;
+    const titleY = posterY + posterHeight + 117;
+    const episodeY = titleY + 80;
+    const ratingY = episodeY + 106;
+    const onY = ratingY + 82;
+    const logoY = onY + 88;
     if (posterImg) {
         drawCoverImage(ctx, posterImg, posterX, posterY, posterWidth, posterHeight, 28);
     }
     else {
-        ctx.fillStyle = 'rgba(255,255,255,0.06)';
+        ctx.fillStyle = 'rgba(255,255,255,0.08)';
         roundRectPath(ctx, posterX, posterY, posterWidth, posterHeight, 28);
         ctx.fill();
     }
-    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
     ctx.lineWidth = 2;
     roundRectPath(ctx, posterX, posterY, posterWidth, posterHeight, 28);
     ctx.stroke();
+    try {
+        const avatar = await loadCanvasImage('assets/images/trakt-story-avatar.webp');
+        const x = (1080 - avatarSize) / 2;
+        const y = avatarY;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(540, y + avatarSize / 2, avatarSize / 2, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(avatar, x, y, avatarSize, avatarSize);
+        ctx.restore();
+    }
+    catch (error) {
+        console.warn('Avatar do story não carregou.', error);
+    }
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ffffff';
-    ctx.font = '700 72px Inter, sans-serif';
-    ctx.fillText(fitCanvasText(ctx, title, 860), width / 2, 1405);
-    if (year) {
-        ctx.fillStyle = 'rgba(255,255,255,0.78)';
-        ctx.font = '500 34px Inter, sans-serif';
-        ctx.fillText(year, width / 2, 1456);
-    }
-    ctx.fillStyle = 'rgba(255,255,255,0.92)';
-    ctx.font = '500 40px Inter, sans-serif';
-    ctx.fillText(fitCanvasText(ctx, episodeLine, 900), width / 2, 1528);
-    ctx.fillStyle = '#18df67';
-    ctx.font = '700 58px Inter, sans-serif';
-    ctx.fillText(stars, width / 2, 1628);
-    ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+    ctx.font = '800 72px Inter, Arial, sans-serif';
+    ctx.fillText(fitCanvasText(ctx, title, 880), 540, titleY);
+    ctx.fillStyle = 'rgba(255,255,255,0.90)';
+    ctx.font = '600 40px Inter, Arial, sans-serif';
+    ctx.fillText(fitCanvasText(ctx, episodeLine, 900), 540, episodeY);
+    ctx.fillStyle = '#ef4444';
+    ctx.font = '800 58px Inter, Arial, sans-serif';
+    ctx.fillText(stars, 540, ratingY);
+    const lineGap = 46;
+    const lineWidth = 150;
+    ctx.strokeStyle = 'rgba(255,255,255,0.30)';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(340, 1706);
-    ctx.lineTo(488, 1706);
-    ctx.moveTo(592, 1706);
-    ctx.lineTo(740, 1706);
+    ctx.moveTo(540 - lineGap - lineWidth, onY);
+    ctx.lineTo(540 - lineGap, onY);
+    ctx.moveTo(540 + lineGap, onY);
+    ctx.lineTo(540 + lineGap + lineWidth, onY);
     ctx.stroke();
+    ctx.textAlign = 'center';
     ctx.fillStyle = 'rgba(255,255,255,0.82)';
-    ctx.font = '600 28px Inter, sans-serif';
-    ctx.fillText('ON', width / 2, 1716);
+    ctx.font = '700 28px Inter, Arial, sans-serif';
+    ctx.fillText('ON', 540, onY + 10);
+    const logoWidth = 50;
+    const logoHeight = 50;
+    ctx.font = '800 60px Inter, Arial, sans-serif';
+    const traktText = 'Trakt';
+    const textWidth = ctx.measureText(traktText).width;
+    const groupGap = 14;
+    const groupWidth = logoWidth + groupGap + textWidth;
+    const groupX = (1080 - groupWidth) / 2;
+    try {
+        const traktIcon = await loadCanvasImage('assets/images/trakt-icon.webp');
+        ctx.drawImage(traktIcon, groupX, logoY - 40, logoWidth, logoHeight);
+    }
+    catch (error) {
+        console.warn('Ícone do Trakt não carregou.', error);
+        drawOriginalTraktLogo(ctx, groupX, logoY - 28, 44, 35.2, '#ef4444');
+    }
+    ctx.textAlign = 'left';
     ctx.fillStyle = '#ffffff';
-    ctx.font = '700 60px Inter, sans-serif';
-    ctx.fillText('Trakt', width / 2, 1794);
+    ctx.fillText(traktText, groupX + logoWidth + groupGap, logoY);
     return await canvasToBlob(canvas);
 }
 async function shareOrDownloadTraktStory(blob, filename) {
@@ -1098,6 +1230,85 @@ async function fetchTrakt() {
     }
 }
 fetchTrakt();
+/* TRAKT_STORY_ADMIN_BRIDGE_V5 */
+function ensureOriginalTraktStoryButton() {
+    let button = document.getElementById('trakt-story-btn');
+    if (button)
+        return button;
+    button = document.createElement('button');
+    button.id = 'trakt-story-btn';
+    button.type = 'button';
+    button.hidden = true;
+    button.innerHTML = getTraktStoryButtonHtml();
+    document.body.appendChild(button);
+    return button;
+}
+async function fetchFreshTraktStoryDataFromAdmin() {
+    try {
+        localStorage.removeItem(TRAKT_CACHE_KEY);
+    }
+    catch { }
+    const response = await fetch('https://kennowiski-api-hub.vercel.app/api/trakt', {
+        cache: 'no-store'
+    });
+    if (!response.ok) {
+        throw new Error('Resposta inválida da API do Trakt.');
+    }
+    const data = await response.json();
+    if (!isValidTraktData(data)) {
+        throw new Error('Dados inválidos da API do Trakt.');
+    }
+    if (!data.poster || String(data.poster).includes('placehold.co')) {
+        throw new Error('A API do Trakt retornou sem pôster real.');
+    }
+    renderTraktData(data);
+    writeTimedMediaCache(TRAKT_CACHE_KEY, data);
+    updateTraktModal(data);
+    currentTraktStoryData = data;
+    return data;
+}
+function syncFreshTraktPoster(data) {
+    const poster = data.poster;
+    const cardPoster = document.getElementById('trakt-poster');
+    const modalPoster = document.getElementById('trakt-modal-poster');
+    const modalBg = document.getElementById('trakt-share-bg');
+    if (cardPoster) {
+        cardPoster.crossOrigin = 'anonymous';
+        cardPoster.referrerPolicy = 'no-referrer';
+        setImageSrcIfChanged(cardPoster, poster);
+    }
+    if (modalPoster) {
+        modalPoster.crossOrigin = 'anonymous';
+        modalPoster.referrerPolicy = 'no-referrer';
+        setImageSrcIfChanged(modalPoster, poster);
+    }
+    if (modalBg) {
+        modalBg.style.backgroundImage = `url('${poster}')`;
+    }
+    currentTraktStoryData.poster = poster;
+}
+async function runTraktStoryFromAdminIntent() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const wantsStory = params.get('traktStory') === '1';
+        if (!wantsStory)
+            return;
+        window.history.replaceState({}, document.title, '/');
+        const freshData = await fetchFreshTraktStoryDataFromAdmin();
+        syncFreshTraktPoster(freshData);
+        ensureOriginalTraktStoryButton();
+        await handleTraktStoryShare({
+            preventDefault() { },
+            stopPropagation() { }
+        });
+    }
+    catch (error) {
+        console.error('Erro ao gerar story do Trakt pelo admin:', error);
+        alert(error instanceof Error ? error.message : 'Não foi possível gerar o story do Trakt pelo admin.');
+    }
+}
+runTraktStoryFromAdminIntent();
+/* FIM TRAKT_STORY_ADMIN_BRIDGE_V5 */
 const traktCard = document.getElementById('trakt-card');
 const traktModal = document.getElementById('trakt-modal');
 const closeTraktModalBtn = document.getElementById('close-trakt-modal');
@@ -1410,319 +1621,6 @@ window.addEventListener('contextmenu', function (evento) {
 window.addEventListener('click', function () {
     catGif.style.display = 'none';
 });
-/* Trakt Story Generator - clique do botão Story */
-(() => {
-    const AVATAR_URL = 'assets/images/trakt-story-avatar.webp';
-    const TRAKT_ICON_URL = 'assets/images/trakt-icon.webp';
-    function getText(id) {
-        const el = document.getElementById(id);
-        return el ? (el.textContent || '').trim() : '';
-    }
-    function loadImage(src) {
-        return new Promise((resolve, reject) => {
-            if (!src) {
-                reject(new Error('Imagem não encontrada.'));
-                return;
-            }
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            img.onload = () => resolve(img);
-            img.onerror = () => reject(new Error('Falha ao carregar imagem: ' + src));
-            img.src = src;
-        });
-    }
-    function roundRect(ctx, x, y, w, h, r) {
-        ctx.beginPath();
-        ctx.moveTo(x + r, y);
-        ctx.lineTo(x + w - r, y);
-        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-        ctx.lineTo(x + w, y + h - r);
-        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-        ctx.lineTo(x + r, y + h);
-        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-        ctx.lineTo(x, y + r);
-        ctx.quadraticCurveTo(x, y, x + r, y);
-        ctx.closePath();
-    }
-    function drawCover(ctx, img, x, y, w, h, r) {
-        const scale = Math.max(w / img.width, h / img.height);
-        const sw = img.width * scale;
-        const sh = img.height * scale;
-        const sx = x + (w - sw) / 2;
-        const sy = y + (h - sh) / 2;
-        ctx.save();
-        roundRect(ctx, x, y, w, h, r);
-        ctx.clip();
-        ctx.drawImage(img, sx, sy, sw, sh);
-        ctx.restore();
-    }
-    function fitText(ctx, text, maxWidth) {
-        let value = String(text || '');
-        if (ctx.measureText(value).width <= maxWidth)
-            return value;
-        while (value.length > 0 && ctx.measureText(value + '…').width > maxWidth) {
-            value = value.slice(0, -1);
-        }
-        return value + '…';
-    }
-    function canvasToBlob(canvas) {
-        return new Promise((resolve, reject) => {
-            canvas.toBlob((blob) => {
-                if (blob)
-                    resolve(blob);
-                else
-                    reject(new Error('Não foi possível gerar o PNG.'));
-            }, 'image/png');
-        });
-    }
-    function drawTraktLogo(ctx, x, y, width, height, color) {
-        const traktPath = new Path2D('M64 64L64 352L576 352L576 64L64 64zM0 64C0 28.7 28.7 0 64 0L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 416c-35.3 0-64-28.7-64-64L0 64zM128 448l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L128 512c-17.7 0-32-14.3-32-32s14.3-32 32-32z');
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.scale(width / 640, height / 512);
-        ctx.fillStyle = color;
-        ctx.fill(traktPath);
-        ctx.restore();
-    }
-    function clamp(value, min, max) {
-        return Math.min(max, Math.max(min, value));
-    }
-    function mixColor(colorA, colorB, weight) {
-        return {
-            r: Math.round(colorA.r + (colorB.r - colorA.r) * weight),
-            g: Math.round(colorA.g + (colorB.g - colorA.g) * weight),
-            b: Math.round(colorA.b + (colorB.b - colorA.b) * weight)
-        };
-    }
-    function colorToCss(color) {
-        return 'rgb(' + color.r + ', ' + color.g + ', ' + color.b + ')';
-    }
-    function samplePosterAverageColor(img) {
-        const sampleCanvas = document.createElement('canvas');
-        const sampleCtx = sampleCanvas.getContext('2d');
-        if (!sampleCtx) {
-            return null;
-        }
-        sampleCanvas.width = 24;
-        sampleCanvas.height = 24;
-        sampleCtx.drawImage(img, 0, 0, 24, 24);
-        const imageData = sampleCtx.getImageData(0, 0, 24, 24).data;
-        let r = 0;
-        let g = 0;
-        let b = 0;
-        let total = 0;
-        for (let i = 0; i < imageData.length; i += 4) {
-            const alpha = imageData[i + 3];
-            if (alpha < 16)
-                continue;
-            r += imageData[i];
-            g += imageData[i + 1];
-            b += imageData[i + 2];
-            total++;
-        }
-        if (!total) {
-            return null;
-        }
-        return {
-            r: Math.round(r / total),
-            g: Math.round(g / total),
-            b: Math.round(b / total)
-        };
-    }
-    function paintStoryBackground(ctx, posterImg) {
-        const gradient = ctx.createLinearGradient(0, 0, 0, 1920);
-        if (!posterImg) {
-            gradient.addColorStop(0, '#5d6f80');
-            gradient.addColorStop(0.48, '#1a2530');
-            gradient.addColorStop(1, '#020305');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, 1080, 1920);
-            return;
-        }
-        const sampled = samplePosterAverageColor(posterImg);
-        if (!sampled) {
-            gradient.addColorStop(0, '#5d6f80');
-            gradient.addColorStop(0.48, '#1a2530');
-            gradient.addColorStop(1, '#020305');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, 1080, 1920);
-            return;
-        }
-        const normalized = {
-            r: clamp(sampled.r, 0, 255),
-            g: clamp(sampled.g, 0, 255),
-            b: clamp(sampled.b, 0, 255)
-        };
-        const topColor = mixColor(normalized, { r: 210, g: 225, b: 240 }, 0.38);
-        const midColor = mixColor(normalized, { r: 20, g: 28, b: 38 }, 0.58);
-        const bottomColor = mixColor(normalized, { r: 2, g: 3, b: 6 }, 0.86);
-        gradient.addColorStop(0, colorToCss(topColor));
-        gradient.addColorStop(0.48, colorToCss(midColor));
-        gradient.addColorStop(1, colorToCss(bottomColor));
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, 1080, 1920);
-    }
-    async function generateTraktStory() {
-        const title = getText('trakt-modal-title') || 'Série';
-        const episode = getText('trakt-modal-episode') || 'Episódio';
-        const rating = getText('trakt-modal-rating') || '★★★★★';
-        const posterEl = document.getElementById('trakt-modal-poster');
-        const posterSrc = posterEl ? (posterEl.currentSrc || posterEl.src || posterEl.getAttribute('src')) : '';
-        const canvas = document.createElement('canvas');
-        canvas.width = 1080;
-        canvas.height = 1920;
-        const ctx = canvas.getContext('2d');
-        if (!ctx)
-            throw new Error('Canvas não suportado neste navegador.');
-        let posterImg = null;
-        try {
-            posterImg = await loadImage(posterSrc);
-        }
-        catch (err) {
-            console.warn(err);
-        }
-        paintStoryBackground(ctx, posterImg);
-        const overlay = ctx.createLinearGradient(0, 0, 0, 1920);
-        overlay.addColorStop(0, 'rgba(0,0,0,0.04)');
-        overlay.addColorStop(0.7, 'rgba(0,0,0,0.22)');
-        overlay.addColorStop(1, 'rgba(0,0,0,0.78)');
-        ctx.fillStyle = overlay;
-        ctx.fillRect(0, 0, 1080, 1920);
-        const posterW = 690;
-        const posterH = 1025;
-        const posterX = (1080 - posterW) / 2;
-        const posterBaseY = 295;
-        const avatarSize = 131;
-        const groupBaseTopY = posterBaseY - 86;
-        const groupBaseBottomY = posterBaseY + posterH + 117 + 80 + 106 + 82 + 88 + 50;
-        const layoutOffsetY = Math.round((1920 / 2) - ((groupBaseTopY + groupBaseBottomY) / 2));
-        const posterY = posterBaseY + layoutOffsetY;
-        const avatarY = posterY - 86;
-        const titleY = posterY + posterH + 117;
-        const episodeY = titleY + 80;
-        const ratingY = episodeY + 106;
-        const onY = ratingY + 82;
-        const logoY = onY + 88;
-        if (posterImg) {
-            drawCover(ctx, posterImg, posterX, posterY, posterW, posterH, 28);
-        }
-        else {
-            ctx.fillStyle = 'rgba(255,255,255,0.08)';
-            roundRect(ctx, posterX, posterY, posterW, posterH, 28);
-            ctx.fill();
-        }
-        ctx.strokeStyle = 'rgba(255,255,255,0.14)';
-        ctx.lineWidth = 2;
-        roundRect(ctx, posterX, posterY, posterW, posterH, 28);
-        ctx.stroke();
-        try {
-            const avatar = await loadImage(AVATAR_URL);
-            const size = avatarSize;
-            const x = (1080 - size) / 2;
-            const y = avatarY;
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(540, y + size / 2, size / 2, 0, Math.PI * 2);
-            ctx.clip();
-            ctx.drawImage(avatar, x, y, size, size);
-            ctx.restore();
-        }
-        catch (err) {
-            console.warn(err);
-        }
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '800 72px Inter, Arial, sans-serif';
-        ctx.fillText(fitText(ctx, title, 880), 540, titleY);
-        ctx.fillStyle = 'rgba(255,255,255,0.90)';
-        ctx.font = '600 40px Inter, Arial, sans-serif';
-        ctx.fillText(fitText(ctx, episode, 900), 540, episodeY);
-        ctx.fillStyle = '#ef4444';
-        ctx.font = '800 58px Inter, Arial, sans-serif';
-        ctx.fillText(rating, 540, ratingY);
-        let traktIcon = null;
-        try {
-            traktIcon = await loadImage(TRAKT_ICON_URL);
-        }
-        catch (err) {
-            console.warn(err);
-        }
-        const lineGap = 46;
-        const lineWidth = 150;
-        ctx.strokeStyle = 'rgba(255,255,255,0.30)';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(540 - lineGap - lineWidth, onY);
-        ctx.lineTo(540 - lineGap, onY);
-        ctx.moveTo(540 + lineGap, onY);
-        ctx.lineTo(540 + lineGap + lineWidth, onY);
-        ctx.stroke();
-        ctx.textAlign = 'center';
-        ctx.fillStyle = 'rgba(255,255,255,0.82)';
-        ctx.font = '700 28px Inter, Arial, sans-serif';
-        ctx.fillText('ON', 540, onY + 10);
-        const logoW = 50;
-        const logoH = 50;
-        ctx.font = '800 60px Inter, Arial, sans-serif';
-        const traktText = 'Trakt';
-        const textWidth = ctx.measureText(traktText).width;
-        const groupGap = 14;
-        const groupWidth = logoW + groupGap + textWidth;
-        const groupX = (1080 - groupWidth) / 2;
-        if (traktIcon) {
-            ctx.drawImage(traktIcon, groupX, logoY - 40, logoW, logoH);
-        }
-        else {
-            drawTraktLogo(ctx, groupX, logoY - 28, 44, 35.2, '#ef4444');
-        }
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(traktText, groupX + logoW + groupGap, logoY);
-        return await canvasToBlob(canvas);
-    }
-    async function shareOrDownload(blob) {
-        const file = new File([blob], 'trakt-story.png', { type: 'image/png' });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-                files: [file],
-                title: 'Trakt Story'
-            });
-            return;
-        }
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'trakt-story.png';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(url), 1500);
-    }
-    document.addEventListener('click', async (event) => {
-        const target = event.target;
-        const button = target && target.closest ? target.closest('#trakt-story-btn') : null;
-        if (!button)
-            return;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        const oldHtml = button.innerHTML;
-        button.disabled = true;
-        button.textContent = 'Gerando...';
-        try {
-            const blob = await generateTraktStory();
-            await shareOrDownload(blob);
-        }
-        catch (error) {
-            console.error('Erro ao gerar story do Trakt:', error);
-            alert(error instanceof Error ? error.message : 'Não foi possível gerar o story.');
-        }
-        finally {
-            button.disabled = false;
-            button.innerHTML = oldHtml;
-        }
-    }, true);
-})();
-/* Fim Trakt Story Generator - clique do botão Story */
 /* Supabase Auth Gate - botão Story Trakt */
 const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
@@ -1909,7 +1807,10 @@ async function handleSupabaseStoryAuth() {
             return;
         }
         if (wantsLogin) {
-            await openStoryLoginModal(client);
+            const didLogin = await openStoryLoginModal(client);
+            if (didLogin) {
+                window.location.href = '/admin';
+            }
             return;
         }
         const { data, error } = await client.auth.getUser();
@@ -1964,7 +1865,10 @@ document.addEventListener('click', async (event) => {
     button.disabled = true;
     try {
         const client = await getSupabaseAuthClient();
-        await openStoryLoginModal(client);
+        const didLogin = await openStoryLoginModal(client);
+        if (didLogin) {
+            window.location.href = '/admin';
+        }
     }
     catch (error) {
         console.error('Erro ao abrir login privado do Trakt:', error);

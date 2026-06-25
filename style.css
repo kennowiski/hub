@@ -2941,3 +2941,458 @@ html:has(#story-login-modal.active) #floating-trakt-logout {
     pointer-events: none !important;
 }
 /* Fim oculta login/logout quando qualquer modal estiver aberto */
+
+/* Admin Dashboard v1 */
+.admin-page {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 22px;
+    display: block;
+}
+
+.admin-shell {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 18px;
+}
+
+.admin-sidebar,
+.admin-card,
+.admin-stat-card,
+.admin-api-card,
+.admin-access-card {
+    background-color: rgba(20, 22, 30, 0.52);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.admin-sidebar {
+    position: sticky;
+    top: 22px;
+    height: calc(100vh - 44px);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.admin-brand,
+.admin-sidebar-link,
+.admin-nav a,
+.admin-btn {
+    text-decoration: none;
+}
+
+.admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-main);
+    font-weight: 800;
+}
+
+.admin-brand-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-nav a,
+.admin-sidebar-link {
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 11px 12px;
+    border-radius: 14px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.admin-nav a:hover,
+.admin-sidebar-link:hover {
+    color: var(--text-main);
+    background-color: rgba(129, 140, 248, 0.16);
+}
+
+.admin-sidebar-link {
+    margin-top: auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+.admin-header {
+    padding: 28px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.16), rgba(20, 22, 30, 0.42));
+    border: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.admin-kicker {
+    color: var(--accent);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    font-weight: 800;
+}
+
+.admin-header h1 {
+    margin-top: 8px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+}
+
+.admin-header p,
+.admin-section-heading p,
+.admin-card-text,
+.admin-stat-card small,
+.admin-api-main p {
+    color: var(--text-muted);
+}
+
+.admin-header p {
+    margin-top: 10px;
+    max-width: 560px;
+}
+
+.admin-header-actions,
+.admin-actions-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-btn,
+.admin-mini-btn {
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    border-radius: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.admin-btn {
+    padding: 12px 15px;
+    font-size: 0.86rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-btn:hover,
+.admin-mini-btn:hover {
+    transform: translateY(-1px);
+}
+
+.admin-btn:disabled,
+.admin-mini-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.admin-btn-secondary {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-btn-danger {
+    background: linear-gradient(135deg, #ef4444, #991b1b);
+}
+
+.admin-full-btn {
+    width: 100%;
+    margin-top: 16px;
+}
+
+.admin-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.admin-section {
+    scroll-margin-top: 20px;
+}
+
+.admin-section-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 14px;
+}
+
+.admin-section-heading > span {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.78rem;
+    flex: 0 0 auto;
+}
+
+.admin-section-heading h2 {
+    font-size: 1.25rem;
+}
+
+.admin-section-heading p {
+    margin-top: 4px;
+    font-size: 0.9rem;
+}
+
+.admin-stats-grid,
+.admin-api-grid,
+.admin-cache-grid,
+.admin-story-grid {
+    display: grid;
+    gap: 14px;
+}
+
+.admin-stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.admin-api-grid,
+.admin-cache-grid,
+.admin-story-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.admin-stat-card,
+.admin-card,
+.admin-api-card {
+    padding: 18px;
+}
+
+.admin-stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-stat-card span,
+.admin-data-list dt {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.admin-stat-card strong {
+    font-size: 1.5rem;
+}
+
+.admin-api-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+}
+
+.admin-api-main,
+.admin-card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-api-main h3,
+.admin-card-top h3 {
+    font-size: 0.98rem;
+}
+
+.admin-api-main p {
+    margin-top: 3px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.admin-api-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.admin-api-meta strong {
+    color: var(--text-main);
+    font-size: 0.82rem;
+}
+
+.admin-mini-btn {
+    padding: 9px 11px;
+    font-size: 0.74rem;
+}
+
+.admin-service-dot {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: inline-flex;
+    flex: 0 0 auto;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.14);
+}
+
+.admin-dot-lastfm { background: #ba0000; }
+.admin-dot-spotify { background: #1db954; }
+.admin-dot-letterboxd { background: linear-gradient(135deg, #00e054, #40bcf4, #ff8000); }
+.admin-dot-trakt { background: #ef4444; }
+.admin-dot-discord { background: #5865f2; }
+
+.admin-status-online { color: #22c55e; }
+.admin-status-offline { color: #ef4444; }
+.admin-status-checking { color: #f59e0b; }
+
+.admin-data-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.admin-data-list div {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.admin-data-list div:last-child {
+    border-bottom: 0;
+}
+
+.admin-data-list dd {
+    color: var(--text-main);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-align: right;
+    max-width: 62%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-card-text {
+    margin-top: 14px;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+.admin-access-card {
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 34px;
+}
+
+.admin-card-icon {
+    font-size: 2rem;
+    margin-bottom: 14px;
+}
+
+.admin-access-card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.admin-access-card p {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+@media (max-width: 899px) {
+    .admin-page {
+        padding: 14px;
+    }
+
+    .admin-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-sidebar {
+        position: static;
+        height: auto;
+    }
+
+    .admin-nav {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .admin-header {
+        flex-direction: column;
+        padding: 22px;
+    }
+
+    .admin-header-actions,
+    .admin-actions-row {
+        width: 100%;
+    }
+
+    .admin-btn {
+        flex: 1;
+    }
+
+    .admin-stats-grid,
+    .admin-api-grid,
+    .admin-cache-grid,
+    .admin-story-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-api-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-api-meta {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .admin-mini-btn {
+        min-width: 120px;
+    }
+}
+/* Fim Admin Dashboard v1 */
+
+
+/* Remove botão Story Trakt da home */
+#trakt-story-btn,
+.supabase-story-authorized #trakt-story-btn {
+    display: none !important;
+}
+/* Fim remove botão Story Trakt da home */

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <base href="/">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin · Portfólio do Kenny</title>
+    <link href="assets/images/favicon.webp" rel="icon" type="image/webp" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="admin-page">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <main class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar">
+            <a class="admin-brand" href="/admin">
+                <span class="admin-brand-icon">✦</span>
+                <span>Kenny Admin</span>
+            </a>
+
+            <nav class="admin-nav" aria-label="Menu do painel admin">
+                <a href="#dashboard">Dashboard</a>
+                <a href="#apis">APIs</a>
+                <a href="#cache">Cache</a>
+                <a href="#stories">Stories</a>
+                <a href="#sessao">Sessão</a>
+            </nav>
+
+            <a class="admin-sidebar-link" href="/">Voltar ao site</a>
+        </aside>
+
+        <section class="admin-main">
+            <header class="admin-header">
+                <div>
+                    <span class="admin-kicker">Painel privado</span>
+                    <h1>Dashboard</h1>
+                    <p>Resumo simplificado das integrações públicas do portfólio.</p>
+                </div>
+
+                <div class="admin-header-actions">
+                    <button class="admin-btn admin-btn-secondary" id="admin-refresh-all" type="button">Atualizar tudo</button>
+                    <a class="admin-btn" href="/">Ver site</a>
+                </div>
+            </header>
+
+            <section class="admin-content" id="admin-content" hidden>
+                    <span id="trakt-modal-title"></span>
+                    <span id="trakt-modal-episode"></span>
+                    <span id="trakt-modal-rating"></span>
+                    <a id="trakt-open-link" href="#"></a>
+                </div>
+                    <span id="trakt-modal-title"></span>
+                    <span id="trakt-modal-episode"></span>
+                    <span id="trakt-modal-rating"></span>
+                    <a id="trakt-open-link" href="#"></a>
+                </div>
+                <section class="admin-section" id="dashboard">
+                    <div class="admin-section-heading">
+                        <span>01</span>
+                        <div>
+                            <h2>Dashboard</h2>
+                            <p>Status geral das integrações do portfólio.</p>
+                        </div>
+                    </div>
+
+                    <div class="admin-stats-grid">
+                        <article class="admin-stat-card">
+                            <span>APIs online</span>
+                            <strong id="admin-online-count">0/5</strong>
+                            <small id="admin-online-note">Aguardando atualização.</small>
+                        </article>
+
+                        <article class="admin-stat-card">
+                            <span>Última atualização</span>
+                            <strong id="admin-last-update">--:--</strong>
+                            <small>Horário local do navegador.</small>
+                        </article>
+
+                        <article class="admin-stat-card">
+                            <span>Tempo médio</span>
+                            <strong id="admin-average-time">--ms</strong>
+                            <small>Média das respostas testadas.</small>
+                        </article>
+
+                        <article class="admin-stat-card">
+                            <span>Status geral</span>
+                            <strong id="admin-general-status">Verificando</strong>
+                            <small id="admin-general-note">Aguardando APIs.</small>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="admin-section" id="apis">
+                    <div class="admin-section-heading">
+                        <span>02</span>
+                        <div>
+                            <h2>APIs</h2>
+                            <p>Consulta rápida dos serviços usados no site.</p>
+                        </div>
+                    </div>
+
+                    <div class="admin-api-grid" id="admin-api-grid"></div>
+                </section>
+
+                <section class="admin-section" id="cache">
+                    <div class="admin-section-heading">
+                        <span>03</span>
+                        <div>
+                            <h2>Cache</h2>
+                            <p>Estado do cache local usado pelo navegador.</p>
+                        </div>
+                    </div>
+
+                    <div class="admin-cache-grid">
+                        <article class="admin-card">
+                            <div class="admin-card-top">
+                                <span class="admin-service-dot admin-dot-letterboxd"></span>
+                                <h3>Letterboxd</h3>
+                            </div>
+                            <dl class="admin-data-list">
+                                <div><dt>Status</dt><dd id="cache-letterboxd-status">--</dd></div>
+                                <div><dt>Expira em</dt><dd id="cache-letterboxd-expire">--</dd></div>
+                                <div><dt>Último filme</dt><dd id="cache-letterboxd-title">--</dd></div>
+                            </dl>
+                            <button class="admin-btn admin-btn-secondary admin-full-btn" data-clear-cache="letterboxd" type="button">Limpar cache Letterboxd</button>
+                        </article>
+
+                        <article class="admin-card">
+                            <div class="admin-card-top">
+                                <span class="admin-service-dot admin-dot-trakt"></span>
+                                <h3>Trakt</h3>
+                            </div>
+                            <dl class="admin-data-list">
+                                <div><dt>Status</dt><dd id="cache-trakt-status">--</dd></div>
+                                <div><dt>Expira em</dt><dd id="cache-trakt-expire">--</dd></div>
+                                <div><dt>Última série</dt><dd id="cache-trakt-title">--</dd></div>
+                            </dl>
+                            <button class="admin-btn admin-btn-secondary admin-full-btn" data-clear-cache="trakt" type="button">Limpar cache Trakt</button>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="admin-section" id="stories">
+                    <div class="admin-section-heading">
+                        <span>04</span>
+                        <div>
+                            <h2>Stories</h2>
+                            <p>Ações privadas ligadas aos cards compartilháveis.</p>
+                        </div>
+                    </div>
+
+                    <div class="admin-story-grid">
+                        <article class="admin-card">
+                            <div class="admin-card-top">
+                                <span class="admin-service-dot admin-dot-trakt"></span>
+                                <h3>Story do Trakt</h3>
+                            </div>
+                            <p class="admin-card-text">O botão de compartilhar aparece no modal do Trakt quando você está logado.</p>
+                            <div class="admin-actions-row">
+                                <a class="admin-btn" id="admin-trakt-story-btn" href="/?traktStory=1">Compartilhar story</a>
+                                <button class="admin-btn admin-btn-secondary" id="admin-copy-trakt-link" type="button">Copiar link</button>
+                            </div>
+                        </article>
+
+                        <article class="admin-card">
+                            <div class="admin-card-top">
+                                <span class="admin-service-dot admin-dot-lastfm"></span>
+                                <h3>Story do Last.fm</h3>
+                            </div>
+                            <p class="admin-card-text">Área reservada para a próxima etapa do story musical.</p>
+                            <div class="admin-actions-row">
+                                <button class="admin-btn admin-btn-secondary" type="button" disabled>Em breve</button>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="admin-section" id="sessao">
+                    <div class="admin-section-heading">
+                        <span>05</span>
+                        <div>
+                            <h2>Sessão</h2>
+                            <p>Dados da autenticação atual.</p>
+                        </div>
+                    </div>
+
+                    <article class="admin-card">
+                        <dl class="admin-data-list">
+                            <div><dt>Conta</dt><dd id="admin-user-email">--</dd></div>
+                            <div><dt>Permissão</dt><dd>Administrador</dd></div>
+                            <div><dt>Projeto</dt><dd>Supabase Auth</dd></div>
+                        </dl>
+
+                        <div class="admin-actions-row">
+                            <a class="admin-btn admin-btn-secondary" href="/">Voltar ao site</a>
+                            <button class="admin-btn admin-btn-danger" id="admin-signout" type="button">Sair</button>
+                        </div>
+                    </article>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
+        const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
+        const AUTHORIZED_ADMIN_EMAIL = 'kennowiski@yahoo.com';
+
+        const LETTERBOXD_CACHE_KEY = 'kenny-letterboxd-last-movie';
+        const LETTERBOXD_CACHE_TTL_MS = 1000 * 60 * 60 * 6;
+
+        const TRAKT_CACHE_KEY = 'kenny-trakt-last-episode';
+        const TRAKT_CACHE_TTL_MS = 1000 * 60 * 90;
+
+        const API_BASE = 'https://kennowiski-api-hub.vercel.app';
+
+        const services = [
+            { key: 'lastfm', name: 'Last.fm', url: API_BASE + '/api/lastfm?limit=1', dot: 'admin-dot-lastfm' },
+            { key: 'spotify', name: 'Spotify', url: API_BASE + '/api/spotify', dot: 'admin-dot-spotify' },
+            { key: 'letterboxd', name: 'Letterboxd', url: API_BASE + '/api/letterboxd', dot: 'admin-dot-letterboxd' },
+            { key: 'trakt', name: 'Trakt', url: API_BASE + '/api/trakt', dot: 'admin-dot-trakt' },
+            { key: 'discord', name: 'Discord', url: 'https://api.lanyard.rest/v1/users/387025115898183702', dot: 'admin-dot-discord' }
+        ];
+
+        const client = window.supabase.createClient(SUPABASE_PROJECT_URL, SUPABASE_PUBLISHABLE_KEY, {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: false
+            }
+        });
+
+        function $(selector) {
+            return document.querySelector(selector);
+        }
+
+        function formatTime(date = new Date()) {
+            return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function formatDuration(ms) {
+            if (!Number.isFinite(ms) || ms < 0) return '--';
+            const minutes = Math.floor(ms / 60000);
+            const hours = Math.floor(minutes / 60);
+            const restMinutes = minutes % 60;
+
+            if (hours > 0) return `${hours}h ${restMinutes}min`;
+            if (minutes > 0) return `${minutes}min`;
+            return 'menos de 1min';
+        }
+
+        function readRawCache(key) {
+            try {
+                const raw = localStorage.getItem(key);
+                return raw ? JSON.parse(raw) : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function getCacheInfo(key, ttlMs) {
+            const cached = readRawCache(key);
+
+            if (!cached || typeof cached.createdAt !== 'number' || !cached.data) {
+                return { valid: false, expiresIn: '--', data: null };
+            }
+
+            const elapsed = Date.now() - cached.createdAt;
+            const remaining = ttlMs - elapsed;
+
+            if (remaining <= 0) {
+                return { valid: false, expiresIn: 'expirado', data: cached.data };
+            }
+
+            return { valid: true, expiresIn: formatDuration(remaining), data: cached.data };
+        }
+
+        function renderApiCards() {
+            const grid = $('#admin-api-grid');
+            grid.innerHTML = services.map(service => `
+                <article class="admin-api-card" data-service="${service.key}">
+                    <div class="admin-api-main">
+                        <span class="admin-service-dot ${service.dot}"></span>
+                        <div>
+                            <h3>${service.name}</h3>
+                            <p id="api-status-${service.key}">Aguardando</p>
+                        </div>
+                    </div>
+                    <div class="admin-api-meta">
+                        <strong id="api-time-${service.key}">--ms</strong>
+                        <button class="admin-mini-btn" data-refresh-service="${service.key}" type="button">Atualizar</button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+async
+
+async
+
+function updateCachePanel() {
+            const lb = getCacheInfo(LETTERBOXD_CACHE_KEY, LETTERBOXD_CACHE_TTL_MS);
+            const trakt = getCacheInfo(TRAKT_CACHE_KEY, TRAKT_CACHE_TTL_MS);
+
+            $('#cache-letterboxd-status').textContent = lb.valid ? 'válido' : 'sem cache válido';
+            $('#cache-letterboxd-expire').textContent = lb.expiresIn;
+            $('#cache-letterboxd-title').textContent = lb.data?.title || lb.data?.name || '--';
+
+            $('#cache-trakt-status').textContent = trakt.valid ? 'válido' : 'sem cache válido';
+            $('#cache-trakt-expire').textContent = trakt.expiresIn;
+            $('#cache-trakt-title').textContent = trakt.data?.show || trakt.data?.title || '--';
+        }
+
+        async function checkService(service) {
+            const statusEl = $(`#api-status-${service.key}`);
+            const timeEl = $(`#api-time-${service.key}`);
+            const startedAt = performance.now();
+
+            statusEl.textContent = 'Verificando';
+            statusEl.className = 'admin-status-checking';
+            timeEl.textContent = '--ms';
+
+            try {
+                const response = await fetch(service.url, { cache: 'no-store' });
+                const ms = Math.round(performance.now() - startedAt);
+
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+
+                await response.json();
+
+                statusEl.textContent = 'Online';
+                statusEl.className = 'admin-status-online';
+                timeEl.textContent = `${ms}ms`;
+
+                return { ok: true, ms };
+            } catch {
+                const ms = Math.round(performance.now() - startedAt);
+
+                statusEl.textContent = 'Offline';
+                statusEl.className = 'admin-status-offline';
+                timeEl.textContent = `${ms}ms`;
+
+                return { ok: false, ms };
+            }
+        }
+
+        async function refreshAllServices() {
+            const button = $('#admin-refresh-all');
+
+            button.disabled = true;
+            button.textContent = 'Atualizando...';
+
+            const results = await Promise.all(services.map(checkService));
+            const online = results.filter(result => result.ok).length;
+            const average = Math.round(results.reduce((sum, result) => sum + result.ms, 0) / results.length);
+
+            $('#admin-online-count').textContent = `${online}/${services.length}`;
+            $('#admin-online-note').textContent = online === services.length ? 'Todas as APIs responderam.' : 'Uma ou mais APIs falharam.';
+            $('#admin-last-update').textContent = formatTime();
+            $('#admin-average-time').textContent = `${average}ms`;
+            $('#admin-general-status').textContent = online === services.length ? 'Tudo funcionando' : 'Atenção';
+            $('#admin-general-note').textContent = online === services.length ? 'Nenhuma falha detectada.' : 'Verifique os cards de APIs.';
+
+            updateCachePanel();
+
+            button.disabled = false;
+            button.textContent = 'Atualizar tudo';
+        }
+
+
+        function bindAdminActions() {
+            document.addEventListener('click', async (event) => {
+                const target = event.target;
+
+                const refreshButton = target.closest('[data-refresh-service]');
+                if (refreshButton) {
+                    const service = services.find(item => item.key === refreshButton.dataset.refreshService);
+                    if (service) await checkService(service);
+                    return;
+                }
+
+                const clearButton = target.closest('[data-clear-cache]');
+                if (clearButton) {
+                    const type = clearButton.dataset.clearCache;
+                    if (type === 'letterboxd') localStorage.removeItem(LETTERBOXD_CACHE_KEY);
+                    if (type === 'trakt') localStorage.removeItem(TRAKT_CACHE_KEY);
+                    updateCachePanel();
+                    return;
+                }
+            });
+
+            $('#admin-refresh-all').addEventListener('click', refreshAllServices);
+
+
+
+            $('#admin-copy-trakt-link').addEventListener('click', async () => {
+                await navigator.clipboard.writeText(window.location.origin + '/#trakt');
+                $('#admin-copy-trakt-link').textContent = 'Copiado';
+                setTimeout(() => $('#admin-copy-trakt-link').textContent = 'Copiar link', 1200);
+            });
+
+            $('#admin-signout').addEventListener('click', async () => {
+                await client.auth.signOut();
+                window.location.href = '/';
+            });
+        }
+
+
+async function initAdmin() {
+            const content = $('#admin-content');
+
+            try {
+                const { data, error } = await client.auth.getUser();
+                const email = data?.user?.email || '';
+
+                if (error || email.toLowerCase() !== AUTHORIZED_ADMIN_EMAIL.toLowerCase()) {
+                    window.location.replace('/login');
+                    return;
+                }
+
+                $('#admin-user-email').textContent = email;
+                content.hidden = false;
+
+                renderApiCards();
+                updateCachePanel();
+                bindAdminActions();
+                refreshAllServices();
+            } catch {
+                window.location.replace('/login');
+            }
+        }
+
+        initAdmin();
+    </script>
+</body>
+</html>
