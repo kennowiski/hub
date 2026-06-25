@@ -2727,6 +2727,23 @@ a[aria-label="Redes sociais"] .external-icon {
     width: 42px;
 }
 
+
+/* LOGIN_BUTTON_OPACITY_MATCH_ONLINE_V1 */
+.site-auth-login {
+    background: rgba(14, 18, 30, 0.10);
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    color: rgba(255, 255, 255, 0.30);
+}
+
+.site-auth-login:hover {
+    background: rgba(20, 25, 40, 0.88);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+}
+/* FIM LOGIN_BUTTON_OPACITY_MATCH_ONLINE_V1 */
+
+
 .site-top-action-left {
     left: 22px;
 }
