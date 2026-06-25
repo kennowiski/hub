@@ -667,7 +667,7 @@
 
 /* Cache Letterboxd e Trakt */
 const LETTERBOXD_CACHE_KEY = 'kenny-letterboxd-last-movie';
-const LETTERBOXD_CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24 horas
+const LETTERBOXD_CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 horas
 
 const TRAKT_CACHE_KEY = 'kenny-trakt-last-episode';
 const TRAKT_CACHE_TTL_MS = 1000 * 60 * 90; // 1h30min
