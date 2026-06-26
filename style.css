@@ -2874,3 +2874,11 @@ html.story-login-scroll-locked #story-login-modal * {
     opacity: .9 !important;
 }
 /* FIM LOGIN_BUTTON_SOFT_OPACITY_V1 */
+
+/* LOGIN_BUTTON_HIDDEN_NOT_CLICKABLE_V1 */
+#floating-trakt-login.site-auth-login {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+}
+/* FIM LOGIN_BUTTON_HIDDEN_NOT_CLICKABLE_V1 */
