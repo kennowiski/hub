@@ -44,8 +44,23 @@
 
             if (!typewriterStarted) {
                 typewriterStarted = true;
+                typeIndex = 0;
+
                 typingElement.textContent = '';
                 typingElement.classList.add('typing-active');
+                typingElement.classList.remove('typing-done');
+
+                window.setTimeout(() => {
+                    if (
+                        typingElement &&
+                        typingElement.classList.contains('typing-active') &&
+                        typingElement.textContent.trim().length < 3
+                    ) {
+                        typingElement.textContent = textToType;
+                        typingElement.classList.remove('typing-active');
+                        typingElement.classList.add('typing-done');
+                    }
+                }, 900);
             }
 
             if (typeIndex < textToType.length) {
