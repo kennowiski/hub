@@ -2694,123 +2694,6 @@ a[aria-label="Redes sociais"] .external-icon {
     display: none !important;
 }
 /* Fim remove botão Story Trakt da home */
-
-/* FLOATING_BUTTONS_INDEX_STATIC_V1 */
-.site-top-actions {
-    position: absolute;
-    top: 22px;
-    left: 0;
-    right: 0;
-    z-index: 50;
-    pointer-events: none;
-}
-
-.site-top-action {
-    align-items: center;
-    aspect-ratio: 1 / 1;
-    background: rgba(14, 18, 30, 0.74);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
-    color: rgba(255, 255, 255, 0.88);
-    cursor: pointer;
-    display: flex;
-    height: 42px;
-    justify-content: center;
-    pointer-events: auto;
-    position: absolute;
-    text-decoration: none;
-    top: 0;
-    transition: 0.2s ease;
-    width: 42px;
-}
-
-
-/* LOGIN_BUTTON_OPACITY_MATCH_ONLINE_V1 */
-.site-auth-login {
-    background: rgba(14, 18, 30, 0.10);
-    border-color: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    color: rgba(255, 255, 255, 0.30);
-}
-
-.site-auth-login:hover {
-    background: rgba(20, 25, 40, 0.88);
-    border-color: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
-}
-/* FIM LOGIN_BUTTON_OPACITY_MATCH_ONLINE_V1 */
-
-
-.site-top-action-left {
-    left: 22px;
-}
-
-.site-top-action-right {
-    right: 22px;
-}
-
-.site-top-action:hover {
-    background: rgba(20, 25, 40, 0.88);
-    border-color: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
-    transform: translateY(-1px);
-}
-
-.site-top-action .icon {
-    fill: none;
-    flex-shrink: 0;
-    height: 16px;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 2;
-    width: 16px;
-}
-
-.site-admin-link,
-.site-auth-logout {
-    display: none;
-}
-
-html.supabase-story-authorized .site-admin-link,
-html.supabase-story-authorized .site-auth-logout {
-    display: flex;
-}
-
-html.supabase-story-authorized .site-auth-login {
-    display: none;
-}
-
-@media (max-width: 899px) {
-    .site-top-actions {
-        top: 18px;
-    }
-
-    .site-top-action {
-        border-radius: 13px;
-        height: 40px;
-        width: 40px;
-    }
-
-    .site-top-action-left {
-        left: 18px;
-    }
-
-    .site-top-action-right {
-        right: 18px;
-    }
-
-    .site-top-action .icon {
-        height: 15px;
-        width: 15px;
-    }
-}
-/* FIM FLOATING_BUTTONS_INDEX_STATIC_V1 */
-
-
 /* TYPEWRITER_FALLBACK_V1 */
 #typing-text {
     min-height: 1em;
@@ -2830,23 +2713,6 @@ html.auth-redirecting body {
     background: #0f1117 !important;
 }
 /* FIM AUTH_REDIRECT_NO_FLASH_V1 */
-
-
-/* LOGIN_BUTTON_NATIVE_RESET_V1 */
-#floating-trakt-login.site-top-action {
-    appearance: none;
-    -webkit-appearance: none;
-    font: inherit;
-    padding: 0;
-}
-
-#floating-trakt-login.site-top-action:disabled {
-    cursor: wait;
-    opacity: 0.55;
-}
-/* FIM LOGIN_BUTTON_NATIVE_RESET_V1 */
-
-
 /* STORY_LOGIN_SCROLL_LOCK_V1 */
 html.story-login-scroll-locked,
 body.story-login-scroll-locked {
@@ -2863,22 +2729,3 @@ html.story-login-scroll-locked #story-login-modal * {
     touch-action: auto;
 }
 /* FIM STORY_LOGIN_SCROLL_LOCK_V1 */
-
-/* LOGIN_BUTTON_SOFT_OPACITY_V1 */
-#floating-trakt-login.site-auth-login {
-    opacity: .75 !important;
-}
-
-#floating-trakt-login.site-auth-login:hover,
-#floating-trakt-login.site-auth-login:focus-visible {
-    opacity: .9 !important;
-}
-/* FIM LOGIN_BUTTON_SOFT_OPACITY_V1 */
-
-/* LOGIN_BUTTON_HIDDEN_NOT_CLICKABLE_V1 */
-#floating-trakt-login.site-auth-login {
-    opacity: 0 !important;
-    pointer-events: none !important;
-    visibility: hidden !important;
-}
-/* FIM LOGIN_BUTTON_HIDDEN_NOT_CLICKABLE_V1 */

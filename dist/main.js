@@ -1931,32 +1931,4 @@ async function handleSupabaseStoryAuth() {
     }
 }
 handleSupabaseStoryAuth();
-/* LOGIN_BUTTON_OPEN_MODAL_INLINE_V1 */
-document.addEventListener('click', async (event) => {
-    const target = event.target;
-    const button = target?.closest
-        ? target.closest('#floating-trakt-login')
-        : null;
-    if (!button)
-        return;
-    event.preventDefault();
-    event.stopPropagation();
-    if (button.disabled)
-        return;
-    button.disabled = true;
-    try {
-        const client = await getSupabaseAuthClient();
-        const didLogin = await openStoryLoginModal(client);
-        if (didLogin) {
-            window.location.href = '/admin';
-        }
-    }
-    catch (error) {
-        console.error('Erro ao abrir login privado:', error);
-    }
-    finally {
-        button.disabled = false;
-    }
-});
-/* FIM LOGIN_BUTTON_OPEN_MODAL_INLINE_V1 */
 /* Fim Supabase Auth Gate - botão Story Trakt */
