@@ -1158,7 +1158,9 @@ function paintOriginalTraktStoryBackground(ctx, posterImg) {
 }
 /* FIM TRAKT_STORY_ORIGINAL_VISUAL_HELPERS_V1 */
 
-async function generateTraktStoryBlob() {
+let traktStoryTransparentMode = false;
+
+async function generateTraktStoryBlob(options: { transparentBackground?: boolean } = {}) {
     if (!currentTraktStoryData) {
         throw new Error('Nenhum item do Trakt carregado no momento.');
     }
@@ -1172,6 +1174,8 @@ async function generateTraktStoryBlob() {
     if (!ctx) {
         throw new Error('Canvas não suportado neste navegador.');
     }
+
+    const transparentBackground = Boolean(options.transparentBackground);
 
     const title = currentTraktStoryData.show || 'Série';
     const season = String(currentTraktStoryData.season || 0).padStart(2, '0');
@@ -1202,14 +1206,16 @@ async function generateTraktStoryBlob() {
         throw new Error('O pôster do Trakt não carregou para o story. URL usada: ' + posterSrc);
     }
 
-    paintOriginalTraktStoryBackground(ctx, posterImg);
+    if (!transparentBackground) {
+        paintOriginalTraktStoryBackground(ctx, posterImg);
 
-    const overlay = ctx.createLinearGradient(0, 0, 0, 1920);
-    overlay.addColorStop(0, 'rgba(0,0,0,0.04)');
-    overlay.addColorStop(0.7, 'rgba(0,0,0,0.22)');
-    overlay.addColorStop(1, 'rgba(0,0,0,0.78)');
-    ctx.fillStyle = overlay;
-    ctx.fillRect(0, 0, 1080, 1920);
+        const overlay = ctx.createLinearGradient(0, 0, 0, 1920);
+        overlay.addColorStop(0, 'rgba(0,0,0,0.04)');
+        overlay.addColorStop(0.7, 'rgba(0,0,0,0.22)');
+        overlay.addColorStop(1, 'rgba(0,0,0,0.78)');
+        ctx.fillStyle = overlay;
+        ctx.fillRect(0, 0, 1080, 1920);
+    }
 
     const posterWidth = 690;
     const posterHeight = 1025;
@@ -1357,7 +1363,7 @@ async function handleTraktStoryShare(event) {
     button.innerHTML = '<svg aria-hidden="true" class="icon" viewbox="0 0 512 512"><path d="M304 48a16 16 0 1 0-32 0l0 48a16 16 0 1 0 32 0l0-48zM188.7 100.7a16 16 0 0 0-22.6 22.6l33.9 33.9a16 16 0 1 0 22.6-22.6l-33.9-33.9zM96 240a16 16 0 1 0 0 32l48 0a16 16 0 1 0 0-32l-48 0zm326.6-116.7a16 16 0 0 0-22.6-22.6l-33.9 33.9a16 16 0 0 0 22.6 22.6l33.9-33.9zM368 256a112 112 0 1 1-224 0 112 112 0 1 1 224 0zm48 0A160 160 0 1 0 96 256a160 160 0 1 0 320 0zm-50.1 98.1a16 16 0 1 0-22.6 22.6l33.9 33.9a16 16 0 1 0 22.6-22.6l-33.9-33.9zM256 416a16 16 0 1 0-16 16l0 48a16 16 0 1 0 32 0l0-48a16 16 0 1 0-16-16zm-89.4-39.4a16 16 0 0 0-22.6-22.6l-33.9 33.9a16 16 0 1 0 22.6 22.6l33.9-33.9z"></path></svg><span>Gerando...</span>';
 
     try {
-        const blob = await generateTraktStoryBlob();
+        const blob = await generateTraktStoryBlob({ transparentBackground: traktStoryTransparentMode });
         const filename = 'trakt-story-' + slugifyText(currentTraktStoryData && currentTraktStoryData.show ? currentTraktStoryData.show : 'serie') + '.png';
         await shareOrDownloadTraktStory(blob, filename);
     } catch (error) {
@@ -1511,9 +1517,13 @@ function syncFreshTraktPoster(data) {
 async function runTraktStoryFromAdminIntent() {
     try {
         const params = new URLSearchParams(window.location.search);
-        const wantsStory = params.get('traktStory') === '1';
+        const storyMode = params.get('traktStory');
+        const wantsTransparentStory = storyMode === 'transparent';
+        const wantsStory = storyMode === '1' || wantsTransparentStory;
 
         if (!wantsStory) return;
+
+        traktStoryTransparentMode = wantsTransparentStory;
 
         window.history.replaceState({}, document.title, '/');
 
@@ -1527,6 +1537,7 @@ async function runTraktStoryFromAdminIntent() {
             stopPropagation() {}
         });
     } catch (error) {
+        traktStoryTransparentMode = false;
         console.error('Erro ao gerar story do Trakt pelo admin:', error);
         alert(error instanceof Error ? error.message : 'Não foi possível gerar o story do Trakt pelo admin.');
     }
