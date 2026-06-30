@@ -191,22 +191,37 @@ async function renderLastFmFallbackMusicCard(spotifyContainer) {
             return false;
         const fallbackCover = 'https://placehold.co/160x160/14161e/94a3b8?text=%E2%99%AA';
         const image = track.image || fallbackCover;
+        /* LASTFM_NOW_PLAYING_CARD_RENDER_V1 */
+        const isNowPlaying = Boolean(track.isNowPlaying || track.isPlaying);
+        const labelText = isNowPlaying ? 'Ouvindo agora (Last.fm)' : 'ÚLTIMA MÚSICA OUVIDA';
+        const labelColor = isNowPlaying ? '#ba0000' : '#8aa0b8';
+        const labelClass = isNowPlaying ? 'spotify-label-now' : 'spotify-label-last';
+        const artAnimation = isNowPlaying ? 'pulse-art-lf 2s infinite alternate' : 'none';
+        const equalizerHtml = isNowPlaying ? `
+                    <div class="equalizer">
+                        <div class="equalizer-bar" style="background-color: ${labelColor};"></div>
+                        <div class="equalizer-bar" style="background-color: ${labelColor};"></div>
+                        <div class="equalizer-bar" style="background-color: ${labelColor};"></div>
+                        <div class="equalizer-bar" style="background-color: ${labelColor};"></div>
+                    </div>` : '';
+        /* FIM LASTFM_NOW_PLAYING_CARD_RENDER_V1 */
         lastSpotifyData = {
             title: track.title,
             artist: track.artist,
             album: track.album || '',
             albumImageUrl: image,
             provider: 'lastfm',
-            isPlaying: false
+            isPlaying: isNowPlaying
         };
         syncCurrentTrackWithCachedHistory();
         setContainerHtmlIfChanged(spotifyContainer, `
             <div class="spotify-playing">
-                <img src="${image}" class="spotify-art" alt="Capa do álbum" width="72" height="72" decoding="async" style="animation: none;">
+                <img src="${image}" class="spotify-art" alt="Capa do álbum" width="72" height="72" decoding="async" style="animation: ${artAnimation};">
                 <div class="spotify-info">
-                    <span class="spotify-label spotify-label-last" style="color: #8aa0b8;">${svgIcon('lastfm')} ÚLTIMA MÚSICA OUVIDA</span>
+                    <span class="spotify-label ${labelClass}" style="color: ${labelColor};">${svgIcon('lastfm')} ${labelText}</span>
                     <strong class="spotify-track">${track.title}</strong>
                     <span class="spotify-artist">${track.artist}</span>
+                ${equalizerHtml}
                 </div>
             </div>
         `);
@@ -363,6 +378,31 @@ function formatLastFmDate(value) {
     }
     return '';
 }
+/* LASTFM_NOW_PLAYING_DETECTOR_V1 */
+function isTruthyNowPlayingValue(value) {
+    if (value === true || value === 1)
+        return true;
+    const text = String(value ?? '').trim().toLowerCase();
+    return text === 'true' ||
+        text === '1' ||
+        text === 'yes' ||
+        text === 'nowplaying' ||
+        text === 'now playing';
+}
+function isLastFmTrackNowPlaying(track) {
+    if (!track)
+        return false;
+    const attr = track['@attr'] || track.attr || track.attributes || {};
+    return Boolean(isTruthyNowPlayingValue(track.isPlaying) ||
+        isTruthyNowPlayingValue(track.isNowPlaying) ||
+        isTruthyNowPlayingValue(track.nowPlaying) ||
+        isTruthyNowPlayingValue(track.nowplaying) ||
+        isTruthyNowPlayingValue(track.currentlyPlaying) ||
+        isTruthyNowPlayingValue(attr.nowplaying) ||
+        isTruthyNowPlayingValue(attr.nowPlaying) ||
+        isTruthyNowPlayingValue(attr.isNowPlaying));
+}
+/* FIM LASTFM_NOW_PLAYING_DETECTOR_V1 */
 function normalizeLastFmTracks(data) {
     const rawTracks = data?.recentTracks || data?.tracks || data?.history || data?.items || data?.recenttracks?.track || data?.recentTracks?.track || data?.track;
     const list = Array.isArray(rawTracks) ? rawTracks : (rawTracks ? [rawTracks] : []);
@@ -377,7 +417,8 @@ function normalizeLastFmTracks(data) {
         const image = track.albumImageUrl || track.imageUrl || track.cover || track.poster || getLargestLastFmImage(track.image) || fallbackMusicCover;
         const title = track.title || track.name || track.track || 'Música desconhecida';
         const provider = String(track.provider || track.source || track.service || responseProvider || 'lastfm').toLowerCase();
-        return { title, artist, album, image, isNowPlaying: false, provider, isSyntheticCurrent: false };
+        const isNowPlaying = isLastFmTrackNowPlaying(track);
+        return { title, artist, album, image, isNowPlaying, provider, isSyntheticCurrent: false };
     }).filter(track => track.title || track.artist).slice(0, 10);
 }
 function normalizeTextForCompare(value) {
