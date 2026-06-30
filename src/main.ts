@@ -191,6 +191,57 @@
         let spotifyHistoryCache = null;
         let spotifyHistoryPreloadPromise = null;
 
+
+/* MUSIC_LASTFM_CARD_FALLBACK_V1 */
+async function renderLastFmFallbackMusicCard(spotifyContainer) {
+    if (!spotifyContainer) return false;
+
+    try {
+        const response = await fetch('https://kennowiski-api-hub.vercel.app/api/lastfm?limit=1', {
+            cache: 'no-store'
+        });
+
+        if (!response.ok) return false;
+
+        const data = await response.json();
+        const tracks = normalizeLastFmTracks(data);
+        const track = tracks && tracks[0];
+
+        if (!track || !track.title || !track.artist) return false;
+
+        const fallbackCover = 'https://placehold.co/160x160/14161e/94a3b8?text=%E2%99%AA';
+        const image = track.image || fallbackCover;
+
+        lastSpotifyData = {
+            title: track.title,
+            artist: track.artist,
+            album: track.album || '',
+            albumImageUrl: image,
+            provider: 'lastfm',
+            isPlaying: false
+        };
+
+        syncCurrentTrackWithCachedHistory();
+
+        setContainerHtmlIfChanged(spotifyContainer, `
+            <div class="spotify-playing">
+                <img src="${image}" class="spotify-art" alt="Capa do álbum" width="72" height="72" decoding="async" style="animation: none;">
+                <div class="spotify-info">
+                    <span class="spotify-label spotify-label-last" style="color: #8aa0b8;">${svgIcon('lastfm')} ÚLTIMA MÚSICA OUVIDA</span>
+                    <strong class="spotify-track">${track.title}</strong>
+                    <span class="spotify-artist">${track.artist}</span>
+                </div>
+            </div>
+        `);
+
+        return true;
+    } catch (error) {
+        console.warn('Fallback Last.fm indisponível para o card musical:', error);
+        return false;
+    }
+}
+/* FIM MUSIC_LASTFM_CARD_FALLBACK_V1 */
+
         async function fetchSpotify() {
             if (!isPageVisible()) return;
             const spotifyContainer = document.getElementById('spotify-card-container');
@@ -200,7 +251,15 @@
                 const response = await fetch(vercelUrl);
                 const data = await response.json();
                 const responseHasTrackInfo = data.title && data.artist;
-            if (data.isPlaying || responseHasTrackInfo) {
+            
+                /* MUSIC_LASTFM_CARD_EMPTY_RESPONSE_FIX_V1 */
+                if (!response.ok || data.error || (!data.isPlaying && !responseHasTrackInfo)) {
+                    const renderedLastFmFallback = await renderLastFmFallbackMusicCard(spotifyContainer);
+
+                    if (renderedLastFmFallback) return;
+                }
+                /* FIM MUSIC_LASTFM_CARD_EMPTY_RESPONSE_FIX_V1 */
+if (data.isPlaying || responseHasTrackInfo) {
                 lastSpotifyData = data;
                 syncCurrentTrackWithCachedHistory();
             }
@@ -290,6 +349,10 @@
 
             } catch (error) {
                 console.error("Erro ao puxar dados da sua API no Vercel:", error);
+
+                /* MUSIC_LASTFM_CARD_CATCH_FIX_V1 */
+                await renderLastFmFallbackMusicCard(spotifyContainer);
+                /* FIM MUSIC_LASTFM_CARD_CATCH_FIX_V1 */
             }
         }
 
