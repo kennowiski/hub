@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ==========================================
 // UTILITÁRIOS COMPARTILHADOS
 // Funções usadas por várias seções (Discord, Spotify, Letterboxd, Trakt...)

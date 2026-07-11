@@ -1,9 +1,19 @@
-// @ts-nocheck
 // ==========================================
 // AUTENTICAÇÃO (SUPABASE) + PAINEL ADMIN
 // Controla o login usado para liberar o botão de gerar
 // story do Trakt (acesso restrito ao admin).
 // ==========================================
+
+// O SDK do Supabase é carregado dinamicamente via <script> (loadSupabaseSdk),
+// então o TypeScript não o conhece estaticamente — declaramos aqui como `any`.
+declare global {
+    interface Window {
+        supabase?: {
+            createClient: (url: string, key: string, options?: any) => any;
+        };
+    }
+}
+
 /* Supabase Auth Gate - botão Story Trakt */
 const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
@@ -63,7 +73,7 @@ function hasSupabaseSessionStored() {
     }
 }
 
-function loadSupabaseSdk() {
+function loadSupabaseSdk(): Promise<NonNullable<Window['supabase']>> {
     return new Promise((resolve, reject) => {
         if (window.supabase && window.supabase.createClient) {
             resolve(window.supabase);
@@ -202,10 +212,10 @@ function openStoryLoginModal(client) {
     return new Promise((resolve) => {
         const modal = document.getElementById('story-login-modal');
         const form = document.getElementById('story-login-form');
-        const emailInput = document.getElementById('story-login-email');
-        const passwordInput = document.getElementById('story-login-password');
+        const emailInput = document.getElementById('story-login-email') as HTMLInputElement | null;
+        const passwordInput = document.getElementById('story-login-password') as HTMLInputElement | null;
         const closeBtn = document.getElementById('story-login-close');
-        const submitBtn = document.getElementById('story-login-submit');
+        const submitBtn = document.getElementById('story-login-submit') as HTMLButtonElement | null;
 
         if (!modal || !form || !emailInput || !passwordInput || !submitBtn) {
             resolve(false);

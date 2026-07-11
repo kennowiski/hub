@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ==========================================
 // AUTENTICAÇÃO (SUPABASE) + PAINEL ADMIN
 // Controla o login usado para liberar o botão de gerar

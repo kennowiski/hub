@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ==========================================
 // MÍDIA: LETTERBOXD + TRAKT + RECOMENDAÇÕES GEMINI
 // Estas três seções foram mantidas juntas porque compartilham

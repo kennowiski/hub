@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ==========================================
 // MÍDIA: LETTERBOXD + TRAKT + RECOMENDAÇÕES GEMINI
 // Estas três seções foram mantidas juntas porque compartilham
@@ -147,7 +146,7 @@ function isValidTraktData(data) {
 function renderLetterboxdData(data) {
     if (!isValidLetterboxdData(data)) return false;
 
-    const posterImg = document.getElementById('lb-poster');
+    const posterImg = document.getElementById('lb-poster') as HTMLImageElement | null;
     const titleSpan = document.getElementById('lb-title');
     const ratingSpan = document.getElementById('lb-rating-card');
     const safeFallback = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='72' viewBox='0 0 48 72'%3E%3Crect width='48' height='72' rx='6' fill='%2314161e'/%3E%3Ctext x='24' y='38' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='8'%3EFilme%3C/text%3E%3C/svg%3E";
@@ -170,7 +169,7 @@ function renderLetterboxdData(data) {
 function renderTraktData(data) {
     if (!isValidTraktData(data)) return false;
 
-    const posterImg = document.getElementById('trakt-poster');
+    const posterImg = document.getElementById('trakt-poster') as HTMLImageElement | null;
     const titleSpan = document.getElementById('trakt-title');
     const episodeSpan = document.getElementById('trakt-episode');
     const ratingSpan = document.getElementById('trakt-rating');
@@ -205,11 +204,11 @@ function renderTraktData(data) {
             const safeFallback = 'https://placehold.co/300x450/14161e/94a3b8?text=Filme';
             const poster = data.poster || safeFallback;
 
-            const modalPoster = document.getElementById('lb-modal-poster');
+            const modalPoster = document.getElementById('lb-modal-poster') as HTMLImageElement | null;
             const modalBg = document.getElementById('lb-share-bg');
             const modalTitle = document.getElementById('lb-modal-title');
             const modalRating = document.getElementById('lb-modal-rating');
-            const openLink = document.getElementById('lb-open-link');
+            const openLink = document.getElementById('lb-open-link') as HTMLAnchorElement | null;
 
             if (modalPoster) {
                 modalPoster.onerror = function () { this.src = safeFallback; };
@@ -329,7 +328,7 @@ function getCanvasImageCandidateSources(src) {
     return candidates;
 }
 
-function loadSingleCanvasImage(src) {
+function loadSingleCanvasImage(src: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
         if (!src) {
             reject(new Error('Imagem não informada.'));
@@ -348,7 +347,7 @@ function loadSingleCanvasImage(src) {
     });
 }
 
-async function loadCanvasImage(src) {
+async function loadCanvasImage(src: string): Promise<HTMLImageElement> {
     const sources = getCanvasImageCandidateSources(src);
     let lastError = null;
 
@@ -583,8 +582,8 @@ async function generateTraktStoryBlob(options: { transparentBackground?: boolean
     const episodeLine = 'S' + season + 'E' + episodeNumber + ' • ' + episodeTitle;
     const stars = getTraktStoryStars(currentTraktStoryData.rating);
 
-    const posterEl = document.getElementById('trakt-modal-poster');
-    const cardPosterEl = document.getElementById('trakt-poster');
+    const posterEl = document.getElementById('trakt-modal-poster') as HTMLImageElement | null;
+    const cardPosterEl = document.getElementById('trakt-poster') as HTMLImageElement | null;
 
     const posterSrcFromData = currentTraktStoryData.poster || '';
     const posterSrcFromCard = cardPosterEl
@@ -754,7 +753,7 @@ async function handleTraktStoryShare(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    const button = document.getElementById('trakt-story-btn');
+    const button = document.getElementById('trakt-story-btn') as HTMLButtonElement | null;
     if (!button) return;
 
     const originalHtml = button.innerHTML;
@@ -783,12 +782,12 @@ function updateTraktModal(data) {
             const episodeText = `S${season}E${episodeNumber} — ${data.episode || 'Episódio'}`;
             const ratingText = renderTraktStars(data.rating);
 
-            const modalPoster = document.getElementById('trakt-modal-poster');
+            const modalPoster = document.getElementById('trakt-modal-poster') as HTMLImageElement | null;
             const modalBg = document.getElementById('trakt-share-bg');
             const modalTitle = document.getElementById('trakt-modal-title');
             const modalEpisode = document.getElementById('trakt-modal-episode');
             const modalRating = document.getElementById('trakt-modal-rating');
-            const openLink = document.getElementById('trakt-open-link');
+            const openLink = document.getElementById('trakt-open-link') as HTMLAnchorElement | null;
 
             if (modalPoster) {
                 modalPoster.onerror = function () { this.src = safeFallback; };
@@ -840,7 +839,7 @@ fetchTrakt();
 
 /* TRAKT_STORY_ADMIN_BRIDGE_V5 */
 function ensureOriginalTraktStoryButton() {
-    let button = document.getElementById('trakt-story-btn');
+    let button = document.getElementById('trakt-story-btn') as HTMLButtonElement | null;
 
     if (button) return button;
 
@@ -890,8 +889,8 @@ async function fetchFreshTraktStoryDataFromAdmin() {
 function syncFreshTraktPoster(data) {
     const poster = data.poster;
 
-    const cardPoster = document.getElementById('trakt-poster');
-    const modalPoster = document.getElementById('trakt-modal-poster');
+    const cardPoster = document.getElementById('trakt-poster') as HTMLImageElement | null;
+    const modalPoster = document.getElementById('trakt-modal-poster') as HTMLImageElement | null;
     const modalBg = document.getElementById('trakt-share-bg');
 
     if (cardPoster) {
@@ -987,9 +986,9 @@ const traktCard = document.getElementById('trakt-card');
             trakt: 0
         };
 
-        function getGeminiElements(source) {
+        function getGeminiElements(source: string): { button: HTMLButtonElement | null; box: HTMLElement | null } {
             return {
-                button: document.getElementById(`${source}-recommend-btn`),
+                button: document.getElementById(`${source}-recommend-btn`) as HTMLButtonElement | null,
                 box: document.getElementById(`${source}-recommendation-box`)
             };
         }
@@ -1288,7 +1287,7 @@ const traktCard = document.getElementById('trakt-card');
             }
         });
 
-        const catGif = document.getElementById('wyd-cat');
+        const catGif = document.getElementById('wyd-cat') as HTMLImageElement | null;
 
         function showCatAt(clickX, clickY) {
             catGif.style.display = 'block';

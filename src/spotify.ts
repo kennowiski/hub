@@ -1,4 +1,3 @@
-// @ts-nocheck
 // ==========================================
 // SISTEMA MUSICAL (SPOTIFY + LAST.FM)
 // ==========================================
@@ -44,7 +43,7 @@ async function renderLastFmFallbackMusicCard(spotifyContainer) {
         const image = track.image || fallbackCover;
 
         /* LASTFM_NOW_PLAYING_CARD_RENDER_V1 */
-        const isNowPlaying = Boolean(track.isNowPlaying || track.isPlaying);
+        const isNowPlaying = Boolean(track.isNowPlaying || (track as any).isPlaying);
         const labelText = isNowPlaying ? 'Ouvindo agora (Last.fm)' : 'ÚLTIMA MÚSICA OUVIDA';
         const labelColor = isNowPlaying ? '#ba0000' : '#8aa0b8';
         const labelClass = isNowPlaying ? 'spotify-label-now' : 'spotify-label-last';

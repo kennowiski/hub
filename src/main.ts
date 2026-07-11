@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { isPageVisible, setImageSrcIfChanged, setContainerHtmlIfChanged } from './utils.js';
 import { initDiscord } from './discord.js';
 import { initMusic, closeSpotifyHistoryModalIfOpen } from './spotify.js';
@@ -61,7 +60,7 @@ import { initAdmin } from './auth.js';
         // TOOLTIP E MODAL DE TECNOLOGIAS
         // ==========================================
         const tooltip = document.getElementById('tech-tooltip');
-        const techBoxes = document.querySelectorAll('.tech-box');
+        const techBoxes = document.querySelectorAll<HTMLElement>('.tech-box');
 
         techBoxes.forEach(box => {
             box.addEventListener('mouseenter', (e) => {

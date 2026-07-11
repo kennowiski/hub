@@ -1,19 +1,18 @@
-// @ts-nocheck
 // ==========================================
 // UTILITÁRIOS COMPARTILHADOS
 // Funções usadas por várias seções (Discord, Spotify, Letterboxd, Trakt...)
 // ==========================================
 
-export function isPageVisible() {
+export function isPageVisible(): boolean {
     return document.visibilityState === 'visible';
 }
 
-export function setImageSrcIfChanged(img, newSrc) {
+export function setImageSrcIfChanged(img: HTMLImageElement | null, newSrc: string): void {
     if (!img || !newSrc) return;
     if (img.getAttribute('src') !== newSrc) img.src = newSrc;
 }
 
-export function setContainerHtmlIfChanged(container, html) {
+export function setContainerHtmlIfChanged(container: HTMLElement | null, html: string): void {
     if (!container) return;
     if (container.dataset.currentHtml !== html) {
         container.innerHTML = html;
