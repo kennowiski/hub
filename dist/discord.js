@@ -1,0 +1,53 @@
+// @ts-nocheck
+// ==========================================
+// DISCORD (Status e Jogos)
+// ==========================================
+import { isPageVisible, setImageSrcIfChanged, setContainerHtmlIfChanged } from './utils.js';
+const discordId = "387025115898183702";
+async function fetchDiscordPresence() {
+    if (!isPageVisible())
+        return;
+    try {
+        const response = await fetch(`https://api.lanyard.rest/v1/users/${discordId}`);
+        const json = await response.json();
+        const data = json.data;
+        if (!data)
+            return;
+        const avatarUrl = `https://cdn.discordapp.com/avatars/${data.discord_user.id}/${data.discord_user.avatar}.png?size=128`;
+        const avatarImg = document.getElementById('discord-avatar');
+        setImageSrcIfChanged(avatarImg, avatarUrl);
+        const usernameH3 = document.getElementById('discord-username');
+        if (usernameH3)
+            usernameH3.textContent = `@${data.discord_user.username}`;
+        const statusDot = document.getElementById('discord-status-dot');
+        if (statusDot)
+            statusDot.style.backgroundColor = `var(--status-${data.discord_status})`;
+        const statusDisplay = { "online": "Online", "idle": "Ausente", "dnd": "N\u00E3o Perturbe", "offline": "Offline" };
+        const statusTextP = document.getElementById('discord-status-text');
+        if (statusTextP)
+            statusTextP.textContent = statusDisplay[data.discord_status] || "Offline";
+        const activityContainer = document.getElementById('discord-activity-container');
+        const activity = data.activities.find(a => a.type === 0 || a.type === 2);
+        if (activityContainer) {
+            if (activity && activity.name !== "Spotify") {
+                let imgUrl = "";
+                if (activity.assets && activity.assets.large_image) {
+                    imgUrl = activity.assets.large_image.startsWith("mp:external") ? activity.assets.large_image.replace("mp:external/", "https://media.discordapp.net/external/") : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.png`;
+                }
+                setContainerHtmlIfChanged(activityContainer, `${imgUrl ? `<img src="${imgUrl}" class="activity-img" alt="Atividade">` : `<div class="activity-img" style="background:var(--card-border);display:flex;align-items:center;justify-content:center;font-size:24px;">🎮</div>`}<div class="activity-details"><strong>${activity.name}</strong>${activity.details ? `<span>${activity.details}</span>` : ''}${activity.state ? `<span>${activity.state}</span>` : ''}</div>`);
+            }
+            else {
+                setContainerHtmlIfChanged(activityContainer, `<p class="not-doing-anything">Fazendo nada...</p>`);
+            }
+        }
+    }
+    catch (error) {
+        console.error("Erro no Discord:", error);
+    }
+}
+export function initDiscord() {
+    window.addEventListener('load', () => {
+        setTimeout(fetchDiscordPresence, 1200);
+        setInterval(fetchDiscordPresence, 30000);
+    });
+}
