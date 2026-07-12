@@ -2366,24 +2366,10 @@
         }
 
 /* Padroniza o botão Redes sociais no mobile */
-a[aria-label="Redes sociais"] > svg:first-child {
-    width: 1.1rem;
-    height: 1.1rem;
-    min-width: 1.1rem;
-    fill: currentColor;
-}
-
+/* Padroniza o botão Redes sociais no mobile, incluindo o ícone externo
+   (consolidado das 3 correções sucessivas que existiam aqui antes) */
 a[aria-label="Redes sociais"] > span {
     flex: 1;
-    text-align: left;
-}
-
-a[aria-label="Redes sociais"] .external-icon {
-    width: 0.95rem;
-    height: 0.95rem;
-    min-width: 0.95rem;
-    fill: currentColor;
-    opacity: 0.9;
 }
 
 /* Correção final: padroniza botão Redes sociais com os outros links mobile */
@@ -2409,22 +2395,13 @@ a[aria-label="Redes sociais"] > span {
 }
 
 a[aria-label="Redes sociais"] .external-icon {
-    width: 1rem !important;
-    height: 1rem !important;
-    min-width: 1rem !important;
-    fill: currentColor !important;
-    justify-self: end !important;
-    opacity: 1 !important;
-}
-
-/* Correção: deixa o ícone externo do botão Redes sociais no mesmo tamanho dos outros */
-a[aria-label="Redes sociais"] .external-icon {
     width: 1.15rem !important;
     height: 1.15rem !important;
     min-width: 1.15rem !important;
     min-height: 1.15rem !important;
     fill: currentColor !important;
     opacity: 1 !important;
+    justify-self: end !important;
 }
 
 /* Remove Redes sociais somente no desktop */
@@ -2473,24 +2450,8 @@ a[aria-label="Redes sociais"] .external-icon {
     background: rgba(255, 255, 255, 0.12);
 }
 
-.trakt-modal-share .icon {
-    width: 1em !important;
-    height: 1em !important;
-}
-/* Fim botão discreto de Story no modal Trakt */
-
 .trakt-modal-share {
-    height: 29px !important;
     top: 20px !important;
-}
-
-.trakt-modal-share .icon {
-    width: 1em !important;
-}
-/* Fim ajuste fino botão compartilhar Trakt */
-
-/* Correção: botão compartilhar Trakt perfeitamente circular */
-.trakt-modal-share {
     width: 29px !important;
     height: 29px !important;
     min-width: 29px !important;
@@ -2511,7 +2472,7 @@ a[aria-label="Redes sociais"] .external-icon {
     width: 1em !important;
     height: 1em !important;
 }
-/* Fim correção botão compartilhar Trakt circular */
+/* Fim correção botão compartilhar Trakt circular (consolidado de 3 correções sucessivas) */
 
 /* Ajuste mobile X modal tecnologias */
 @media (max-width: 899px) {
