@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Página não encontrada — Portfólio do Kenny</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#0f1117" />
+    <meta name="color-scheme" content="dark light" />
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+            } catch (e) { /* localStorage bloqueado: mantém o tema escuro padrão */ }
+        })();
+    </script>
+    <link href="assets/images/favicon.webp" rel="icon" type="image/webp" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            align-items: center;
+        }
+
+        .not-found-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            text-align: center;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 48px 32px;
+        }
+
+        .not-found-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .not-found-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .not-found-text {
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .not-found-link {
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 999px;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .not-found-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px var(--accent-glow);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <main class="card not-found-wrap">
+        <div class="not-found-code">404</div>
+        <h1 class="not-found-title">Essa página não existe</h1>
+        <p class="not-found-text">O link que você seguiu pode estar quebrado, ou a página foi movida. Que tal voltar
+            para o início?</p>
+        <a class="not-found-link" href="/">Voltar para o portfólio</a>
+    </main>
+</body>
+
+</html>
