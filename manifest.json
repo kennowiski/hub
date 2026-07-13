@@ -1,0 +1,17 @@
+{
+    "name": "Portfólio do Kenny",
+    "short_name": "Kenny",
+    "description": "Portfólio pessoal com integrações de Spotify, Last.fm, Letterboxd e Trakt.tv.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0f1117",
+    "theme_color": "#0f1117",
+    "icons": [
+        {
+            "src": "assets/images/favicon.webp",
+            "sizes": "736x736",
+            "type": "image/webp",
+            "purpose": "any"
+        }
+    ]
+}

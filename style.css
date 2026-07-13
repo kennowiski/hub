@@ -143,6 +143,26 @@
             position: relative;
         }
 
+        /* Link "pular para o conteúdo": invisível até receber foco via
+           teclado (Tab). Padrão de acessibilidade para quem navega sem mouse. */
+        .skip-to-content {
+            position: absolute;
+            top: -60px;
+            left: 20px;
+            z-index: 10000;
+            background: var(--accent);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: top 0.2s ease;
+        }
+
+        .skip-to-content:focus {
+            top: 20px;
+        }
+
         /* LUZES DE FUNDO */
         .bg-orb {
             position: fixed;
