@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 // TYPEWRITER EFFECT (OTIMIZADO PARA LCP/FCP)
 // ==========================================
-const textToType = "Entusiasta de programação explorando conhecimento. Gamer, cinéfilo e amante da música.";
+const textToType = "Desenvolvedor de Software em formação. Gamer, cinéfilo e amante da música.";
 const typingElement = document.getElementById('typing-text');
 let typeIndex = 0;
 let typewriterStarted = false;
