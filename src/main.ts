@@ -104,6 +104,46 @@ import { initAdmin } from './auth.js';
         });
 
         // ==========================================
+        // LUME PDF READER (CARD DE APP)
+        // ==========================================
+        const lumeCard = document.getElementById('lume-card');
+        const lumeModal = document.getElementById('lume-modal');
+        const closeLumeModalBtn = document.getElementById('close-lume-modal');
+
+        function openLumeModal() {
+            lumeModal.classList.add('active');
+            lumeModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLumeModal() {
+            lumeModal.classList.remove('active');
+            lumeModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        if (lumeCard && lumeModal) {
+            lumeCard.addEventListener('click', openLumeModal);
+            lumeCard.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLumeModal();
+                }
+            });
+        }
+        if (closeLumeModalBtn) closeLumeModalBtn.addEventListener('click', closeLumeModal);
+        if (lumeModal) {
+            lumeModal.addEventListener('click', (e) => {
+                if (e.target === lumeModal) closeLumeModal();
+            });
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lumeModal && lumeModal.classList.contains('active')) {
+                closeLumeModal();
+            }
+        });
+
+        // ==========================================
         // DISCORD (Status e Jogos)
         // Lógica movida para discord.ts
         // ==========================================
