@@ -1775,7 +1775,7 @@
 
         /* LUME PDF READER (MEUS APPS) */
         .lume-card {
-            justify-content: flex-start;
+            justify-content: center;
             cursor: pointer;
             position: relative;
         }
@@ -2501,6 +2501,7 @@
 
         .lb-header,
         .trakt-header,
+        .lume-header,
         .trakt-share-label,
         .spotify-label-last,
         .spotify-label-now,
