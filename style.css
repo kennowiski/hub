@@ -247,7 +247,6 @@
             .lume-card {
                 grid-column: 3 / 4;
                 grid-row: 2;
-                align-self: start;
             }
 
             .spotify-card {
