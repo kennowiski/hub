@@ -1775,7 +1775,7 @@
 
         /* LUME PDF READER (MEUS APPS) */
         .lume-card {
-            justify-content: center;
+            justify-content: flex-start;
             cursor: pointer;
             position: relative;
         }
@@ -2195,7 +2195,8 @@
         @media (max-width: 899px) {
 
             .trakt-card::after,
-            .letterboxd-card::after {
+            .letterboxd-card::after,
+            .lume-card::after {
                 content: 'Toque para abrir o card ←';
                 opacity: 0.9;
                 right: 18px;
@@ -2203,7 +2204,8 @@
             }
 
             .trakt-card,
-            .letterboxd-card {
+            .letterboxd-card,
+            .lume-card {
                 padding-bottom: 36px;
             }
 
