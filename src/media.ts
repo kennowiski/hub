@@ -818,7 +818,7 @@ function updateSimklModal(data) {
             if (modalTitle) modalTitle.textContent = data.show || 'Série não encontrada';
             if (modalEpisode) modalEpisode.textContent = episodeText;
             if (modalRating) modalRating.textContent = ratingText || '';
-            if (openLink) openLink.href = data.simklUrl || 'https://simkl.tv/users/kennowiski/history';
+            if (openLink) openLink.href = 'https://simkl.com/8849020/history/watch-history/';
         }
 
         async function fetchSimkl() {

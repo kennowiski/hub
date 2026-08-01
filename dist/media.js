@@ -698,7 +698,7 @@ export function initMedia() {
         if (modalRating)
             modalRating.textContent = ratingText || '';
         if (openLink)
-            openLink.href = data.simklUrl || 'https://simkl.tv/users/kennowiski/history';
+            openLink.href = 'https://simkl.com/8849020/history/watch-history/';
     }
     async function fetchSimkl() {
         const cachedData = readTimedMediaCache(SIMKL_CACHE_KEY, SIMKL_CACHE_TTL_MS);
