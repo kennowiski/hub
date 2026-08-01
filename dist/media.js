@@ -1,8 +1,8 @@
 // ==========================================
-// MÍDIA: LETTERBOXD + TRAKT + RECOMENDAÇÕES GEMINI
+// MÍDIA: LETTERBOXD + SIMKL + RECOMENDAÇÕES GEMINI
 // Estas três seções foram mantidas juntas porque compartilham
 // funções de cache, renderização de estrelas e chamam funções
-// umas das outras (ex: os modais do Letterboxd/Trakt disparam
+// umas das outras (ex: os modais do Letterboxd/Simkl disparam
 // as recomendações do Gemini).
 // ==========================================
 import { setImageSrcIfChanged } from './utils.js';
@@ -14,7 +14,7 @@ export function initMedia() {
     // ==========================================
     // FUNÇÕES GERAIS DE COMPARTILHAMENTO
     // ==========================================
-    function renderTraktStars(rating) {
+    function renderSimklStars(rating) {
         const numericRating = Number(rating);
         if (!Number.isFinite(numericRating) || numericRating <= 0)
             return '';
@@ -74,11 +74,11 @@ export function initMedia() {
     }
     let currentMovieRecommendationTarget = null;
     let currentSeriesRecommendationTarget = null;
-    /* Cache Letterboxd e Trakt */
+    /* Cache Letterboxd e Simkl */
     const LETTERBOXD_CACHE_KEY = 'kenny-letterboxd-last-movie';
     const LETTERBOXD_CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 horas
-    const TRAKT_CACHE_KEY = 'kenny-trakt-last-episode';
-    const TRAKT_CACHE_TTL_MS = 1000 * 60 * 90; // 1h30min
+    const SIMKL_CACHE_KEY = 'kenny-simkl-last-episode';
+    const SIMKL_CACHE_TTL_MS = 1000 * 60 * 90; // 1h30min
     function readTimedMediaCache(key, ttlMs) {
         try {
             const raw = localStorage.getItem(key);
@@ -116,7 +116,7 @@ export function initMedia() {
     function isValidLetterboxdData(data) {
         return Boolean(data && data.title);
     }
-    function isValidTraktData(data) {
+    function isValidSimklData(data) {
         return Boolean(data && !data.error && (data.show || data.episode));
     }
     function renderLetterboxdData(data) {
@@ -138,13 +138,13 @@ export function initMedia() {
         updateLbModal(normalizedData);
         return true;
     }
-    function renderTraktData(data) {
-        if (!isValidTraktData(data))
+    function renderSimklData(data) {
+        if (!isValidSimklData(data))
             return false;
-        const posterImg = document.getElementById('trakt-poster');
-        const titleSpan = document.getElementById('trakt-title');
-        const episodeSpan = document.getElementById('trakt-episode');
-        const ratingSpan = document.getElementById('trakt-rating');
+        const posterImg = document.getElementById('simkl-poster');
+        const titleSpan = document.getElementById('simkl-title');
+        const episodeSpan = document.getElementById('simkl-episode');
+        const ratingSpan = document.getElementById('simkl-rating');
         if (titleSpan)
             titleSpan.textContent = data.show || 'Série não encontrada';
         if (episodeSpan) {
@@ -153,17 +153,17 @@ export function initMedia() {
             episodeSpan.textContent = `S${season}E${episode} — ${data.episode || 'Episódio'}`;
         }
         if (ratingSpan)
-            ratingSpan.textContent = renderTraktStars(data.rating);
+            ratingSpan.textContent = renderSimklStars(data.rating);
         if (posterImg) {
             const safeFallback = 'https://placehold.co/48x72/14161e/94a3b8?text=TV';
             posterImg.onerror = function () { this.src = safeFallback; };
             setImageSrcIfChanged(posterImg, data.poster || safeFallback);
         }
-        currentTraktStoryData = data;
-        updateTraktModal(data);
+        currentSimklStoryData = data;
+        updateSimklModal(data);
         return true;
     }
-    /* Fim Cache Letterboxd e Trakt */
+    /* Fim Cache Letterboxd e Simkl */
     // ==========================================
     // LETTERBOXD 
     // ==========================================
@@ -244,11 +244,11 @@ export function initMedia() {
         lbModal.addEventListener('click', (e) => { if (e.target === lbModal)
             closeLbModalFn(); });
     // ==========================================
-    // TRAKT 
+    // SIMKL 
     // ==========================================
-    const TRAKT_STORY_AVATAR_URL = 'assets/images/trakt-story-avatar.webp';
-    let currentTraktStoryData = null;
-    function getTraktStoryButtonHtml() {
+    const SIMKL_STORY_AVATAR_URL = 'assets/images/simkl-story-avatar.webp';
+    let currentSimklStoryData = null;
+    function getSimklStoryButtonHtml() {
         return `
         <svg aria-hidden="true" class="icon" viewbox="0 0 512 512">
             <path d="M352 224c53 0 96-43 96-96s-43-96-96-96s-96 43-96 96c0 4 .2 8 .7 11.9L160.6 188C143 171.7 119.5 162 94 162c-53 0-96 43-96 96s43 96 96 96c25.5 0 49-9.7 66.6-26l96.1 48.1c-.5 3.9-.7 7.9-.7 11.9c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-25.5 0-49 9.7-66.6 26l-96.1-48.1c.5-3.9 .7-7.9 .7-11.9s-.2-8-.7-11.9l96.1-48.1c17.6 16.3 41.1 26 66.6 26z"></path>
@@ -344,12 +344,21 @@ export function initMedia() {
         }
         return value + '…';
     }
-    function getTraktStoryStars(rating) {
-        const stars = renderTraktStars(rating);
-        return stars && String(stars).trim() ? stars : '☆☆☆☆☆';
+    function getSimklStoryWatchedLabel(watchedAt) {
+        if (!watchedAt)
+            return '';
+        const date = new Date(watchedAt);
+        if (isNaN(date.getTime()))
+            return '';
+        const formatted = date.toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        });
+        return 'Assistido em ' + formatted;
     }
     function slugifyText(value) {
-        return String(value || 'trakt-story')
+        return String(value || 'simkl-story')
             .toLowerCase()
             .normalize('NFD')
             .replace(/[\u0300-\u036f]/g, '')
@@ -369,7 +378,7 @@ export function initMedia() {
     }
     async function getStoryAvatarImage() {
         try {
-            return await loadCanvasImage(TRAKT_STORY_AVATAR_URL);
+            return await loadCanvasImage(SIMKL_STORY_AVATAR_URL);
         }
         catch (error) {
             const fallbackAvatar = document.getElementById('discord-avatar');
@@ -379,30 +388,30 @@ export function initMedia() {
             throw error;
         }
     }
-    /* TRAKT_STORY_ORIGINAL_VISUAL_HELPERS_V1 */
-    function drawOriginalTraktLogo(ctx, x, y, logoWidth, logoHeight, color) {
-        const traktPath = new Path2D('M64 64L64 352L576 352L576 64L64 64zM0 64C0 28.7 28.7 0 64 0L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 416c-35.3 0-64-28.7-64-64L0 64zM128 448l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L128 512c-17.7 0-32-14.3-32-32s14.3-32 32-32z');
+    /* SIMKL_STORY_ORIGINAL_VISUAL_HELPERS_V1 */
+    function drawOriginalSimklLogo(ctx, x, y, logoWidth, logoHeight, color) {
+        const simklPath = new Path2D('M3.84 0A3.832 3.832 0 0 0 0 3.84v16.32A3.832 3.832 0 0 0 3.84 24h16.32A3.832 3.832 0 0 0 24 20.16V3.84A3.832 3.832 0 0 0 20.16 0zm8.567 4.11c2.074 0 3.538.061 4.393.186 1.127.168 1.94.46 2.438.877.672.578 1.009 1.613 1.009 3.104 0 .161-.004.417-.01.768h-4.234c-.014-.358-.039-.607-.074-.746-.098-.41-.42-.64-.966-.692-.484-.043-1.66-.066-3.53-.066-1.85 0-2.946.056-3.289.165-.385.133-.578.474-.578 1.024 0 .528.203.851.61.969.343.095 1.887.187 4.633.275 2.487.073 4.073.165 4.76.275.693.11 1.244.275 1.654.495.41.22.737.532.983.936.37.595.557 1.552.557 2.873 0 1.475-.182 2.557-.546 3.247-.364.683-.96 1.149-1.785 1.398-.812.25-3.05.374-6.71.374-2.226 0-3.832-.062-4.82-.187-1.204-.147-2.068-.434-2.593-.86-.567-.456-.903-1.1-1.008-1.93a10.522 10.522 0 0 1-.085-1.434v-.789H7.44c-.007.74.136 1.216.43 1.428.154.102.33.167.525.203.196.037.54.063 1.03.077a166.2 166.2 0 0 0 2.405.022c1.862-.007 2.94-.018 3.234-.033.553-.044.917-.12 1.092-.23.245-.161.368-.52.368-1.077 0-.38-.078-.648-.231-.802-.211-.212-.712-.325-1.503-.34-.547 0-1.688-.044-3.425-.132-1.794-.088-2.956-.14-3.488-.154-1.387-.044-2.364-.212-2.932-.505-.728-.373-1.205-1.01-1.429-1.91-.126-.498-.189-1.15-.189-1.956 0-1.698.309-2.895.925-3.59.462-.527 1.163-.875 2.102-1.044.848-.146 2.865-.22 6.053-.22z');
         ctx.save();
         ctx.translate(x, y);
-        ctx.scale(logoWidth / 640, logoHeight / 512);
+        ctx.scale(logoWidth / 24, logoHeight / 24);
         ctx.fillStyle = color;
-        ctx.fill(traktPath);
+        ctx.fill(simklPath);
         ctx.restore();
     }
-    function clampOriginalTraktColor(value, min, max) {
+    function clampOriginalSimklColor(value, min, max) {
         return Math.min(max, Math.max(min, value));
     }
-    function mixOriginalTraktColor(colorA, colorB, weight) {
+    function mixOriginalSimklColor(colorA, colorB, weight) {
         return {
             r: Math.round(colorA.r + (colorB.r - colorA.r) * weight),
             g: Math.round(colorA.g + (colorB.g - colorA.g) * weight),
             b: Math.round(colorA.b + (colorB.b - colorA.b) * weight)
         };
     }
-    function originalTraktColorToCss(color) {
+    function originalSimklColorToCss(color) {
         return 'rgb(' + color.r + ', ' + color.g + ', ' + color.b + ')';
     }
-    function sampleOriginalTraktPosterAverageColor(img) {
+    function sampleOriginalSimklPosterAverageColor(img) {
         const sampleCanvas = document.createElement('canvas');
         const sampleCtx = sampleCanvas.getContext('2d');
         if (!sampleCtx)
@@ -437,7 +446,7 @@ export function initMedia() {
             return null;
         }
     }
-    function paintOriginalTraktStoryBackground(ctx, posterImg) {
+    function paintOriginalSimklStoryBackground(ctx, posterImg) {
         const gradient = ctx.createLinearGradient(0, 0, 0, 1920);
         if (!posterImg) {
             gradient.addColorStop(0, '#5d6f80');
@@ -447,7 +456,7 @@ export function initMedia() {
             ctx.fillRect(0, 0, 1080, 1920);
             return;
         }
-        const sampled = sampleOriginalTraktPosterAverageColor(posterImg);
+        const sampled = sampleOriginalSimklPosterAverageColor(posterImg);
         if (!sampled) {
             gradient.addColorStop(0, '#5d6f80');
             gradient.addColorStop(0.48, '#1a2530');
@@ -457,24 +466,24 @@ export function initMedia() {
             return;
         }
         const normalized = {
-            r: clampOriginalTraktColor(sampled.r, 0, 255),
-            g: clampOriginalTraktColor(sampled.g, 0, 255),
-            b: clampOriginalTraktColor(sampled.b, 0, 255)
+            r: clampOriginalSimklColor(sampled.r, 0, 255),
+            g: clampOriginalSimklColor(sampled.g, 0, 255),
+            b: clampOriginalSimklColor(sampled.b, 0, 255)
         };
-        const topColor = mixOriginalTraktColor(normalized, { r: 210, g: 225, b: 240 }, 0.38);
-        const midColor = mixOriginalTraktColor(normalized, { r: 20, g: 28, b: 38 }, 0.58);
-        const bottomColor = mixOriginalTraktColor(normalized, { r: 2, g: 3, b: 6 }, 0.86);
-        gradient.addColorStop(0, originalTraktColorToCss(topColor));
-        gradient.addColorStop(0.48, originalTraktColorToCss(midColor));
-        gradient.addColorStop(1, originalTraktColorToCss(bottomColor));
+        const topColor = mixOriginalSimklColor(normalized, { r: 210, g: 225, b: 240 }, 0.38);
+        const midColor = mixOriginalSimklColor(normalized, { r: 20, g: 28, b: 38 }, 0.58);
+        const bottomColor = mixOriginalSimklColor(normalized, { r: 2, g: 3, b: 6 }, 0.86);
+        gradient.addColorStop(0, originalSimklColorToCss(topColor));
+        gradient.addColorStop(0.48, originalSimklColorToCss(midColor));
+        gradient.addColorStop(1, originalSimklColorToCss(bottomColor));
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, 1080, 1920);
     }
-    /* FIM TRAKT_STORY_ORIGINAL_VISUAL_HELPERS_V1 */
-    let traktStoryTransparentMode = false;
-    async function generateTraktStoryBlob(options = {}) {
-        if (!currentTraktStoryData) {
-            throw new Error('Nenhum item do Trakt carregado no momento.');
+    /* FIM SIMKL_STORY_ORIGINAL_VISUAL_HELPERS_V1 */
+    let simklStoryTransparentMode = false;
+    async function generateSimklStoryBlob(options = {}) {
+        if (!currentSimklStoryData) {
+            throw new Error('Nenhum item do Simkl carregado no momento.');
         }
         const canvas = document.createElement('canvas');
         canvas.width = 1080;
@@ -484,15 +493,15 @@ export function initMedia() {
             throw new Error('Canvas não suportado neste navegador.');
         }
         const transparentBackground = Boolean(options.transparentBackground);
-        const title = currentTraktStoryData.show || 'Série';
-        const season = String(currentTraktStoryData.season || 0).padStart(2, '0');
-        const episodeNumber = String(currentTraktStoryData.episodeNumber || 0).padStart(2, '0');
-        const episodeTitle = currentTraktStoryData.episode || 'Episódio';
+        const title = currentSimklStoryData.show || 'Série';
+        const season = String(currentSimklStoryData.season || 0).padStart(2, '0');
+        const episodeNumber = String(currentSimklStoryData.episodeNumber || 0).padStart(2, '0');
+        const episodeTitle = currentSimklStoryData.episode || 'Episódio';
         const episodeLine = 'S' + season + 'E' + episodeNumber + ' • ' + episodeTitle;
-        const stars = getTraktStoryStars(currentTraktStoryData.rating);
-        const posterEl = document.getElementById('trakt-modal-poster');
-        const cardPosterEl = document.getElementById('trakt-poster');
-        const posterSrcFromData = currentTraktStoryData.poster || '';
+        const watchedLabel = getSimklStoryWatchedLabel(currentSimklStoryData.watchedAt);
+        const posterEl = document.getElementById('simkl-modal-poster');
+        const cardPosterEl = document.getElementById('simkl-poster');
+        const posterSrcFromData = currentSimklStoryData.poster || '';
         const posterSrcFromCard = cardPosterEl
             ? (cardPosterEl.currentSrc || cardPosterEl.src || cardPosterEl.getAttribute('src') || '')
             : '';
@@ -505,11 +514,11 @@ export function initMedia() {
             posterImg = await loadCanvasImage(posterSrc);
         }
         catch (error) {
-            console.error('Poster do Trakt não carregou para o story:', posterSrc, error);
-            throw new Error('O pôster do Trakt não carregou para o story. URL usada: ' + posterSrc);
+            console.error('Poster do Simkl não carregou para o story:', posterSrc, error);
+            throw new Error('O pôster do Simkl não carregou para o story. URL usada: ' + posterSrc);
         }
         if (!transparentBackground) {
-            paintOriginalTraktStoryBackground(ctx, posterImg);
+            paintOriginalSimklStoryBackground(ctx, posterImg);
             const overlay = ctx.createLinearGradient(0, 0, 0, 1920);
             overlay.addColorStop(0, 'rgba(0,0,0,0.04)');
             overlay.addColorStop(0.7, 'rgba(0,0,0,0.22)');
@@ -545,7 +554,7 @@ export function initMedia() {
         roundRectPath(ctx, posterX, posterY, posterWidth, posterHeight, 28);
         ctx.stroke();
         try {
-            const avatar = await loadCanvasImage('assets/images/trakt-story-avatar.webp');
+            const avatar = await loadCanvasImage('assets/images/simkl-story-avatar.webp');
             const x = (1080 - avatarSize) / 2;
             const y = avatarY;
             ctx.save();
@@ -565,9 +574,11 @@ export function initMedia() {
         ctx.fillStyle = 'rgba(255,255,255,0.90)';
         ctx.font = '600 40px Inter, Arial, sans-serif';
         ctx.fillText(fitCanvasText(ctx, episodeLine, 900), 540, episodeY);
-        ctx.fillStyle = '#ef4444';
-        ctx.font = '800 58px Inter, Arial, sans-serif';
-        ctx.fillText(stars, 540, ratingY);
+        if (watchedLabel) {
+            ctx.fillStyle = '#FFBF00';
+            ctx.font = '700 40px Inter, Arial, sans-serif';
+            ctx.fillText(fitCanvasText(ctx, watchedLabel, 820), 540, ratingY);
+        }
         const lineGap = 46;
         const lineWidth = 150;
         ctx.strokeStyle = 'rgba(255,255,255,0.30)';
@@ -585,30 +596,30 @@ export function initMedia() {
         const logoWidth = 50;
         const logoHeight = 50;
         ctx.font = '800 60px Inter, Arial, sans-serif';
-        const traktText = 'Trakt';
-        const textWidth = ctx.measureText(traktText).width;
+        const simklText = 'Simkl';
+        const textWidth = ctx.measureText(simklText).width;
         const groupGap = 14;
         const groupWidth = logoWidth + groupGap + textWidth;
         const groupX = (1080 - groupWidth) / 2;
         try {
-            const traktIcon = await loadCanvasImage('assets/images/trakt-icon.webp');
-            ctx.drawImage(traktIcon, groupX, logoY - 40, logoWidth, logoHeight);
+            const simklIcon = await loadCanvasImage('assets/images/simkl-icon.webp');
+            ctx.drawImage(simklIcon, groupX, logoY - 40, logoWidth, logoHeight);
         }
         catch (error) {
-            console.warn('Ícone do Trakt não carregou.', error);
-            drawOriginalTraktLogo(ctx, groupX, logoY - 28, 44, 35.2, '#ef4444');
+            console.warn('Ícone do Simkl não carregou.', error);
+            drawOriginalSimklLogo(ctx, groupX, logoY - 28, 44, 35.2, '#FFBF00');
         }
         ctx.textAlign = 'left';
         ctx.fillStyle = '#ffffff';
-        ctx.fillText(traktText, groupX + logoWidth + groupGap, logoY);
+        ctx.fillText(simklText, groupX + logoWidth + groupGap, logoY);
         return await canvasToBlob(canvas);
     }
-    async function shareOrDownloadTraktStory(blob, filename) {
+    async function shareOrDownloadSimklStory(blob, filename) {
         const file = new File([blob], filename, { type: 'image/png' });
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
             try {
                 await navigator.share({
-                    title: 'Story do Trakt',
+                    title: 'Story do Simkl',
                     text: 'Gerado no meu portfólio',
                     files: [file]
                 });
@@ -631,42 +642,42 @@ export function initMedia() {
             URL.revokeObjectURL(url);
         }, 1200);
     }
-    async function handleTraktStoryShare(event) {
+    async function handleSimklStoryShare(event) {
         event.preventDefault();
         event.stopPropagation();
-        const button = document.getElementById('trakt-story-btn');
+        const button = document.getElementById('simkl-story-btn');
         if (!button)
             return;
         const originalHtml = button.innerHTML;
         button.disabled = true;
         button.innerHTML = '<svg aria-hidden="true" class="icon" viewbox="0 0 512 512"><path d="M304 48a16 16 0 1 0-32 0l0 48a16 16 0 1 0 32 0l0-48zM188.7 100.7a16 16 0 0 0-22.6 22.6l33.9 33.9a16 16 0 1 0 22.6-22.6l-33.9-33.9zM96 240a16 16 0 1 0 0 32l48 0a16 16 0 1 0 0-32l-48 0zm326.6-116.7a16 16 0 0 0-22.6-22.6l-33.9 33.9a16 16 0 0 0 22.6 22.6l33.9-33.9zM368 256a112 112 0 1 1-224 0 112 112 0 1 1 224 0zm48 0A160 160 0 1 0 96 256a160 160 0 1 0 320 0zm-50.1 98.1a16 16 0 1 0-22.6 22.6l33.9 33.9a16 16 0 1 0 22.6-22.6l-33.9-33.9zM256 416a16 16 0 1 0-16 16l0 48a16 16 0 1 0 32 0l0-48a16 16 0 1 0-16-16zm-89.4-39.4a16 16 0 0 0-22.6-22.6l-33.9 33.9a16 16 0 1 0 22.6 22.6l33.9-33.9z"></path></svg><span>Gerando...</span>';
         try {
-            const blob = await generateTraktStoryBlob({ transparentBackground: traktStoryTransparentMode });
-            const filename = 'trakt-story-' + slugifyText(currentTraktStoryData && currentTraktStoryData.show ? currentTraktStoryData.show : 'serie') + '.png';
-            await shareOrDownloadTraktStory(blob, filename);
+            const blob = await generateSimklStoryBlob({ transparentBackground: simklStoryTransparentMode });
+            const filename = 'simkl-story-' + slugifyText(currentSimklStoryData && currentSimklStoryData.show ? currentSimklStoryData.show : 'serie') + '.png';
+            await shareOrDownloadSimklStory(blob, filename);
         }
         catch (error) {
-            console.error('Erro ao gerar story do Trakt:', error);
+            console.error('Erro ao gerar story do Simkl:', error);
             alert(error instanceof Error ? error.message : 'Não foi possível gerar a imagem do story.');
         }
         finally {
             button.disabled = false;
-            button.innerHTML = getTraktStoryButtonHtml();
+            button.innerHTML = getSimklStoryButtonHtml();
         }
     }
-    function updateTraktModal(data) {
+    function updateSimklModal(data) {
         const safeFallback = 'https://placehold.co/300x450/14161e/94a3b8?text=TV';
         const poster = data.poster || safeFallback;
         const season = String(data.season || 0).padStart(2, '0');
         const episodeNumber = String(data.episodeNumber || 0).padStart(2, '0');
         const episodeText = `S${season}E${episodeNumber} — ${data.episode || 'Episódio'}`;
-        const ratingText = renderTraktStars(data.rating);
-        const modalPoster = document.getElementById('trakt-modal-poster');
-        const modalBg = document.getElementById('trakt-share-bg');
-        const modalTitle = document.getElementById('trakt-modal-title');
-        const modalEpisode = document.getElementById('trakt-modal-episode');
-        const modalRating = document.getElementById('trakt-modal-rating');
-        const openLink = document.getElementById('trakt-open-link');
+        const ratingText = renderSimklStars(data.rating);
+        const modalPoster = document.getElementById('simkl-modal-poster');
+        const modalBg = document.getElementById('simkl-share-bg');
+        const modalTitle = document.getElementById('simkl-modal-title');
+        const modalEpisode = document.getElementById('simkl-modal-episode');
+        const modalRating = document.getElementById('simkl-modal-rating');
+        const openLink = document.getElementById('simkl-open-link');
         if (modalPoster) {
             modalPoster.onerror = function () { this.src = safeFallback; };
             setImageSrcIfChanged(modalPoster, poster);
@@ -677,7 +688,7 @@ export function initMedia() {
             year: data.year || '',
             extra: episodeText ? `Episódio atual: ${episodeText}` : ''
         };
-        resetGeminiRecommendation('trakt');
+        resetGeminiRecommendation('simkl');
         if (modalBg)
             modalBg.style.backgroundImage = `url('${poster}')`;
         if (modalTitle)
@@ -687,72 +698,72 @@ export function initMedia() {
         if (modalRating)
             modalRating.textContent = ratingText || '';
         if (openLink)
-            openLink.href = data.traktUrl || 'https://trakt.tv/users/kennowiski/history';
+            openLink.href = data.simklUrl || 'https://simkl.tv/users/kennowiski/history';
     }
-    async function fetchTrakt() {
-        const cachedData = readTimedMediaCache(TRAKT_CACHE_KEY, TRAKT_CACHE_TTL_MS);
+    async function fetchSimkl() {
+        const cachedData = readTimedMediaCache(SIMKL_CACHE_KEY, SIMKL_CACHE_TTL_MS);
         if (cachedData) {
-            renderTraktData(cachedData);
+            renderSimklData(cachedData);
         }
         try {
-            const response = await fetch('https://kennowiski-api-hub.vercel.app/api/trakt');
+            const response = await fetch('https://kennowiski-api-hub.vercel.app/api/simkl');
             if (!response.ok) {
-                throw new Error('Resposta inválida da API do Trakt.');
+                throw new Error('Resposta inválida da API do Simkl.');
             }
             const data = await response.json();
-            if (!isValidTraktData(data))
+            if (!isValidSimklData(data))
                 return;
-            if (renderTraktData(data)) {
-                writeTimedMediaCache(TRAKT_CACHE_KEY, data);
+            if (renderSimklData(data)) {
+                writeTimedMediaCache(SIMKL_CACHE_KEY, data);
             }
         }
         catch (error) {
-            console.error('Erro no Trakt:', error);
+            console.error('Erro no Simkl:', error);
         }
     }
-    fetchTrakt();
-    /* TRAKT_STORY_ADMIN_BRIDGE_V5 */
-    function ensureOriginalTraktStoryButton() {
-        let button = document.getElementById('trakt-story-btn');
+    fetchSimkl();
+    /* SIMKL_STORY_ADMIN_BRIDGE_V5 */
+    function ensureOriginalSimklStoryButton() {
+        let button = document.getElementById('simkl-story-btn');
         if (button)
             return button;
         button = document.createElement('button');
-        button.id = 'trakt-story-btn';
+        button.id = 'simkl-story-btn';
         button.type = 'button';
         button.hidden = true;
-        button.innerHTML = getTraktStoryButtonHtml();
+        button.innerHTML = getSimklStoryButtonHtml();
         document.body.appendChild(button);
         return button;
     }
-    async function fetchFreshTraktStoryDataFromAdmin() {
+    async function fetchFreshSimklStoryDataFromAdmin() {
         try {
-            localStorage.removeItem(TRAKT_CACHE_KEY);
+            localStorage.removeItem(SIMKL_CACHE_KEY);
         }
         catch { }
-        const response = await fetch('https://kennowiski-api-hub.vercel.app/api/trakt', {
+        const response = await fetch('https://kennowiski-api-hub.vercel.app/api/simkl', {
             cache: 'no-store'
         });
         if (!response.ok) {
-            throw new Error('Resposta inválida da API do Trakt.');
+            throw new Error('Resposta inválida da API do Simkl.');
         }
         const data = await response.json();
-        if (!isValidTraktData(data)) {
-            throw new Error('Dados inválidos da API do Trakt.');
+        if (!isValidSimklData(data)) {
+            throw new Error('Dados inválidos da API do Simkl.');
         }
         if (!data.poster || String(data.poster).includes('placehold.co')) {
-            throw new Error('A API do Trakt retornou sem pôster real.');
+            throw new Error('A API do Simkl retornou sem pôster real.');
         }
-        renderTraktData(data);
-        writeTimedMediaCache(TRAKT_CACHE_KEY, data);
-        updateTraktModal(data);
-        currentTraktStoryData = data;
+        renderSimklData(data);
+        writeTimedMediaCache(SIMKL_CACHE_KEY, data);
+        updateSimklModal(data);
+        currentSimklStoryData = data;
         return data;
     }
-    function syncFreshTraktPoster(data) {
+    function syncFreshSimklPoster(data) {
         const poster = data.poster;
-        const cardPoster = document.getElementById('trakt-poster');
-        const modalPoster = document.getElementById('trakt-modal-poster');
-        const modalBg = document.getElementById('trakt-share-bg');
+        const cardPoster = document.getElementById('simkl-poster');
+        const modalPoster = document.getElementById('simkl-modal-poster');
+        const modalBg = document.getElementById('simkl-share-bg');
         if (cardPoster) {
             cardPoster.crossOrigin = 'anonymous';
             cardPoster.referrerPolicy = 'no-referrer';
@@ -766,59 +777,59 @@ export function initMedia() {
         if (modalBg) {
             modalBg.style.backgroundImage = `url('${poster}')`;
         }
-        currentTraktStoryData.poster = poster;
+        currentSimklStoryData.poster = poster;
     }
-    async function runTraktStoryFromAdminIntent() {
+    async function runSimklStoryFromAdminIntent() {
         try {
             const params = new URLSearchParams(window.location.search);
-            const storyMode = params.get('traktStory');
+            const storyMode = params.get('simklStory');
             const wantsTransparentStory = storyMode === 'transparent';
             const wantsStory = storyMode === '1' || wantsTransparentStory;
             if (!wantsStory)
                 return;
-            traktStoryTransparentMode = wantsTransparentStory;
+            simklStoryTransparentMode = wantsTransparentStory;
             window.history.replaceState({}, document.title, '/');
-            const freshData = await fetchFreshTraktStoryDataFromAdmin();
-            syncFreshTraktPoster(freshData);
-            ensureOriginalTraktStoryButton();
-            await handleTraktStoryShare({
+            const freshData = await fetchFreshSimklStoryDataFromAdmin();
+            syncFreshSimklPoster(freshData);
+            ensureOriginalSimklStoryButton();
+            await handleSimklStoryShare({
                 preventDefault() { },
                 stopPropagation() { }
             });
         }
         catch (error) {
-            traktStoryTransparentMode = false;
-            console.error('Erro ao gerar story do Trakt pelo admin:', error);
-            alert(error instanceof Error ? error.message : 'Não foi possível gerar o story do Trakt pelo admin.');
+            simklStoryTransparentMode = false;
+            console.error('Erro ao gerar story do Simkl pelo admin:', error);
+            alert(error instanceof Error ? error.message : 'Não foi possível gerar o story do Simkl pelo admin.');
         }
     }
-    runTraktStoryFromAdminIntent();
-    /* FIM TRAKT_STORY_ADMIN_BRIDGE_V5 */
-    const traktCard = document.getElementById('trakt-card');
-    const traktModal = document.getElementById('trakt-modal');
-    const closeTraktModalBtn = document.getElementById('close-trakt-modal');
-    function openTraktModal() {
-        traktModal.classList.add('active');
-        traktModal.setAttribute('aria-hidden', 'false');
+    runSimklStoryFromAdminIntent();
+    /* FIM SIMKL_STORY_ADMIN_BRIDGE_V5 */
+    const simklCard = document.getElementById('simkl-card');
+    const simklModal = document.getElementById('simkl-modal');
+    const closeSimklModalBtn = document.getElementById('close-simkl-modal');
+    function openSimklModal() {
+        simklModal.classList.add('active');
+        simklModal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
     }
-    function closeTraktModalFn() {
-        traktModal.classList.remove('active');
-        traktModal.setAttribute('aria-hidden', 'true');
+    function closeSimklModalFn() {
+        simklModal.classList.remove('active');
+        simklModal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
     }
-    if (traktCard && traktModal) {
-        traktCard.addEventListener('click', openTraktModal);
-        traktCard.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') {
+    if (simklCard && simklModal) {
+        simklCard.addEventListener('click', openSimklModal);
+        simklCard.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            openTraktModal();
+            openSimklModal();
         } });
     }
-    if (closeTraktModalBtn)
-        closeTraktModalBtn.addEventListener('click', closeTraktModalFn);
-    if (traktModal)
-        traktModal.addEventListener('click', (e) => { if (e.target === traktModal)
-            closeTraktModalFn(); });
+    if (closeSimklModalBtn)
+        closeSimklModalBtn.addEventListener('click', closeSimklModalFn);
+    if (simklModal)
+        simklModal.addEventListener('click', (e) => { if (e.target === simklModal)
+            closeSimklModalFn(); });
     // ==========================================
     // RECOMENDAÇÕES COM GEMINI
     // ==========================================
@@ -828,11 +839,11 @@ export function initMedia() {
     const GEMINI_COOLDOWN_MS = 10000; // 10 segundos
     const geminiPendingBySource = {
         lb: false,
-        trakt: false
+        simkl: false
     };
     const geminiLastRequestAtBySource = {
         lb: 0,
-        trakt: 0
+        simkl: 0
     };
     function getGeminiElements(source) {
         return {
@@ -1042,7 +1053,7 @@ export function initMedia() {
         }
     }
     const lbRecommendBtn = document.getElementById('lb-recommend-btn');
-    const traktRecommendBtn = document.getElementById('trakt-recommend-btn');
+    const simklRecommendBtn = document.getElementById('simkl-recommend-btn');
     if (lbRecommendBtn) {
         lbRecommendBtn.addEventListener('click', (event) => {
             event.preventDefault();
@@ -1050,11 +1061,11 @@ export function initMedia() {
             handleGeminiRecommendation('lb');
         });
     }
-    if (traktRecommendBtn) {
-        traktRecommendBtn.addEventListener('click', (event) => {
+    if (simklRecommendBtn) {
+        simklRecommendBtn.addEventListener('click', (event) => {
             event.preventDefault();
             event.stopPropagation();
-            handleGeminiRecommendation('trakt');
+            handleGeminiRecommendation('simkl');
         });
     }
     document.addEventListener('keydown', (event) => {
@@ -1063,8 +1074,8 @@ export function initMedia() {
                 techModal.classList.remove('active');
                 document.body.style.overflow = '';
             }
-            if (traktModal && traktModal.classList.contains('active'))
-                closeTraktModalFn();
+            if (simklModal && simklModal.classList.contains('active'))
+                closeSimklModalFn();
             if (lbModal && lbModal.classList.contains('active'))
                 closeLbModalFn();
             closeSpotifyHistoryModalIfOpen();

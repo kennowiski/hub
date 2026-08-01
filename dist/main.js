@@ -135,7 +135,7 @@ initDiscord();
 // ==========================================
 initMusic();
 // ==========================================
-// LETTERBOXD + TRAKT + RECOMENDAÇÕES GEMINI
+// LETTERBOXD + SIMKL + RECOMENDAÇÕES GEMINI
 // Lógica movida para media.ts
 // ==========================================
 initMedia();

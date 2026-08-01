@@ -473,7 +473,7 @@ function closeSpotifyHistoryModalFn() {
     document.body.style.overflow = '';
 }
 // Usada pelo listener global de tecla Escape em main.ts, que fecha
-// qualquer modal aberto (Spotify, Trakt, Letterboxd) sem precisar
+// qualquer modal aberto (Spotify, Simkl, Letterboxd) sem precisar
 // conhecer os detalhes internos de cada um.
 export function closeSpotifyHistoryModalIfOpen() {
     if (spotifyHistoryModal && spotifyHistoryModal.classList.contains('active')) {

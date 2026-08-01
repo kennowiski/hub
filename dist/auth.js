@@ -1,9 +1,9 @@
 // ==========================================
 // AUTENTICAÇÃO (SUPABASE) + PAINEL ADMIN
 // Controla o login usado para liberar o botão de gerar
-// story do Trakt (acesso restrito ao admin).
+// story do Simkl (acesso restrito ao admin).
 // ==========================================
-/* Supabase Auth Gate - botão Story Trakt */
+/* Supabase Auth Gate - botão Story Simkl */
 const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
 const ADMIN_VERIFY_ENDPOINT = 'https://kennowiski-api-hub.vercel.app/api/admin/verify';
@@ -86,10 +86,10 @@ async function getSupabaseAuthClient() {
         }
     });
 }
-function showTraktStoryButton() {
+function showSimklStoryButton() {
     document.documentElement.classList.add('supabase-story-authorized');
 }
-function hideTraktStoryButton() {
+function hideSimklStoryButton() {
     document.documentElement.classList.remove('supabase-story-authorized');
 }
 function setStoryLoginMessage(message, type = '') {
@@ -227,11 +227,11 @@ function openStoryLoginModal(client) {
                     : '';
                 if (!(await verifyAdminSessionWithBackend(client, data))) {
                     await client.auth.signOut();
-                    hideTraktStoryButton();
+                    hideSimklStoryButton();
                     setStoryLoginMessage('Usuário não autorizado.', 'error');
                     return;
                 }
-                showTraktStoryButton();
+                showSimklStoryButton();
                 cleanSupabaseAuthUrl();
                 setStoryLoginMessage('Acesso liberado.', 'success');
                 setTimeout(() => {
@@ -258,14 +258,14 @@ async function handleSupabaseStoryAuth() {
     const wantsLogin = normalizedPath === '/login';
     const wantsLogout = params.get('logout') === 'on';
     if (!wantsLogin && !wantsLogout && !hasSupabaseSessionStored()) {
-        hideTraktStoryButton();
+        hideSimklStoryButton();
         return;
     }
     try {
         const client = await getSupabaseAuthClient();
         if (wantsLogout) {
             await client.auth.signOut();
-            hideTraktStoryButton();
+            hideSimklStoryButton();
             cleanSupabaseAuthUrl();
             return;
         }
@@ -278,22 +278,22 @@ async function handleSupabaseStoryAuth() {
         }
         const { data, error } = await client.auth.getUser();
         if (error || !data || !data.user || !data.user.email) {
-            hideTraktStoryButton();
+            hideSimklStoryButton();
             return;
         }
         if (await verifyAdminSessionWithBackend(client, data)) {
-            showTraktStoryButton();
+            showSimklStoryButton();
         }
         else {
-            hideTraktStoryButton();
+            hideSimklStoryButton();
         }
     }
     catch (error) {
         console.error('Erro no Supabase Auth:', error);
-        hideTraktStoryButton();
+        hideSimklStoryButton();
     }
 }
-/* Fim Supabase Auth Gate - botão Story Trakt */
+/* Fim Supabase Auth Gate - botão Story Simkl */
 export function initAdmin() {
     handleSupabaseStoryAuth();
 }
