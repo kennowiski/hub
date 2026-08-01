@@ -1148,12 +1148,12 @@ async function verifyAdminSessionWithBackend(session) {
 
                 <div class="ka-grid-2">
                     <article class="ka-mini-card">
-                        <span class="ka-mini-label">Story do Trakt</span>
+                        <span class="ka-mini-label">Story do Simkl</span>
                         <strong class="ka-mini-value">Disponível</strong>
                         <p>Gera o story usando a lógica original da home.</p>
                         <div class="ka-actions" style="justify-content:flex-start;margin-top:1rem;">
-                            <a class="ka-btn ka-btn-primary" href="/?traktStory=1">Compartilhar story</a>
-<a id="admin-trakt-story-transparent-link" class="ka-btn ka-btn-primary" href="/?traktStory=transparent">Story sem fundo</a>
+                            <a class="ka-btn ka-btn-primary" href="/?simklStory=1">Compartilhar story</a>
+<a id="admin-simkl-story-transparent-link" class="ka-btn ka-btn-primary" href="/?simklStory=transparent">Story sem fundo</a>
                         </div>
                     </article>
 
@@ -1347,17 +1347,17 @@ async function verifyAdminSessionWithBackend(session) {
                     </article>
 
 
-                    <article class="ka-debug-card" data-debug-card="trakt" data-status="idle">
+                    <article class="ka-debug-card" data-debug-card="simkl" data-status="idle">
                         <div class="ka-debug-card-head">
                             <div>
                                 <div class="ka-debug-title">
                                     <span class="ka-debug-dot" aria-hidden="true"></span>
-                                    <span>Trakt</span>
+                                    <span>Simkl</span>
                                 </div>
-                                <div class="ka-debug-url">https://kennowiski-api-hub.vercel.app/api/trakt</div>
+                                <div class="ka-debug-url">https://kennowiski-api-hub.vercel.app/api/simkl</div>
                             </div>
 
-                            <button class="ka-button" type="button" data-debug-run="trakt">
+                            <button class="ka-button" type="button" data-debug-run="simkl">
                                 Testar
                             </button>
                         </div>
@@ -1365,36 +1365,36 @@ async function verifyAdminSessionWithBackend(session) {
                         <div class="ka-debug-meta">
                             <div class="ka-debug-meta-item">
                                 <span class="ka-debug-meta-label">Status</span>
-                                <span class="ka-debug-meta-value" data-debug-status="trakt">Aguardando</span>
+                                <span class="ka-debug-meta-value" data-debug-status="simkl">Aguardando</span>
                             </div>
 
                             <div class="ka-debug-meta-item">
                                 <span class="ka-debug-meta-label">HTTP</span>
-                                <span class="ka-debug-meta-value" data-debug-http="trakt">—</span>
+                                <span class="ka-debug-meta-value" data-debug-http="simkl">—</span>
                             </div>
 
                             <div class="ka-debug-meta-item">
                                 <span class="ka-debug-meta-label">Tempo</span>
-                                <span class="ka-debug-meta-value" data-debug-time="trakt">—</span>
+                                <span class="ka-debug-meta-value" data-debug-time="simkl">—</span>
                             </div>
 
                             <div class="ka-debug-meta-item">
                                 <span class="ka-debug-meta-label">Último teste</span>
-                                <span class="ka-debug-meta-value" data-debug-updated="trakt">—</span>
+                                <span class="ka-debug-meta-value" data-debug-updated="simkl">—</span>
                             </div>
                         </div>
 
                         <div class="ka-debug-actions">
-                            <button class="ka-button ka-button-secondary" type="button" data-debug-toggle="trakt">
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-toggle="simkl">
                                 Ver JSON
                             </button>
 
-                            <button class="ka-button ka-button-secondary" type="button" data-debug-copy="trakt" disabled>
+                            <button class="ka-button ka-button-secondary" type="button" data-debug-copy="simkl" disabled>
                                 Copiar JSON
                             </button>
                         </div>
 
-                        <pre class="ka-debug-json" data-debug-json="trakt"><code class="ka-debug-empty">Nenhum teste executado ainda.</code></pre>
+                        <pre class="ka-debug-json" data-debug-json="simkl"><code class="ka-debug-empty">Nenhum teste executado ainda.</code></pre>
                     </article>
 
 
@@ -1517,9 +1517,9 @@ async function verifyAdminSessionWithBackend(session) {
                 }
             },
             {
-                key: 'trakt',
-                name: 'Trakt',
-                url: 'https://kennowiski-api-hub.vercel.app/api/trakt',
+                key: 'simkl',
+                name: 'Simkl',
+                url: 'https://kennowiski-api-hub.vercel.app/api/simkl',
                 format(data) {
                     const season = String((data && data.season) || 0).padStart(2, '0');
                     const episode = String((data && data.episodeNumber) || 0).padStart(2, '0');
@@ -1673,9 +1673,9 @@ async function verifyAdminSessionWithBackend(session) {
 
                 const lower = key.toLowerCase();
 
-                if (!lower.includes('letterboxd') && !lower.includes('trakt')) continue;
+                if (!lower.includes('letterboxd') && !lower.includes('simkl')) continue;
 
-                let label = lower.includes('letterboxd') ? 'Letterboxd' : 'Trakt';
+                let label = lower.includes('letterboxd') ? 'Letterboxd' : 'Simkl';
                 let value = 'Cache salvo';
 
                 try {
@@ -1822,9 +1822,9 @@ document.addEventListener('click', (event) => {
             name: 'Letterboxd',
             url: 'https://kennowiski-api-hub.vercel.app/api/letterboxd'
         },
-        trakt: {
-            name: 'Trakt',
-            url: 'https://kennowiski-api-hub.vercel.app/api/trakt'
+        simkl: {
+            name: 'Simkl',
+            url: 'https://kennowiski-api-hub.vercel.app/api/simkl'
         },
         discord: {
             name: 'Discord / Lanyard',
