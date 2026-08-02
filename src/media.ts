@@ -792,7 +792,8 @@ function updateSimklModal(data) {
             const season = String(data.season || 0).padStart(2, '0');
             const episodeNumber = String(data.episodeNumber || 0).padStart(2, '0');
             const episodeText = `S${season}E${episodeNumber} — ${data.episode || 'Episódio'}`;
-            const ratingText = renderSimklStars(data.rating);
+            const hasRating = Boolean(renderSimklStars(data.rating));
+            const ratingText = hasRating ? renderSimklStars(data.rating) : (data.genres || '');
 
             const modalPoster = document.getElementById('simkl-modal-poster') as HTMLImageElement | null;
             const modalBg = document.getElementById('simkl-share-bg');
@@ -817,7 +818,10 @@ function updateSimklModal(data) {
             if (modalBg) modalBg.style.backgroundImage = `url('${poster}')`;
             if (modalTitle) modalTitle.textContent = data.show || 'Série não encontrada';
             if (modalEpisode) modalEpisode.textContent = episodeText;
-            if (modalRating) modalRating.textContent = ratingText || '';
+            if (modalRating) {
+                modalRating.textContent = ratingText || '';
+                modalRating.classList.toggle('simkl-share-rating--genres', !hasRating && Boolean(ratingText));
+            }
             if (openLink) openLink.href = 'https://simkl.com/8849020/history/watch-history/';
         }
 

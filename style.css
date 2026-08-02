@@ -2100,6 +2100,13 @@
             min-height: 1.3rem;
         }
 
+        .simkl-share-rating.simkl-share-rating--genres {
+            color: var(--text-muted);
+            letter-spacing: normal;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
         .simkl-share-actions {
             display: flex;
             flex-direction: column;
