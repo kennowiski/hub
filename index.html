@@ -208,40 +208,40 @@
             </div>
         </div>
     </div>
-    <div aria-hidden="true" class="simkl-modal-overlay" id="simkl-modal">
-        <div aria-labelledby="simkl-modal-title" aria-modal="true" class="simkl-modal-container" role="dialog">
-            <button aria-label="Fechar card da SIMKL" class="simkl-modal-close" id="close-simkl-modal"><svg
+    <div aria-hidden="true" class="share-modal-overlay" id="simkl-modal">
+        <div aria-labelledby="simkl-modal-title" aria-modal="true" class="share-modal-container" role="dialog">
+            <button aria-label="Fechar card da SIMKL" class="share-modal-close" id="close-simkl-modal"><svg
                     aria-hidden="true" class="icon" viewbox="0 0 384 512">
                     <path
                         d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
                     </path>
                 </svg></button>
-            <button aria-label="Gerar imagem de story da SIMKL" class="simkl-modal-share" id="simkl-story-btn" type="button">
+            <button aria-label="Gerar imagem de story da SIMKL" class="share-modal-share" id="simkl-story-btn" type="button">
                 <svg aria-hidden="true" class="icon" viewbox="0 0 512 512">
                     <path d="M352 224c53 0 96-43 96-96s-43-96-96-96s-96 43-96 96c0 4 .2 8 .7 11.9L160.6 188C143 171.7 119.5 162 94 162c-53 0-96 43-96 96s43 96 96 96c25.5 0 49-9.7 66.6-26l96.1 48.1c-.5 3.9-.7 7.9-.7 11.9c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-25.5 0-49 9.7-66.6 26l-96.1-48.1c.5-3.9 .7-7.9 .7-11.9s-.2-8-.7-11.9l96.1-48.1c17.6 16.3 41.1 26 66.6 26z"></path>
                 </svg>
             </button>
-            <div class="simkl-share-card" id="simkl-share-card">
-                <div class="simkl-share-bg" id="simkl-share-bg"></div>
-                <div class="simkl-share-content">
-                    <div class="simkl-share-label label-simkl"><svg aria-hidden="true" class="icon"
+            <div class="share-modal-card" id="simkl-modal-card">
+                <div class="share-modal-bg" id="simkl-modal-bg"></div>
+                <div class="share-modal-content">
+                    <div class="share-modal-label label-simkl"><svg aria-hidden="true" class="icon"
                             viewbox="0 0 640 512">
                             <path
                                 d="M64 64l0 288 512 0 0-288L64 64zM0 64C0 28.7 28.7 0 64 0L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 416c-35.3 0-64-28.7-64-64L0 64zM128 448l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-384 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z">
                             </path>
                         </svg> Último episódio de série visto</div>
-                    <img alt="Capa" class="simkl-share-poster" height="255" id="simkl-modal-poster" loading="lazy"
+                    <img alt="Capa" class="share-modal-poster" height="255" id="simkl-modal-poster" loading="lazy"
                         decoding="async"
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='255' viewBox='0 0 170 255'%3E%3Crect width='170' height='255' rx='14' fill='%2314161e'/%3E%3Ctext x='85' y='132' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='18'%3ETV%3C/text%3E%3C/svg%3E"
                         width="170" />
                     <div>
-                        <h3 class="simkl-share-title" id="simkl-modal-title">Carregando...</h3>
-                        <p class="simkl-share-episode" id="simkl-modal-episode">Procurando episódio...</p>
+                        <h3 class="share-modal-title" id="simkl-modal-title">Carregando...</h3>
+                        <p class="share-modal-episode" id="simkl-modal-episode">Procurando episódio...</p>
                     </div>
-                    <div class="simkl-share-rating" id="simkl-modal-rating"></div>
+                    <div class="share-modal-rating" id="simkl-modal-rating"></div>
                 </div>
-                <div class="simkl-share-actions">
-                    <a class="simkl-share-btn primary" href="https://simkl.com/8849020/history/watch-history/"
+                <div class="share-modal-actions">
+                    <a class="share-modal-btn primary" href="https://simkl.com/8849020/history/watch-history/"
                         id="simkl-open-link" rel="noopener noreferrer" target="_blank">
                         <svg aria-hidden="true" class="icon external-icon" viewbox="0 0 512 512">
                             <path
@@ -249,7 +249,7 @@
                             </path>
                         </svg> Abrir na SIMKL
                     </a>
-                    <button class="simkl-share-btn gemini-share-btn primary" id="simkl-recommend-btn" type="button">
+                    <button class="share-modal-btn gemini-share-btn primary" id="simkl-recommend-btn" type="button">
                         <svg aria-hidden="true" class="icon" viewbox="0 -24 512 592">
                             <path
                                 d="M512 80c0 18-14.3 34.6-38.4 48c24.1 13.4 38.4 30 38.4 48c0 26.5-31.3 48-70 48s-70-21.5-70-48c0-18 14.3-34.6 38.4-48c-24.1-13.4-38.4-30-38.4-48c0-26.5 31.3-48 70-48s70 21.5 70 48zM160 96l32 96l96 32l-96 32l-32 96l-32-96l-96-32l96-32l32-96zM448 320l16 48l48 16l-48 16l-16 48l-16-48l-48-16l48-16l16-48zM256 352l24 72l72 24l-72 24l-24 72l-24-72l-72-24l72-24l24-72z">
@@ -262,33 +262,33 @@
             </div>
         </div>
     </div>
-    <div aria-hidden="true" class="simkl-modal-overlay" id="lb-modal">
-        <div aria-labelledby="lb-modal-title" aria-modal="true" class="simkl-modal-container" role="dialog">
-            <button aria-label="Fechar card do Letterboxd" class="simkl-modal-close" id="close-lb-modal"><svg
+    <div aria-hidden="true" class="share-modal-overlay" id="lb-modal">
+        <div aria-labelledby="lb-modal-title" aria-modal="true" class="share-modal-container" role="dialog">
+            <button aria-label="Fechar card do Letterboxd" class="share-modal-close" id="close-lb-modal"><svg
                     aria-hidden="true" class="icon" viewbox="0 0 384 512">
                     <path
                         d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
                     </path>
                 </svg></button>
-            <div class="simkl-share-card" id="lb-share-card">
-                <div class="simkl-share-bg" id="lb-share-bg"></div>
-                <div class="simkl-share-content">
-                    <div class="simkl-share-label label-lb"><svg aria-hidden="true" class="icon" viewbox="0 0 512 544">
+            <div class="share-modal-card" id="lb-modal-card">
+                <div class="share-modal-bg" id="lb-modal-bg"></div>
+                <div class="share-modal-content">
+                    <div class="share-modal-label label-lb"><svg aria-hidden="true" class="icon" viewbox="0 0 512 544">
                             <path
                                 d="M0 96C0 60.7 28.7 32 64 32l384 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zM48 368l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 240l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm368-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM48 112l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16L64 96c-8.8 0-16 7.2-16 16zM416 96c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM160 128l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32L192 96c-17.7 0-32 14.3-32 32zm32 160c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-128 0z">
                             </path>
                         </svg> Último filme visto</div>
-                    <img alt="Capa" class="simkl-share-poster" height="255" id="lb-modal-poster" loading="lazy"
+                    <img alt="Capa" class="share-modal-poster" height="255" id="lb-modal-poster" loading="lazy"
                         decoding="async"
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='255' viewBox='0 0 170 255'%3E%3Crect width='170' height='255' rx='14' fill='%2314161e'/%3E%3Ctext x='85' y='132' text-anchor='middle' fill='%2394a3b8' font-family='Arial' font-size='18'%3EFilme%3C/text%3E%3C/svg%3E"
                         width="170" />
                     <div>
-                        <h3 class="simkl-share-title" id="lb-modal-title">Carregando...</h3>
+                        <h3 class="share-modal-title" id="lb-modal-title">Carregando...</h3>
                     </div>
-                    <div class="simkl-share-rating" id="lb-modal-rating"></div>
+                    <div class="share-modal-rating" id="lb-modal-rating"></div>
                 </div>
-                <div class="simkl-share-actions">
-                    <a class="simkl-share-btn lb-share-btn primary" href="https://letterboxd.com/kennowiski"
+                <div class="share-modal-actions">
+                    <a class="share-modal-btn lb-share-btn primary" href="https://letterboxd.com/kennowiski"
                         id="lb-open-link" rel="noopener noreferrer" target="_blank">
                         <svg aria-hidden="true" class="icon external-icon" viewbox="0 0 512 512">
                             <path
@@ -296,7 +296,7 @@
                             </path>
                         </svg> Abrir no Letterboxd
                     </a>
-                    <button class="simkl-share-btn gemini-share-btn primary" id="lb-recommend-btn" type="button">
+                    <button class="share-modal-btn gemini-share-btn primary" id="lb-recommend-btn" type="button">
                         <svg aria-hidden="true" class="icon" viewbox="0 -24 512 592">
                             <path
                                 d="M512 80c0 18-14.3 34.6-38.4 48c24.1 13.4 38.4 30 38.4 48c0 26.5-31.3 48-70 48s-70-21.5-70-48c0-18 14.3-34.6 38.4-48c-24.1-13.4-38.4-30-38.4-48c0-26.5 31.3-48 70-48s70 21.5 70 48zM160 96l32 96l96 32l-96 32l-32 96l-32-96l-96-32l96-32l32-96zM448 320l16 48l48 16l-48 16l-16 48l-16-48l-48-16l48-16l16-48zM256 352l24 72l72 24l-72 24l-24 72l-24-72l-72-24l72-24l24-72z">
@@ -310,18 +310,18 @@
         </div>
     </div>
 
-    <div aria-hidden="true" class="simkl-modal-overlay" id="lume-modal">
-        <div aria-labelledby="lume-modal-title" aria-modal="true" class="simkl-modal-container" role="dialog">
-            <button aria-label="Fechar card do Lume PDF Reader" class="simkl-modal-close" id="close-lume-modal"><svg
+    <div aria-hidden="true" class="share-modal-overlay" id="lume-modal">
+        <div aria-labelledby="lume-modal-title" aria-modal="true" class="share-modal-container" role="dialog">
+            <button aria-label="Fechar card do Lume PDF Reader" class="share-modal-close" id="close-lume-modal"><svg
                     aria-hidden="true" class="icon" viewbox="0 0 384 512">
                     <path
                         d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
                     </path>
                 </svg></button>
-            <div class="simkl-share-card" id="lume-share-card">
-                <div class="simkl-share-bg" id="lume-share-bg"></div>
-                <div class="simkl-share-content">
-                    <div class="simkl-share-label label-lume">
+            <div class="share-modal-card" id="lume-modal-card">
+                <div class="share-modal-bg" id="lume-modal-bg"></div>
+                <div class="share-modal-content">
+                    <div class="share-modal-label label-lume">
                         <svg aria-hidden="true" class="icon" viewbox="0 0 384 512">
                             <path
                                 d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160L224 0H64z">
@@ -334,7 +334,7 @@
                         src="assets/images/lume-preview.webp"
                         width="280" />
                     <div>
-                        <h3 class="simkl-share-title" id="lume-modal-title">Lume PDF Reader</h3>
+                        <h3 class="share-modal-title" id="lume-modal-title">Lume PDF Reader</h3>
                         <p class="lume-share-desc">Leitor de PDF construído em React, com temas claro, sépia e
                             escuro, navegação por páginas e ferramentas para mesclar, extrair páginas e extrair
                             imagens de arquivos PDF.</p>
@@ -345,8 +345,8 @@
                         <span class="lume-tag">Vercel</span>
                     </div>
                 </div>
-                <div class="simkl-share-actions">
-                    <a class="simkl-share-btn lume-share-btn primary" href="https://lume-pdf-reader-iota.vercel.app/"
+                <div class="share-modal-actions">
+                    <a class="share-modal-btn lume-share-btn primary" href="https://lume-pdf-reader-iota.vercel.app/"
                         id="lume-open-link" rel="noopener noreferrer" target="_blank">
                         <svg aria-hidden="true" class="icon external-icon" viewbox="0 0 512 512">
                             <path
@@ -354,7 +354,7 @@
                             </path>
                         </svg> Ir para o Lume
                     </a>
-                    <a class="simkl-share-btn" href="https://github.com/kennowiski/lume-pdf-reader" id="lume-github-link"
+                    <a class="share-modal-btn" href="https://github.com/kennowiski/lume-pdf-reader" id="lume-github-link"
                         rel="noopener noreferrer" target="_blank">
                         <svg aria-hidden="true" class="icon" viewbox="0 0 496 512">
                             <path
@@ -362,7 +362,7 @@
                             </path>
                         </svg> Ver no GitHub
                     </a>
-                    <a class="simkl-share-btn lume-coffee-btn" href="https://link.mercadopago.com.br/kennowiski"
+                    <a class="share-modal-btn lume-coffee-btn" href="https://link.mercadopago.com.br/kennowiski"
                         id="lume-coffee-link" rel="noopener noreferrer" target="_blank">
                         <svg aria-hidden="true" class="icon" fill="none" stroke="currentColor" stroke-linecap="round"
                             stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
@@ -377,15 +377,15 @@
             </div>
         </div>
     </div>
-    <div aria-hidden="true" class="simkl-modal-overlay" id="spotify-history-modal">
-        <div aria-labelledby="spotify-history-title" aria-modal="true" class="simkl-modal-container" role="dialog">
-            <button aria-label="Fechar histórico de reproduções" class="simkl-modal-close"
+    <div aria-hidden="true" class="share-modal-overlay" id="spotify-history-modal">
+        <div aria-labelledby="spotify-history-title" aria-modal="true" class="share-modal-container" role="dialog">
+            <button aria-label="Fechar histórico de reproduções" class="share-modal-close"
                 id="close-spotify-history-modal"><svg aria-hidden="true" class="icon" viewbox="0 0 384 512">
                     <path
                         d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
                     </path>
                 </svg></button>
-            <div class="simkl-share-card spotify-history-card">
+            <div class="share-modal-card spotify-history-card">
                 <div class="spotify-history-header">
                     <div class="spotify-history-label"><svg aria-hidden="true" class="icon" viewbox="0 0 512 512">
                             <path

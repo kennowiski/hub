@@ -205,7 +205,7 @@ function renderSimklData(data) {
             const poster = data.poster || safeFallback;
 
             const modalPoster = document.getElementById('lb-modal-poster') as HTMLImageElement | null;
-            const modalBg = document.getElementById('lb-share-bg');
+            const modalBg = document.getElementById('lb-modal-bg');
             const modalTitle = document.getElementById('lb-modal-title');
             const modalRating = document.getElementById('lb-modal-rating');
             const openLink = document.getElementById('lb-open-link') as HTMLAnchorElement | null;
@@ -796,7 +796,7 @@ function updateSimklModal(data) {
             const ratingText = hasRating ? renderSimklStars(data.rating) : (data.genres || '');
 
             const modalPoster = document.getElementById('simkl-modal-poster') as HTMLImageElement | null;
-            const modalBg = document.getElementById('simkl-share-bg');
+            const modalBg = document.getElementById('simkl-modal-bg');
             const modalTitle = document.getElementById('simkl-modal-title');
             const modalEpisode = document.getElementById('simkl-modal-episode');
             const modalRating = document.getElementById('simkl-modal-rating');
@@ -820,7 +820,7 @@ function updateSimklModal(data) {
             if (modalEpisode) modalEpisode.textContent = episodeText;
             if (modalRating) {
                 modalRating.textContent = ratingText || '';
-                modalRating.classList.toggle('simkl-share-rating--genres', !hasRating && Boolean(ratingText));
+                modalRating.classList.toggle('share-modal-rating--genres', !hasRating && Boolean(ratingText));
             }
             if (openLink) openLink.href = 'https://simkl.com/8849020/history/watch-history/';
         }
@@ -907,7 +907,7 @@ function syncFreshSimklPoster(data) {
 
     const cardPoster = document.getElementById('simkl-poster') as HTMLImageElement | null;
     const modalPoster = document.getElementById('simkl-modal-poster') as HTMLImageElement | null;
-    const modalBg = document.getElementById('simkl-share-bg');
+    const modalBg = document.getElementById('simkl-modal-bg');
 
     if (cardPoster) {
         cardPoster.crossOrigin = 'anonymous';

@@ -171,7 +171,7 @@ export function initMedia() {
         const safeFallback = 'https://placehold.co/300x450/14161e/94a3b8?text=Filme';
         const poster = data.poster || safeFallback;
         const modalPoster = document.getElementById('lb-modal-poster');
-        const modalBg = document.getElementById('lb-share-bg');
+        const modalBg = document.getElementById('lb-modal-bg');
         const modalTitle = document.getElementById('lb-modal-title');
         const modalRating = document.getElementById('lb-modal-rating');
         const openLink = document.getElementById('lb-open-link');
@@ -674,7 +674,7 @@ export function initMedia() {
         const hasRating = Boolean(renderSimklStars(data.rating));
         const ratingText = hasRating ? renderSimklStars(data.rating) : (data.genres || '');
         const modalPoster = document.getElementById('simkl-modal-poster');
-        const modalBg = document.getElementById('simkl-share-bg');
+        const modalBg = document.getElementById('simkl-modal-bg');
         const modalTitle = document.getElementById('simkl-modal-title');
         const modalEpisode = document.getElementById('simkl-modal-episode');
         const modalRating = document.getElementById('simkl-modal-rating');
@@ -698,7 +698,7 @@ export function initMedia() {
             modalEpisode.textContent = episodeText;
         if (modalRating) {
             modalRating.textContent = ratingText || '';
-            modalRating.classList.toggle('simkl-share-rating--genres', !hasRating && Boolean(ratingText));
+            modalRating.classList.toggle('share-modal-rating--genres', !hasRating && Boolean(ratingText));
         }
         if (openLink)
             openLink.href = 'https://simkl.com/8849020/history/watch-history/';
@@ -766,7 +766,7 @@ export function initMedia() {
         const poster = data.poster;
         const cardPoster = document.getElementById('simkl-poster');
         const modalPoster = document.getElementById('simkl-modal-poster');
-        const modalBg = document.getElementById('simkl-share-bg');
+        const modalBg = document.getElementById('simkl-modal-bg');
         if (cardPoster) {
             cardPoster.crossOrigin = 'anonymous';
             cardPoster.referrerPolicy = 'no-referrer';

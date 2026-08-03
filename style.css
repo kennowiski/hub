@@ -118,8 +118,8 @@
         .lb-header .icon,
         .simkl-header .icon,
         .spotify-label .icon,
-        .simkl-share-label .icon,
-        .simkl-share-btn .icon,
+        .share-modal-label .icon,
+        .share-modal-btn .icon,
         .contact-btn .icon {
             width: 1.15em !important;
             height: 1.15em !important;
@@ -1179,7 +1179,7 @@
             align-items: center;
         }
 
-        #spotify-history-modal .simkl-modal-container {
+        #spotify-history-modal .share-modal-container {
             width: min(820px, calc(100vw - 32px));
             max-width: 820px;
             max-height: calc(100dvh - 32px);
@@ -1387,7 +1387,7 @@
                 align-items: center;
             }
 
-            #spotify-history-modal .simkl-modal-container {
+            #spotify-history-modal .share-modal-container {
                 width: calc(100dvw - 16px);
                 max-width: calc(100dvw - 16px);
                 max-height: calc(100dvh - 16px);
@@ -1926,14 +1926,14 @@
             color: #bfdbfe;
         }
 
-        .simkl-share-btn.lume-coffee-btn {
+        .share-modal-btn.lume-coffee-btn {
             background: #FFDD00;
             border-color: #FFDD00;
             color: #1a1a1a;
             font-weight: 700;
         }
 
-        .simkl-share-btn.lume-coffee-btn:hover {
+        .share-modal-btn.lume-coffee-btn:hover {
             background: #ffe94d;
             border-color: #ffe94d;
             color: #1a1a1a;
@@ -1944,7 +1944,7 @@
         }
 
         /* MODAIS COMPARTILHADOS */
-        .simkl-modal-overlay {
+        .share-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -1963,12 +1963,12 @@
             padding: 20px;
         }
 
-        .simkl-modal-overlay.active {
+        .share-modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
 
-        .simkl-modal-container {
+        .share-modal-container {
             width: 100%;
             max-width: 420px;
             max-height: 90vh;
@@ -1982,11 +1982,11 @@
             position: relative;
         }
 
-        .simkl-modal-overlay.active .simkl-modal-container {
+        .share-modal-overlay.active .share-modal-container {
             transform: translateY(0) scale(1);
         }
 
-        .simkl-share-card {
+        .share-modal-card {
             position: relative;
             min-height: 600px;
             padding: 22px;
@@ -1998,7 +1998,7 @@
             text-align: center;
         }
 
-        .simkl-share-bg {
+        .share-modal-bg {
             position: absolute;
             inset: 0;
             background-size: cover;
@@ -2009,7 +2009,7 @@
             z-index: 0;
         }
 
-        .simkl-share-card::before {
+        .share-modal-card::before {
             content: '';
             position: absolute;
             inset: 0;
@@ -2017,7 +2017,7 @@
             z-index: 1;
         }
 
-        .simkl-modal-close {
+        .share-modal-close {
             position: absolute;
             top: 16px;
             right: 16px;
@@ -2035,11 +2035,11 @@
             transition: 0.2s;
         }
 
-        .simkl-modal-close:hover {
+        .share-modal-close:hover {
             background: rgba(255, 255, 255, 0.12);
         }
 
-        .simkl-share-content {
+        .share-modal-content {
             position: relative;
             z-index: 2;
             display: flex;
@@ -2048,7 +2048,7 @@
             gap: 14px;
         }
 
-        .simkl-share-label {
+        .share-modal-label {
             font-family: 'Fira Code', monospace;
             font-size: 0.65rem;
             text-transform: uppercase;
@@ -2068,7 +2068,7 @@
             color: #FF8000;
         }
 
-        .simkl-share-poster {
+        .share-modal-poster {
             width: 170px;
             height: 255px;
             object-fit: cover;
@@ -2079,7 +2079,7 @@
             margin: 10px 0;
         }
 
-        .simkl-share-title {
+        .share-modal-title {
             font-size: 1.35rem;
             font-weight: 800;
             color: var(--text-main);
@@ -2087,27 +2087,27 @@
             margin-top: 6px;
         }
 
-        .simkl-share-episode {
+        .share-modal-episode {
             font-size: 0.9rem;
             color: var(--text-muted);
             line-height: 1.35;
         }
 
-        .simkl-share-rating {
+        .share-modal-rating {
             color: #facc15;
             letter-spacing: 2px;
             font-size: 1.05rem;
             min-height: 1.3rem;
         }
 
-        .simkl-share-rating.simkl-share-rating--genres {
+        .share-modal-rating.share-modal-rating--genres {
             color: var(--text-muted);
             letter-spacing: normal;
             font-size: 0.8rem;
             font-weight: 600;
         }
 
-        .simkl-share-actions {
+        .share-modal-actions {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -2119,7 +2119,7 @@
             z-index: 2;
         }
 
-        .simkl-share-btn {
+        .share-modal-btn {
             border: 1px solid rgba(255, 255, 255, 0.10);
             background: rgba(255, 255, 255, 0.06);
             color: var(--text-main);
@@ -2142,13 +2142,13 @@
             max-width: 250px;
         }
 
-        .simkl-share-btn:hover {
+        .share-modal-btn:hover {
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.20);
             transform: translateY(-1px);
         }
 
-        .simkl-share-btn.primary {
+        .share-modal-btn.primary {
             background: rgba(239, 68, 68, 0.16);
             border-color: rgba(239, 68, 68, 0.35);
             color: #fecaca;
@@ -2160,7 +2160,7 @@
             color: #c7d2fe;
         }
 
-        .simkl-share-btn:disabled {
+        .share-modal-btn:disabled {
             opacity: 0.65;
             cursor: not-allowed;
             transform: none !important;
@@ -2234,16 +2234,16 @@
                 padding-bottom: 36px;
             }
 
-            .simkl-modal-container {
+            .share-modal-container {
                 max-width: 380px;
             }
 
-            .simkl-share-card {
+            .share-modal-card {
                 min-height: 560px;
                 padding: 20px;
             }
 
-            .simkl-share-poster {
+            .share-modal-poster {
                 width: 150px;
                 height: 225px;
             }
@@ -2368,7 +2368,7 @@
 
         /* Ajuste fino apenas para o navegador interno do Instagram.
            Mantém layout e pop-ups iguais; só reduz instabilidade de blur/opacity no WebView. */
-        html.instagram-webview .simkl-modal-overlay,
+        html.instagram-webview .share-modal-overlay,
         html.instagram-webview .tech-modal-overlay {
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -2379,7 +2379,7 @@
             will-change: opacity;
         }
 
-        html.instagram-webview .simkl-modal-container,
+        html.instagram-webview .share-modal-container,
         html.instagram-webview .tech-modal-container {
             transform: translateY(14px) scale(0.99) translateZ(0);
             -webkit-transform: translateY(14px) scale(0.99) translateZ(0);
@@ -2389,7 +2389,7 @@
             will-change: transform;
         }
 
-        html.instagram-webview .simkl-modal-overlay.active .simkl-modal-container,
+        html.instagram-webview .share-modal-overlay.active .share-modal-container,
         html.instagram-webview .tech-modal-overlay.active .tech-modal-container {
             transform: translateY(0) scale(1) translateZ(0);
             -webkit-transform: translateY(0) scale(1) translateZ(0);
@@ -2488,7 +2488,7 @@
 
         /* Otimização sem alterar visual: evita renderizar modais escondidos antes da hora */
         .tech-modal-overlay:not(.active),
-        .simkl-modal-overlay:not(.active) {
+        .share-modal-overlay:not(.active) {
             content-visibility: hidden;
             contain: layout style paint;
         }
@@ -2502,7 +2502,7 @@
             .spotify-art,
             .photo-card img,
             .tech-modal-container,
-            .simkl-modal-container {
+            .share-modal-container {
                 will-change: transform;
                 backface-visibility: hidden;
                 -webkit-backface-visibility: hidden;
@@ -2515,7 +2515,7 @@
             }
 
             .tech-modal-overlay,
-            .simkl-modal-overlay {
+            .share-modal-overlay {
                 will-change: opacity;
             }
 
@@ -2527,7 +2527,7 @@
         .lb-header,
         .simkl-header,
         .lume-header,
-        .simkl-share-label,
+        .share-modal-label,
         .spotify-label-last,
         .spotify-label-now,
         .links-card h2,
@@ -2563,7 +2563,7 @@
                 box-shadow: none !important;
             }
 
-            .simkl-modal-overlay,
+            .share-modal-overlay,
             .tech-modal-overlay {
                 backdrop-filter: blur(6px);
                 -webkit-backdrop-filter: blur(6px);
@@ -2573,7 +2573,7 @@
             .bg-orb,
             .photo-card img,
             .tech-modal-container,
-            .simkl-modal-container {
+            .share-modal-container {
                 will-change: auto;
             }
         }
@@ -2637,7 +2637,7 @@ a[aria-label="Redes sociais"] .external-icon {
 /* Fim ícone rosa nos botões Recomendação */
 
 /* Botão discreto de Story no modal Simkl */
-.simkl-modal-share {
+.share-modal-share {
     position: absolute;
     top: 16px;
     left: 16px;
@@ -2659,11 +2659,11 @@ a[aria-label="Redes sociais"] .external-icon {
     transition: 0.2s;
 }
 
-.simkl-modal-share:hover {
+.share-modal-share:hover {
     background: rgba(255, 255, 255, 0.12);
 }
 
-.simkl-modal-share {
+.share-modal-share {
     top: 20px !important;
     width: 29px !important;
     height: 29px !important;
@@ -2681,7 +2681,7 @@ a[aria-label="Redes sociais"] .external-icon {
     justify-content: center !important;
 }
 
-.simkl-modal-share .icon {
+.share-modal-share .icon {
     width: 1em !important;
     height: 1em !important;
 }
