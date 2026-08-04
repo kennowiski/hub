@@ -17,7 +17,7 @@ import { initAdmin } from './auth.js';
         // ==========================================
         // TYPEWRITER EFFECT (OTIMIZADO PARA LCP/FCP)
         // ==========================================
-        const textToType = "Desenvolvedor de Software em formação. Gamer, cinéfilo e amante da música.";
+        const textToType = "Gamer, cinéfilo e amante da música. Este é meu linktree pessoal — só que bem mais maneiro.";
         const typingElement = document.getElementById('typing-text');
         let typeIndex = 0;
         let typewriterStarted = false;
