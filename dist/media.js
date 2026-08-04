@@ -7,6 +7,7 @@
 // ==========================================
 import { setImageSrcIfChanged } from './utils.js';
 import { closeSpotifyHistoryModalIfOpen } from './spotify.js';
+import { API_ENDPOINTS, SIMKL_HISTORY_URL } from './config.js';
 export function initMedia() {
     // Referência local ao modal de tecnologias (definido em main.ts),
     // usada apenas pelo atalho de teclado Esc mais abaixo.
@@ -202,7 +203,7 @@ export function initMedia() {
             renderLetterboxdData(cachedData);
         }
         try {
-            const response = await fetch('https://kennowiski-api-hub.vercel.app/api/letterboxd');
+            const response = await fetch(API_ENDPOINTS.letterboxd);
             if (!response.ok) {
                 throw new Error('Resposta inválida da API do Letterboxd.');
             }
@@ -701,7 +702,7 @@ export function initMedia() {
             modalRating.classList.toggle('share-modal-rating--genres', !hasRating && Boolean(ratingText));
         }
         if (openLink)
-            openLink.href = 'https://simkl.com/8849020/history/watch-history/';
+            openLink.href = SIMKL_HISTORY_URL;
     }
     async function fetchSimkl() {
         const cachedData = readTimedMediaCache(SIMKL_CACHE_KEY, SIMKL_CACHE_TTL_MS);
@@ -709,7 +710,7 @@ export function initMedia() {
             renderSimklData(cachedData);
         }
         try {
-            const response = await fetch('https://kennowiski-api-hub.vercel.app/api/simkl');
+            const response = await fetch(API_ENDPOINTS.simkl);
             if (!response.ok) {
                 throw new Error('Resposta inválida da API do Simkl.');
             }
@@ -743,7 +744,7 @@ export function initMedia() {
             localStorage.removeItem(SIMKL_CACHE_KEY);
         }
         catch { }
-        const response = await fetch('https://kennowiski-api-hub.vercel.app/api/simkl', {
+        const response = await fetch(API_ENDPOINTS.simkl, {
             cache: 'no-store'
         });
         if (!response.ok) {
@@ -836,7 +837,7 @@ export function initMedia() {
     // ==========================================
     // RECOMENDAÇÕES COM GEMINI
     // ==========================================
-    const GEMINI_RECOMMENDATION_API = 'https://kennowiski-api-hub.vercel.app/api/gemini';
+    const GEMINI_RECOMMENDATION_API = API_ENDPOINTS.gemini;
     const GEMINI_CACHE_PREFIX = 'gemini-recommendation:';
     const GEMINI_CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24 horas
     const GEMINI_COOLDOWN_MS = 10000; // 10 segundos

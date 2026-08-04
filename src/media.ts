@@ -7,6 +7,7 @@
 // ==========================================
 import { setImageSrcIfChanged } from './utils.js';
 import { closeSpotifyHistoryModalIfOpen } from './spotify.js';
+import { API_ENDPOINTS, SIMKL_HISTORY_URL } from './config.js';
 
 export function initMedia() {
     // Referência local ao modal de tecnologias (definido em main.ts),
@@ -239,7 +240,7 @@ function renderSimklData(data) {
     }
 
     try {
-        const response = await fetch('https://kennowiski-api-hub.vercel.app/api/letterboxd');
+        const response = await fetch(API_ENDPOINTS.letterboxd);
 
         if (!response.ok) {
             throw new Error('Resposta inválida da API do Letterboxd.');
@@ -822,7 +823,7 @@ function updateSimklModal(data) {
                 modalRating.textContent = ratingText || '';
                 modalRating.classList.toggle('share-modal-rating--genres', !hasRating && Boolean(ratingText));
             }
-            if (openLink) openLink.href = 'https://simkl.com/8849020/history/watch-history/';
+            if (openLink) openLink.href = SIMKL_HISTORY_URL;
         }
 
         async function fetchSimkl() {
@@ -833,7 +834,7 @@ function updateSimklModal(data) {
     }
 
     try {
-        const response = await fetch('https://kennowiski-api-hub.vercel.app/api/simkl');
+        const response = await fetch(API_ENDPOINTS.simkl);
 
         if (!response.ok) {
             throw new Error('Resposta inválida da API do Simkl.');
@@ -875,7 +876,7 @@ async function fetchFreshSimklStoryDataFromAdmin() {
         localStorage.removeItem(SIMKL_CACHE_KEY);
     } catch {}
 
-    const response = await fetch('https://kennowiski-api-hub.vercel.app/api/simkl', {
+    const response = await fetch(API_ENDPOINTS.simkl, {
         cache: 'no-store'
     });
 
@@ -986,7 +987,7 @@ const simklCard = document.getElementById('simkl-card');
         // ==========================================
         // RECOMENDAÇÕES COM GEMINI
         // ==========================================
-        const GEMINI_RECOMMENDATION_API = 'https://kennowiski-api-hub.vercel.app/api/gemini';
+        const GEMINI_RECOMMENDATION_API = API_ENDPOINTS.gemini;
 
         const GEMINI_CACHE_PREFIX = 'gemini-recommendation:';
         const GEMINI_CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24 horas

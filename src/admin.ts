@@ -15,7 +15,13 @@
 
 // Faz este arquivo ser tratado como módulo ES (necessário para o
 // `declare global` abaixo funcionar) — não muda nada em tempo de execução.
-export {};
+import {
+    SUPABASE_PROJECT_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    SUPABASE_AUTH_STORAGE_KEY,
+    API_ENDPOINTS,
+    LANYARD_API_URL,
+} from './config.js';
 
 declare global {
     interface Window {
@@ -29,10 +35,7 @@ declare global {
 
         /* ADMIN_AUTH_GATE_V1 */
         (() => {
-            const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
-            const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
-            const SUPABASE_AUTH_STORAGE_KEY = 'sb-ivbpcyjkvzsawjzhrwsd-auth-token';
-            const ADMIN_VERIFY_ENDPOINT = 'https://kennowiski-api-hub.vercel.app/api/admin/verify';
+            const ADMIN_VERIFY_ENDPOINT = API_ENDPOINTS.adminVerify;
 
 
 async function verifyAdminSessionWithBackend(session) {
@@ -154,7 +157,7 @@ async function verifyAdminSessionWithBackend(session) {
             {
                 key: 'discord',
                 name: 'Discord',
-                url: 'https://api.lanyard.rest/v1/users/387025115898183702',
+                url: LANYARD_API_URL,
                 format(data) {
                     const status = data && data.data ? data.data.discord_status : 'offline';
                     return {
@@ -166,7 +169,7 @@ async function verifyAdminSessionWithBackend(session) {
             {
                 key: 'spotify',
                 name: 'Spotify / Last.fm',
-                url: 'https://kennowiski-api-hub.vercel.app/api/spotify',
+                url: API_ENDPOINTS.spotify,
                 format(data) {
                     return {
                         title: data && data.title ? data.title : 'Sem música',
@@ -177,7 +180,7 @@ async function verifyAdminSessionWithBackend(session) {
             {
                 key: 'letterboxd',
                 name: 'Letterboxd',
-                url: 'https://kennowiski-api-hub.vercel.app/api/letterboxd',
+                url: API_ENDPOINTS.letterboxd,
                 format(data) {
                     return {
                         title: data && data.title ? data.title : 'Sem filme',
@@ -188,7 +191,7 @@ async function verifyAdminSessionWithBackend(session) {
             {
                 key: 'simkl',
                 name: 'Simkl',
-                url: 'https://kennowiski-api-hub.vercel.app/api/simkl',
+                url: API_ENDPOINTS.simkl,
                 format(data) {
                     const season = String((data && data.season) || 0).padStart(2, '0');
                     const episode = String((data && data.episodeNumber) || 0).padStart(2, '0');
@@ -202,7 +205,7 @@ async function verifyAdminSessionWithBackend(session) {
             {
                 key: 'lastfm',
                 name: 'Last.fm',
-                url: 'https://kennowiski-api-hub.vercel.app/api/lastfm?limit=1',
+                url: API_ENDPOINTS.lastfm + '?limit=1',
                 format(data) {
                     const track =
                         Array.isArray(data) ? data[0] :
@@ -480,23 +483,23 @@ document.addEventListener('click', (event) => {
     const DEBUG_APIS = {
         spotify: {
             name: 'Spotify',
-            url: 'https://kennowiski-api-hub.vercel.app/api/spotify'
+            url: API_ENDPOINTS.spotify
         },
         lastfm: {
             name: 'Last.fm',
-            url: 'https://kennowiski-api-hub.vercel.app/api/lastfm?limit=1'
+            url: API_ENDPOINTS.lastfm + '?limit=1'
         },
         letterboxd: {
             name: 'Letterboxd',
-            url: 'https://kennowiski-api-hub.vercel.app/api/letterboxd'
+            url: API_ENDPOINTS.letterboxd
         },
         simkl: {
             name: 'Simkl',
-            url: 'https://kennowiski-api-hub.vercel.app/api/simkl'
+            url: API_ENDPOINTS.simkl
         },
         discord: {
             name: 'Discord / Lanyard',
-            url: 'https://api.lanyard.rest/v1/users/387025115898183702'
+            url: LANYARD_API_URL
         }
     };
 

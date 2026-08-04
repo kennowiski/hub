@@ -4,6 +4,8 @@
 // story do Simkl (acesso restrito ao admin).
 // ==========================================
 
+import { SUPABASE_PROJECT_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_AUTH_STORAGE_KEY, API_ENDPOINTS } from './config.js';
+
 // O SDK do Supabase é carregado dinamicamente via <script> (loadSupabaseSdk),
 // então o TypeScript não o conhece estaticamente — declaramos aqui como `any`.
 declare global {
@@ -15,9 +17,7 @@ declare global {
 }
 
 /* Supabase Auth Gate - botão Story Simkl */
-const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
-const ADMIN_VERIFY_ENDPOINT = 'https://kennowiski-api-hub.vercel.app/api/admin/verify';
+const ADMIN_VERIFY_ENDPOINT = API_ENDPOINTS.adminVerify;
 
 
 /* ADMIN_VERIFY_HELPER_V1 */
@@ -63,7 +63,7 @@ async function verifyAdminSessionWithBackend(client: any, authData?: any): Promi
 }
 /* FIM ADMIN_VERIFY_HELPER_V1 */
 
-const SUPABASE_AUTH_STORAGE_KEY = 'sb-ivbpcyjkvzsawjzhrwsd-auth-token';
+// SUPABASE_AUTH_STORAGE_KEY importado de ./config.js
 
 function hasSupabaseSessionStored() {
     try {

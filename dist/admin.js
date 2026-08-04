@@ -12,12 +12,12 @@
 // 2) Dashboard de status das APIs + cache local
 // 3) Debug detalhado das APIs (JSON, testar, copiar)
 // ==========================================
+// Faz este arquivo ser tratado como módulo ES (necessário para o
+// `declare global` abaixo funcionar) — não muda nada em tempo de execução.
+import { SUPABASE_PROJECT_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_AUTH_STORAGE_KEY, API_ENDPOINTS, LANYARD_API_URL, } from './config.js';
 /* ADMIN_AUTH_GATE_V1 */
 (() => {
-    const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
-    const SUPABASE_AUTH_STORAGE_KEY = 'sb-ivbpcyjkvzsawjzhrwsd-auth-token';
-    const ADMIN_VERIFY_ENDPOINT = 'https://kennowiski-api-hub.vercel.app/api/admin/verify';
+    const ADMIN_VERIFY_ENDPOINT = API_ENDPOINTS.adminVerify;
     async function verifyAdminSessionWithBackend(session) {
         const accessToken = session && session.access_token;
         if (!accessToken)
@@ -117,7 +117,7 @@ const ENDPOINTS = [
     {
         key: 'discord',
         name: 'Discord',
-        url: 'https://api.lanyard.rest/v1/users/387025115898183702',
+        url: LANYARD_API_URL,
         format(data) {
             const status = data && data.data ? data.data.discord_status : 'offline';
             return {
@@ -129,7 +129,7 @@ const ENDPOINTS = [
     {
         key: 'spotify',
         name: 'Spotify / Last.fm',
-        url: 'https://kennowiski-api-hub.vercel.app/api/spotify',
+        url: API_ENDPOINTS.spotify,
         format(data) {
             return {
                 title: data && data.title ? data.title : 'Sem música',
@@ -140,7 +140,7 @@ const ENDPOINTS = [
     {
         key: 'letterboxd',
         name: 'Letterboxd',
-        url: 'https://kennowiski-api-hub.vercel.app/api/letterboxd',
+        url: API_ENDPOINTS.letterboxd,
         format(data) {
             return {
                 title: data && data.title ? data.title : 'Sem filme',
@@ -151,7 +151,7 @@ const ENDPOINTS = [
     {
         key: 'simkl',
         name: 'Simkl',
-        url: 'https://kennowiski-api-hub.vercel.app/api/simkl',
+        url: API_ENDPOINTS.simkl,
         format(data) {
             const season = String((data && data.season) || 0).padStart(2, '0');
             const episode = String((data && data.episodeNumber) || 0).padStart(2, '0');
@@ -164,7 +164,7 @@ const ENDPOINTS = [
     {
         key: 'lastfm',
         name: 'Last.fm',
-        url: 'https://kennowiski-api-hub.vercel.app/api/lastfm?limit=1',
+        url: API_ENDPOINTS.lastfm + '?limit=1',
         format(data) {
             const track = Array.isArray(data) ? data[0] :
                 data && Array.isArray(data.tracks) ? data.tracks[0] :
@@ -398,23 +398,23 @@ else {
     const DEBUG_APIS = {
         spotify: {
             name: 'Spotify',
-            url: 'https://kennowiski-api-hub.vercel.app/api/spotify'
+            url: API_ENDPOINTS.spotify
         },
         lastfm: {
             name: 'Last.fm',
-            url: 'https://kennowiski-api-hub.vercel.app/api/lastfm?limit=1'
+            url: API_ENDPOINTS.lastfm + '?limit=1'
         },
         letterboxd: {
             name: 'Letterboxd',
-            url: 'https://kennowiski-api-hub.vercel.app/api/letterboxd'
+            url: API_ENDPOINTS.letterboxd
         },
         simkl: {
             name: 'Simkl',
-            url: 'https://kennowiski-api-hub.vercel.app/api/simkl'
+            url: API_ENDPOINTS.simkl
         },
         discord: {
             name: 'Discord / Lanyard',
-            url: 'https://api.lanyard.rest/v1/users/387025115898183702'
+            url: LANYARD_API_URL
         }
     };
     const SENSITIVE_KEYS = [
@@ -724,4 +724,3 @@ else {
         bindDebugEvents();
     }
 })();
-export {};

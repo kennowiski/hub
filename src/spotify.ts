@@ -2,6 +2,7 @@
 // SISTEMA MUSICAL (SPOTIFY + LAST.FM)
 // ==========================================
 import { isPageVisible, setContainerHtmlIfChanged } from './utils.js';
+import { API_ENDPOINTS, API_BASE_URL } from './config.js';
 
 function svgIcon(name, extraClass = '', extraStyle = '') {
     const icons = {
@@ -27,7 +28,7 @@ async function renderLastFmFallbackMusicCard(spotifyContainer) {
     if (!spotifyContainer) return false;
 
     try {
-        const response = await fetch('https://kennowiski-api-hub.vercel.app/api/lastfm?limit=1', {
+        const response = await fetch(API_ENDPOINTS.lastfm + '?limit=1', {
             cache: 'no-store'
         });
 
@@ -93,7 +94,7 @@ async function fetchSpotify() {
     const spotifyContainer = document.getElementById('spotify-card-container');
 
     try {
-        const vercelUrl = 'https://kennowiski-api-hub.vercel.app/api/spotify';
+        const vercelUrl = API_ENDPOINTS.spotify;
         const response = await fetch(vercelUrl);
         const data = await response.json();
         const responseHasTrackInfo = data.title && data.artist;
@@ -419,7 +420,7 @@ function renderSpotifyHistory(tracks, message = '') {
 }
 
 async function fetchSpotifyHistory() {
-    const baseUrl = 'https://kennowiski-api-hub.vercel.app';
+    const baseUrl = API_BASE_URL;
     const endpoints = [
         `${baseUrl}/api/lastfm?limit=10`,
         `${baseUrl}/api/lastfm/recent?limit=10`,

@@ -2,12 +2,12 @@
 // DISCORD (Status e Jogos)
 // ==========================================
 import { isPageVisible, setImageSrcIfChanged, setContainerHtmlIfChanged } from './utils.js';
-const discordId = "387025115898183702";
+import { LANYARD_API_URL } from './config.js';
 async function fetchDiscordPresence() {
     if (!isPageVisible())
         return;
     try {
-        const response = await fetch(`https://api.lanyard.rest/v1/users/${discordId}`);
+        const response = await fetch(LANYARD_API_URL);
         const json = await response.json();
         const data = json.data;
         if (!data)
