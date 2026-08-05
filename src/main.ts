@@ -21,6 +21,8 @@ import { initAdmin } from './auth.js';
         const typingElement = document.getElementById('typing-text');
         let typeIndex = 0;
         let typewriterStarted = false;
+        let typewriterFinished = false;
+        let typewriterTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
         function typeWriter() {
             if (!typingElement) return;
@@ -36,9 +38,20 @@ import { initAdmin } from './auth.js';
                 window.setTimeout(() => {
                     if (
                         typingElement &&
+                        !typewriterFinished &&
                         typingElement.classList.contains('typing-active') &&
                         typingElement.textContent.trim().length < 3
                     ) {
+                        // Cancela o loop de digitação pendente e sincroniza o índice
+                        // para que ele não continue anexando caracteres depois que o
+                        // texto completo já foi inserido aqui (evita duplicação).
+                        if (typewriterTimeoutId !== null) {
+                            clearTimeout(typewriterTimeoutId);
+                            typewriterTimeoutId = null;
+                        }
+                        typeIndex = textToType.length;
+                        typewriterFinished = true;
+
                         typingElement.textContent = textToType;
                         typingElement.classList.remove('typing-active');
                         typingElement.classList.add('typing-done');
@@ -46,11 +59,14 @@ import { initAdmin } from './auth.js';
                 }, 900);
             }
 
+            if (typewriterFinished) return;
+
             if (typeIndex < textToType.length) {
                 typingElement.textContent += textToType.charAt(typeIndex);
                 typeIndex++;
-                setTimeout(typeWriter, 15);
+                typewriterTimeoutId = setTimeout(typeWriter, 15);
             } else {
+                typewriterFinished = true;
                 typingElement.classList.remove('typing-active');
                 typingElement.classList.add('typing-done');
             }

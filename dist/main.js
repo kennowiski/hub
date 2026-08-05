@@ -17,6 +17,8 @@ const textToType = "Gamer, cinéfilo e amante da música. Este é meu linktree p
 const typingElement = document.getElementById('typing-text');
 let typeIndex = 0;
 let typewriterStarted = false;
+let typewriterFinished = false;
+let typewriterTimeoutId = null;
 function typeWriter() {
     if (!typingElement)
         return;
@@ -28,20 +30,33 @@ function typeWriter() {
         typingElement.classList.remove('typing-done');
         window.setTimeout(() => {
             if (typingElement &&
+                !typewriterFinished &&
                 typingElement.classList.contains('typing-active') &&
                 typingElement.textContent.trim().length < 3) {
+                // Cancela o loop de digitação pendente e sincroniza o índice
+                // para que ele não continue anexando caracteres depois que o
+                // texto completo já foi inserido aqui (evita duplicação).
+                if (typewriterTimeoutId !== null) {
+                    clearTimeout(typewriterTimeoutId);
+                    typewriterTimeoutId = null;
+                }
+                typeIndex = textToType.length;
+                typewriterFinished = true;
                 typingElement.textContent = textToType;
                 typingElement.classList.remove('typing-active');
                 typingElement.classList.add('typing-done');
             }
         }, 900);
     }
+    if (typewriterFinished)
+        return;
     if (typeIndex < textToType.length) {
         typingElement.textContent += textToType.charAt(typeIndex);
         typeIndex++;
-        setTimeout(typeWriter, 15);
+        typewriterTimeoutId = setTimeout(typeWriter, 15);
     }
     else {
+        typewriterFinished = true;
         typingElement.classList.remove('typing-active');
         typingElement.classList.add('typing-done');
     }
