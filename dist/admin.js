@@ -15,7 +15,7 @@
 // Faz este arquivo ser tratado como módulo ES (necessário para o
 // `declare global` abaixo funcionar) — não muda nada em tempo de execução.
 import { SUPABASE_PROJECT_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_AUTH_STORAGE_KEY, API_ENDPOINTS, LANYARD_API_URL, } from './config.js';
-/* ADMIN_AUTH_GATE_V1 */
+/* Auth gate do painel admin */
 (() => {
     const ADMIN_VERIFY_ENDPOINT = API_ENDPOINTS.adminVerify;
     async function verifyAdminSessionWithBackend(session) {
@@ -112,7 +112,7 @@ import { SUPABASE_PROJECT_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_AUTH_STORAGE_K
     }
     verifyAdminAccess();
 })();
-/* FIM ADMIN_AUTH_GATE_V1 */
+/* Fim do auth gate do painel admin */
 const ENDPOINTS = [
     {
         key: 'discord',

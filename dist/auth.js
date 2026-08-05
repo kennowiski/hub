@@ -6,7 +6,7 @@
 import { SUPABASE_PROJECT_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_AUTH_STORAGE_KEY, API_ENDPOINTS } from './config.js';
 /* Supabase Auth Gate - botão Story Simkl */
 const ADMIN_VERIFY_ENDPOINT = API_ENDPOINTS.adminVerify;
-/* ADMIN_VERIFY_HELPER_V1 */
+/* Helper de verificação do admin */
 async function verifyAdminSessionWithBackend(client, authData) {
     let accessToken = authData &&
         authData.session &&
@@ -43,7 +43,7 @@ async function verifyAdminSessionWithBackend(client, authData) {
         return false;
     }
 }
-/* FIM ADMIN_VERIFY_HELPER_V1 */
+/* Fim do helper de verificação do admin */
 // SUPABASE_AUTH_STORAGE_KEY importado de ./config.js
 function hasSupabaseSessionStored() {
     try {
@@ -108,7 +108,7 @@ function cleanSupabaseAuthUrl() {
     const cleanPath = url.pathname.replace(/\/+$/, '') === '/login' ? '/' : url.pathname;
     window.history.replaceState({}, document.title, cleanPath + (url.search ? url.search : '') + url.hash);
 }
-/* STORY_LOGIN_SCROLL_LOCK_V1 */
+/* Trava o scroll da página durante o login do Story */
 let storyLoginSavedScrollY = 0;
 let storyLoginScrollLocked = false;
 function lockStoryLoginScroll() {
@@ -142,7 +142,7 @@ function unlockStoryLoginScroll() {
     document.body.style.overflow = '';
     window.scrollTo(0, storyLoginSavedScrollY);
 }
-/* FIM STORY_LOGIN_SCROLL_LOCK_V1 */
+/* Fim da trava de scroll do login */
 function closeStoryLoginModal() {
     const modal = document.getElementById('story-login-modal');
     if (modal) {

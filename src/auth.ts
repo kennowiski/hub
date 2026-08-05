@@ -20,7 +20,7 @@ declare global {
 const ADMIN_VERIFY_ENDPOINT = API_ENDPOINTS.adminVerify;
 
 
-/* ADMIN_VERIFY_HELPER_V1 */
+/* Helper de verificação do admin */
 async function verifyAdminSessionWithBackend(client: any, authData?: any): Promise<boolean> {
     let accessToken = authData &&
         authData.session &&
@@ -61,7 +61,7 @@ async function verifyAdminSessionWithBackend(client: any, authData?: any): Promi
         return false;
     }
 }
-/* FIM ADMIN_VERIFY_HELPER_V1 */
+/* Fim do helper de verificação do admin */
 
 // SUPABASE_AUTH_STORAGE_KEY importado de ./config.js
 
@@ -153,7 +153,7 @@ function cleanSupabaseAuthUrl() {
 }
 
 
-/* STORY_LOGIN_SCROLL_LOCK_V1 */
+/* Trava o scroll da página durante o login do Story */
 let storyLoginSavedScrollY = 0;
 let storyLoginScrollLocked = false;
 
@@ -195,7 +195,7 @@ function unlockStoryLoginScroll() {
 
     window.scrollTo(0, storyLoginSavedScrollY);
 }
-/* FIM STORY_LOGIN_SCROLL_LOCK_V1 */
+/* Fim da trava de scroll do login */
 
 function closeStoryLoginModal() {
     const modal = document.getElementById('story-login-modal');

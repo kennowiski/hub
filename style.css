@@ -2869,7 +2869,7 @@ a[aria-label="Redes sociais"] .external-icon {
     display: none !important;
 }
 /* Fim remove botão Story Simkl da home */
-/* TYPEWRITER_FALLBACK_V1 */
+/* Fallback visual do efeito de digitação */
 #typing-text {
     min-height: 1em;
 }
@@ -2878,17 +2878,17 @@ a[aria-label="Redes sociais"] .external-icon {
 #typing-text.typing-done {
     visibility: visible;
 }
-/* FIM TYPEWRITER_FALLBACK_V1 */
+/* Fim do fallback do efeito de digitação */
 
 
-/* AUTH_REDIRECT_NO_FLASH_V1 */
+/* Evita flash de conteúdo durante redirecionamento de login */
 html.auth-redirecting body {
     opacity: 0 !important;
     pointer-events: none !important;
     background: #0f1117 !important;
 }
-/* FIM AUTH_REDIRECT_NO_FLASH_V1 */
-/* STORY_LOGIN_SCROLL_LOCK_V1 */
+/* Fim do ajuste de redirecionamento */
+/* Trava o scroll durante o login do Story */
 html.story-login-scroll-locked,
 body.story-login-scroll-locked {
     overflow: hidden !important;
@@ -2903,4 +2903,4 @@ html.story-login-scroll-locked #story-login-modal,
 html.story-login-scroll-locked #story-login-modal * {
     touch-action: auto;
 }
-/* FIM STORY_LOGIN_SCROLL_LOCK_V1 */
+/* Fim da trava de scroll do login */

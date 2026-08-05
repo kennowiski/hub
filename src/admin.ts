@@ -33,7 +33,7 @@ declare global {
     }
 }
 
-        /* ADMIN_AUTH_GATE_V1 */
+        /* Auth gate do painel admin */
         (() => {
             const ADMIN_VERIFY_ENDPOINT = API_ENDPOINTS.adminVerify;
 
@@ -151,7 +151,7 @@ async function verifyAdminSessionWithBackend(session) {
 
             verifyAdminAccess();
         })();
-        /* FIM ADMIN_AUTH_GATE_V1 */
+        /* Fim do auth gate do painel admin */
 
         const ENDPOINTS = [
             {

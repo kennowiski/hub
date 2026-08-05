@@ -23,7 +23,7 @@ let spotifyHistoryCache = null;
 let spotifyHistoryPreloadPromise = null;
 
 
-/* MUSIC_LASTFM_CARD_FALLBACK_V1 */
+/* Fallback do card de música via Last.fm */
 async function renderLastFmFallbackMusicCard(spotifyContainer) {
     if (!spotifyContainer) return false;
 
@@ -43,7 +43,7 @@ async function renderLastFmFallbackMusicCard(spotifyContainer) {
         const fallbackCover = 'https://placehold.co/160x160/14161e/94a3b8?text=%E2%99%AA';
         const image = track.image || fallbackCover;
 
-        /* LASTFM_NOW_PLAYING_CARD_RENDER_V1 */
+        /* Renderização do card "tocando agora" do Last.fm */
         const isNowPlaying = Boolean(track.isNowPlaying || (track as any).isPlaying);
         const labelText = isNowPlaying ? 'Ouvindo agora (Last.fm)' : 'ÚLTIMA MÚSICA OUVIDA';
         const labelColor = isNowPlaying ? '#ba0000' : '#8aa0b8';
@@ -56,7 +56,7 @@ async function renderLastFmFallbackMusicCard(spotifyContainer) {
                         <div class="equalizer-bar" style="background-color: ${labelColor};"></div>
                         <div class="equalizer-bar" style="background-color: ${labelColor};"></div>
                     </div>` : '';
-        /* FIM LASTFM_NOW_PLAYING_CARD_RENDER_V1 */
+        /* Fim da renderização do card "tocando agora" */
 
         lastSpotifyData = {
             title: track.title,
@@ -87,7 +87,7 @@ async function renderLastFmFallbackMusicCard(spotifyContainer) {
         return false;
     }
 }
-/* FIM MUSIC_LASTFM_CARD_FALLBACK_V1 */
+/* Fim do fallback do card de música via Last.fm */
 
 async function fetchSpotify() {
     if (!isPageVisible()) return;
@@ -99,13 +99,13 @@ async function fetchSpotify() {
         const data = await response.json();
         const responseHasTrackInfo = data.title && data.artist;
 
-        /* MUSIC_LASTFM_CARD_EMPTY_RESPONSE_FIX_V1 */
+        /* Trata resposta vazia da API do Last.fm */
         if (!response.ok || data.error || (!data.isPlaying && !responseHasTrackInfo)) {
             const renderedLastFmFallback = await renderLastFmFallbackMusicCard(spotifyContainer);
 
             if (renderedLastFmFallback) return;
         }
-        /* FIM MUSIC_LASTFM_CARD_EMPTY_RESPONSE_FIX_V1 */
+        /* Fim do tratamento de resposta vazia */
 if (data.isPlaying || responseHasTrackInfo) {
         lastSpotifyData = data;
         syncCurrentTrackWithCachedHistory();
@@ -197,9 +197,9 @@ if (data.isPlaying || responseHasTrackInfo) {
     } catch (error) {
         console.error("Erro ao puxar dados da sua API no Vercel:", error);
 
-        /* MUSIC_LASTFM_CARD_CATCH_FIX_V1 */
+        /* Trata erro de requisição do Last.fm */
         await renderLastFmFallbackMusicCard(spotifyContainer);
-        /* FIM MUSIC_LASTFM_CARD_CATCH_FIX_V1 */
+        /* Fim do tratamento de erro */
     }
 }
 
@@ -251,7 +251,7 @@ function formatLastFmDate(value) {
     return '';
 }
 
-/* LASTFM_NOW_PLAYING_DETECTOR_V1 */
+/* Detecta se há uma música tocando agora no Last.fm */
 function isTruthyNowPlayingValue(value) {
     if (value === true || value === 1) return true;
 
@@ -280,7 +280,7 @@ function isLastFmTrackNowPlaying(track) {
         isTruthyNowPlayingValue(attr.isNowPlaying)
     );
 }
-/* FIM LASTFM_NOW_PLAYING_DETECTOR_V1 */
+/* Fim da detecção de música tocando agora */
 
 function normalizeLastFmTracks(data) {
     const rawTracks = data?.recentTracks || data?.tracks || data?.history || data?.items || data?.recenttracks?.track || data?.recentTracks?.track || data?.track;
