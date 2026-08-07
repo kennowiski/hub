@@ -2937,3 +2937,15 @@ html.story-login-scroll-locked #story-login-modal * {
     touch-action: auto;
 }
 /* Fim da trava de scroll do login */
+
+.site-footer {
+    text-align: center;
+    padding: 24px 0 16px;
+}
+
+.site-footer p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+}
