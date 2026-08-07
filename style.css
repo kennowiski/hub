@@ -135,7 +135,6 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
@@ -2938,17 +2937,3 @@ html.story-login-scroll-locked #story-login-modal * {
     touch-action: auto;
 }
 /* Fim da trava de scroll do login */
-
-.site-footer {
-    width: 100%;
-    flex-basis: 100%;
-    text-align: center;
-    padding: 24px 0 16px;
-}
-
-.site-footer p {
-    margin: 0;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    opacity: 0.5;
-}
