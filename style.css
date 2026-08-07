@@ -2355,6 +2355,39 @@
             transform: scale(0.98);
         }
 
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .contact-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+
+        .contact-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .contact-icon:hover {
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            transform: scale(1.08);
+        }
+
         #wyd-cat {
             display: none;
             position: fixed;
