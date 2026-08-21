@@ -1,8 +1,6 @@
-// ==========================================
 // AUTENTICAÇÃO (SUPABASE) + PAINEL ADMIN
 // Controla o login usado para liberar o botão de gerar
 // story do Simkl (acesso restrito ao admin).
-// ==========================================
 
 import { SUPABASE_PROJECT_URL, SUPABASE_PUBLISHABLE_KEY, SUPABASE_AUTH_STORAGE_KEY, API_ENDPOINTS } from './config.js';
 
@@ -16,11 +14,11 @@ declare global {
     }
 }
 
-/* Supabase Auth Gate - botão Story Simkl */
+// Supabase Auth Gate - botão Story Simkl
 const ADMIN_VERIFY_ENDPOINT = API_ENDPOINTS.adminVerify;
 
 
-/* Helper de verificação do admin */
+// Helper de verificação do admin
 async function verifyAdminSessionWithBackend(client: any, authData?: any): Promise<boolean> {
     let accessToken = authData &&
         authData.session &&
@@ -61,7 +59,6 @@ async function verifyAdminSessionWithBackend(client: any, authData?: any): Promi
         return false;
     }
 }
-/* Fim do helper de verificação do admin */
 
 // SUPABASE_AUTH_STORAGE_KEY importado de ./config.js
 
@@ -153,7 +150,7 @@ function cleanSupabaseAuthUrl() {
 }
 
 
-/* Trava o scroll da página durante o login do Story */
+// Trava o scroll da página durante o login do Story
 let storyLoginSavedScrollY = 0;
 let storyLoginScrollLocked = false;
 
@@ -195,7 +192,6 @@ function unlockStoryLoginScroll() {
 
     window.scrollTo(0, storyLoginSavedScrollY);
 }
-/* Fim da trava de scroll do login */
 
 function closeStoryLoginModal() {
     const modal = document.getElementById('story-login-modal');
@@ -377,7 +373,6 @@ async function handleSupabaseStoryAuth() {
     }
 }
 
-/* Fim Supabase Auth Gate - botão Story Simkl */
 
 export function initAdmin() {
     handleSupabaseStoryAuth();

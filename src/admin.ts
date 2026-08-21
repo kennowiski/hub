@@ -1,4 +1,3 @@
-// ==========================================
 // PAINEL ADMIN (/admin)
 // Antes vivia como <script> inline dentro de admin/index.html,
 // fora do pipeline de build do TypeScript — o que já causou um
@@ -11,7 +10,6 @@
 // 1) Auth gate (Supabase) — libera o painel só pra admin autorizado
 // 2) Dashboard de status das APIs + cache local
 // 3) Debug detalhado das APIs (JSON, testar, copiar)
-// ==========================================
 
 // Faz este arquivo ser tratado como módulo ES (necessário para o
 // `declare global` abaixo funcionar) — não muda nada em tempo de execução.
@@ -33,7 +31,7 @@ declare global {
     }
 }
 
-        /* Auth gate do painel admin */
+        // Auth gate do painel admin
         (() => {
             const ADMIN_VERIFY_ENDPOINT = API_ENDPOINTS.adminVerify;
 
@@ -151,7 +149,6 @@ async function verifyAdminSessionWithBackend(session) {
 
             verifyAdminAccess();
         })();
-        /* Fim do auth gate do painel admin */
 
         const ENDPOINTS = [
             {

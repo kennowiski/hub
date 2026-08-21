@@ -1,9 +1,7 @@
-// ==========================================
 // CONFIGURAÇÃO CENTRAL
 // IDs, URLs e chaves usados em mais de um arquivo do site.
 // Muda aqui uma vez, aplica em todo lugar que importa daqui —
 // em vez de precisar lembrar de trocar em cada arquivo separado.
-// ==========================================
 
 // --- Backend (api-hub na Vercel) ---
 export const API_BASE_URL = 'https://kennowiski-api-hub.vercel.app';

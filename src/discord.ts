@@ -1,6 +1,4 @@
-// ==========================================
 // DISCORD (Status e Jogos)
-// ==========================================
 import { isPageVisible, setImageSrcIfChanged, setContainerHtmlIfChanged } from './utils.js';
 import { LANYARD_API_URL } from './config.js';
 

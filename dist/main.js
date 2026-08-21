@@ -10,9 +10,7 @@ if (/Instagram/i.test(navigator.userAgent)) {
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(typeWriter, 350);
 });
-// ==========================================
 // TYPEWRITER EFFECT (OTIMIZADO PARA LCP/FCP)
-// ==========================================
 const textToType = "Gamer, cinéfilo e amante da música. Este é meu linktree pessoal — só que bem mais maneiro.";
 const typingElement = document.getElementById('typing-text');
 let typeIndex = 0;
@@ -61,9 +59,7 @@ function typeWriter() {
         typingElement.classList.add('typing-done');
     }
 }
-// ==========================================
 // TOOLTIP E MODAL DE TECNOLOGIAS
-// ==========================================
 const tooltip = document.getElementById('tech-tooltip');
 const techBoxes = document.querySelectorAll('.tech-box');
 techBoxes.forEach(box => {
@@ -101,9 +97,7 @@ techModal.addEventListener('click', (e) => {
         document.body.style.overflow = '';
     }
 });
-// ==========================================
 // LUME PDF READER (CARD DE APP)
-// ==========================================
 const lumeCard = document.getElementById('lume-card');
 const lumeModal = document.getElementById('lume-modal');
 const closeLumeModalBtn = document.getElementById('close-lume-modal');
@@ -139,23 +133,15 @@ document.addEventListener('keydown', (e) => {
         closeLumeModal();
     }
 });
-// ==========================================
 // DISCORD (Status e Jogos)
 // Lógica movida para discord.ts
-// ==========================================
 initDiscord();
-// ==========================================
 // SISTEMA MUSICAL (SPOTIFY + LAST.FM)
 // Lógica movida para spotify.ts
-// ==========================================
 initMusic();
-// ==========================================
 // LETTERBOXD + SIMKL + RECOMENDAÇÕES GEMINI
 // Lógica movida para media.ts
-// ==========================================
 initMedia();
-// ==========================================
 // AUTENTICAÇÃO (SUPABASE) + PAINEL ADMIN
 // Lógica movida para auth.ts
-// ==========================================
 initAdmin();

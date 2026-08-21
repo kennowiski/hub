@@ -1,7 +1,5 @@
-// ==========================================
 // UTILITÁRIOS COMPARTILHADOS
 // Funções usadas por várias seções (Discord, Spotify, Letterboxd, Simkl...)
-// ==========================================
 export function isPageVisible() {
     return document.visibilityState === 'visible';
 }
