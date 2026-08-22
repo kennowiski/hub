@@ -1073,6 +1073,13 @@ export function initMedia() {
         }
     });
     const catGif = document.getElementById('wyd-cat');
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            if (catGif && !catGif.getAttribute('src')) {
+                catGif.src = catGif.dataset.src;
+            }
+        }, 1200);
+    });
     function showCatAt(clickX, clickY) {
         catGif.style.display = 'block';
         const catWidth = catGif.offsetWidth || 180;

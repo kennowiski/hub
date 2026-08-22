@@ -1293,6 +1293,14 @@ const simklCard = document.getElementById('simkl-card');
 
         const catGif = document.getElementById('wyd-cat') as HTMLImageElement | null;
 
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (catGif && !catGif.getAttribute('src')) {
+                    catGif.src = catGif.dataset.src;
+                }
+            }, 1200);
+        });
+
         function showCatAt(clickX, clickY) {
             catGif.style.display = 'block';
 
