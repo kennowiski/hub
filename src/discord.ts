@@ -52,8 +52,7 @@ async function fetchDiscordPresence(): Promise<void> {
 
                 if (isVsCode) {
                     const vsCodeIcon = `<img src="/assets/images/vscode.svg" class="activity-img" alt="VS Code">`;
-                    const projectLine = activity.state ? `<span>No projeto ${activity.state}</span>` : '<span>Sem projeto aberto</span>';
-                    setContainerHtmlIfChanged(activityContainer, `${vsCodeIcon}<div class="activity-details"><strong>Programando</strong>${projectLine}</div>`);
+                    setContainerHtmlIfChanged(activityContainer, `${vsCodeIcon}<div class="activity-details"><strong>Programando</strong><span>No VS Code</span></div>`);
                 } else {
                     let imgUrl = "";
                     if (activity.assets && activity.assets.large_image) {
