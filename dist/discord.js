@@ -27,11 +27,20 @@ async function fetchDiscordPresence() {
         const activity = data.activities.find(a => a.type === 0 || a.type === 2);
         if (activityContainer) {
             if (activity && activity.name !== "Spotify") {
-                let imgUrl = "";
-                if (activity.assets && activity.assets.large_image) {
-                    imgUrl = activity.assets.large_image.startsWith("mp:external") ? activity.assets.large_image.replace("mp:external/", "https://media.discordapp.net/external/") : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.png`;
+                const isVsCode = activity.name === "Visual Studio Code" || activity.name === "Code";
+                if (isVsCode) {
+                    const vsCodeIcon = `<img src="/assets/images/vscode.svg" class="activity-img" alt="VS Code">`;
+                    const fileLine = activity.details ? `<span>Editando ${activity.details}</span>` : '';
+                    const projectLine = activity.state ? `<span>${activity.state}</span>` : '';
+                    setContainerHtmlIfChanged(activityContainer, `${vsCodeIcon}<div class="activity-details"><strong>Programando</strong>${fileLine}${projectLine}</div>`);
                 }
-                setContainerHtmlIfChanged(activityContainer, `${imgUrl ? `<img src="${imgUrl}" class="activity-img" alt="Atividade">` : `<div class="activity-img" style="background:var(--card-border);display:flex;align-items:center;justify-content:center;font-size:24px;">🎮</div>`}<div class="activity-details"><strong>${activity.name}</strong>${activity.details ? `<span>${activity.details}</span>` : ''}${activity.state ? `<span>${activity.state}</span>` : ''}</div>`);
+                else {
+                    let imgUrl = "";
+                    if (activity.assets && activity.assets.large_image) {
+                        imgUrl = activity.assets.large_image.startsWith("mp:external") ? activity.assets.large_image.replace("mp:external/", "https://media.discordapp.net/external/") : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.png`;
+                    }
+                    setContainerHtmlIfChanged(activityContainer, `${imgUrl ? `<img src="${imgUrl}" class="activity-img" alt="Atividade">` : `<div class="activity-img" style="background:var(--card-border);display:flex;align-items:center;justify-content:center;font-size:24px;">🎮</div>`}<div class="activity-details"><strong>${activity.name}</strong>${activity.details ? `<span>${activity.details}</span>` : ''}${activity.state ? `<span>${activity.state}</span>` : ''}</div>`);
+                }
             }
             else {
                 setContainerHtmlIfChanged(activityContainer, `<p class="not-doing-anything">Fazendo nada...</p>`);
