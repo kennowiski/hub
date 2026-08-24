@@ -30,9 +30,8 @@ async function fetchDiscordPresence() {
                 const isVsCode = activity.name === "Visual Studio Code" || activity.name === "Code";
                 if (isVsCode) {
                     const vsCodeIcon = `<img src="/assets/images/vscode.svg" class="activity-img" alt="VS Code">`;
-                    const fileLine = activity.details ? `<span>Editando ${activity.details}</span>` : '';
-                    const projectLine = activity.state ? `<span>${activity.state}</span>` : '';
-                    setContainerHtmlIfChanged(activityContainer, `${vsCodeIcon}<div class="activity-details"><strong>Programando</strong>${fileLine}${projectLine}</div>`);
+                    const projectLine = activity.state ? `<span>No projeto ${activity.state}</span>` : '<span>Sem projeto aberto</span>';
+                    setContainerHtmlIfChanged(activityContainer, `${vsCodeIcon}<div class="activity-details"><strong>Programando</strong>${projectLine}</div>`);
                 }
                 else {
                     let imgUrl = "";
