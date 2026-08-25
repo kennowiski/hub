@@ -39,51 +39,6 @@
         }
 
         @font-face {
-            font-family: 'Inter';
-            src: url('fonts/inter-v20-latin-ext-regular.woff2') format('woff2');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-        }
-
-        @font-face {
-            font-family: 'Inter';
-            src: url('fonts/inter-v20-latin-ext-500.woff2') format('woff2');
-            font-weight: 500;
-            font-style: normal;
-            font-display: swap;
-            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-        }
-
-        @font-face {
-            font-family: 'Inter';
-            src: url('fonts/inter-v20-latin-ext-600.woff2') format('woff2');
-            font-weight: 600;
-            font-style: normal;
-            font-display: swap;
-            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-        }
-
-        @font-face {
-            font-family: 'Inter';
-            src: url('fonts/inter-v20-latin-ext-700.woff2') format('woff2');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-        }
-
-        @font-face {
-            font-family: 'Inter';
-            src: url('fonts/inter-v20-latin-ext-800.woff2') format('woff2');
-            font-weight: 800;
-            font-style: normal;
-            font-display: swap;
-            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-        }
-
-        @font-face {
             font-family: 'Fira Code';
             src: url('fonts/FiraCode.woff2') format('woff2');
             font-weight: 300 700;
