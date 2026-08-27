@@ -791,6 +791,7 @@ function updateSimklModal(data) {
             const modalTitle = document.getElementById('simkl-modal-title');
             const modalEpisode = document.getElementById('simkl-modal-episode');
             const modalRating = document.getElementById('simkl-modal-rating');
+            const modalRatingCaption = document.getElementById('simkl-modal-rating-caption');
             const openLink = document.getElementById('simkl-open-link') as HTMLAnchorElement | null;
 
             if (modalPoster) {
@@ -813,6 +814,9 @@ function updateSimklModal(data) {
                 modalRating.textContent = ratingText || '';
                 modalRating.classList.toggle('share-modal-rating--genres', !hasRating && Boolean(ratingText));
             }
+            // O Simkl só permite avaliar a temporada inteira, não o episódio individualmente.
+            // Quando há nota, deixamos claro que ela se refere à temporada, não ao episódio exibido.
+            if (modalRatingCaption) modalRatingCaption.classList.toggle('is-visible', hasRating);
             if (openLink) openLink.href = SIMKL_HISTORY_URL;
         }
 
