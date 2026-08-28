@@ -2117,13 +2117,10 @@
 
         .share-modal-rating-caption {
             display: none;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.62rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-            color: var(--text-muted);
-            opacity: 0.75;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: #cbd5e1;
         }
 
         .share-modal-rating-caption.is-visible {
