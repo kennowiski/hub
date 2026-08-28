@@ -673,7 +673,20 @@ async function generateSimklStoryBlob(options: { transparentBackground?: boolean
     ctx.font = '600 40px Inter, Arial, sans-serif';
     ctx.fillText(fitCanvasText(ctx, episodeLine, 900), 540, episodeY);
 
-    if (watchedLabel) {
+    // O Simkl só permite avaliar a temporada inteira, então quando há nota,
+    // mostramos "Nota da temporada" + estrelas; sem nota, mantém a data assistida.
+    const storyStars = renderSimklStars(currentSimklStoryData.rating);
+    const hasStoryRating = Boolean(storyStars);
+
+    if (hasStoryRating) {
+        ctx.fillStyle = 'rgba(255,255,255,0.65)';
+        ctx.font = '700 28px Inter, Arial, sans-serif';
+        ctx.fillText('NOTA DA TEMPORADA', 540, ratingY - 44);
+
+        ctx.fillStyle = '#FFBF00';
+        ctx.font = '700 52px Inter, Arial, sans-serif';
+        ctx.fillText(storyStars, 540, ratingY + 14);
+    } else if (watchedLabel) {
         ctx.fillStyle = '#FFBF00';
         ctx.font = '700 40px Inter, Arial, sans-serif';
         ctx.fillText(fitCanvasText(ctx, watchedLabel, 820), 540, ratingY);
