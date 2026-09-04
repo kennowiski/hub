@@ -14,14 +14,9 @@ export const API_ENDPOINTS = {
 };
 // --- Discord / Lanyard ---
 export const DISCORD_USER_ID = '387025115898183702';
-export const DISCORD_PROFILE_URL = `https://discord.com/users/${DISCORD_USER_ID}`;
 export const LANYARD_API_URL = `https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`;
 // --- SIMKL ---
-export const SIMKL_PROFILE_URL = 'https://simkl.com/8849020/';
 export const SIMKL_HISTORY_URL = 'https://simkl.com/8849020/history/watch-history/';
-// --- GitHub ---
-export const GITHUB_USERNAME = 'kennowiski';
-export const GITHUB_PROFILE_URL = `https://github.com/${GITHUB_USERNAME}`;
 // --- Supabase (login do painel admin) ---
 export const SUPABASE_PROJECT_URL = 'https://ivbpcyjkvzsawjzhrwsd.supabase.co';
 export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_YLo65P0_gWwgWTMhRzr7Cw_gnd03sdu';
