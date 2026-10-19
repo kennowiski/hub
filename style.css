@@ -2956,3 +2956,49 @@ html.story-login-scroll-locked #story-login-modal * {
     touch-action: auto;
 }
 /* Fim da trava de scroll do login */
+
+/* Efeito neon exclusivo do botao OnlyFans */
+.link-item.onlyfans-neon {
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+    border-color: #ff315c;
+    box-shadow:
+        0 0 5px rgba(255, 52, 96, 0.85),
+        0 0 13px rgba(255, 30, 81, 0.55),
+        inset 0 0 6px rgba(255, 36, 88, 0.16);
+}
+
+.link-item.onlyfans-neon::before,
+.link-item.onlyfans-neon::after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    width: 18px;
+    height: 19px;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(135deg, #ff879d 0%, #ff315c 48%, #e00840 100%);
+    clip-path: polygon(0 100%, 4% 63%, 15% 35%, 40% 0, 43% 35%, 62% 58%, 100% 100%);
+    filter: drop-shadow(0 0 4px rgba(255, 35, 85, 0.95));
+}
+
+.link-item.onlyfans-neon::before {
+    left: 5px;
+    transform: rotate(-13deg);
+}
+
+.link-item.onlyfans-neon::after {
+    right: 5px;
+    transform: scaleX(-1) rotate(-13deg);
+}
+
+.link-item.onlyfans-neon:hover,
+.link-item.onlyfans-neon:focus-visible {
+    border-color: #ff5479;
+    box-shadow:
+        0 0 8px rgba(255, 52, 96, 0.95),
+        0 0 20px rgba(255, 30, 81, 0.68),
+        inset 0 0 8px rgba(255, 36, 88, 0.2);
+}
+/* Fim do efeito neon OnlyFans */
