@@ -3002,3 +3002,24 @@ html.story-login-scroll-locked #story-login-modal * {
         inset 0 0 8px rgba(255, 36, 88, 0.2);
 }
 /* Fim do efeito neon OnlyFans */
+
+.lume-beta {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+}
+
+.lume-tag-beta {
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.35);
+  background: rgba(251, 191, 36, 0.12);
+}
